@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="DatabaseExtensions.cs" />
     <Compile Include="DbContextBase.cs" />
+    <Compile Include="Exceptions\UnitOfWorkException.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IDbContext.cs" />

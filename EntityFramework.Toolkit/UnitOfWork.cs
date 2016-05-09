@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Extensions.Exceptions;
 using System.Transactions;
 
 namespace System.Data.Extensions
@@ -16,7 +17,10 @@ namespace System.Data.Extensions
 
         public void RegisterContext<TContext>(TContext contextFactory) where TContext : IContext
         {
-            //Guard.ArgumentNotNull(() => contextFactory);
+            if (contextFactory == null)
+            {
+                throw new ArgumentNullException(nameof(contextFactory));
+            }
 
             Type contextType = contextFactory.GetType();
 
@@ -29,15 +33,23 @@ namespace System.Data.Extensions
         public int Commit()
         {
             int numberOfChanges = 0;
-
-            using (var transactionScope = new TransactionScope(TransactionScopeOption.Suppress, new TransactionOptions { IsolationLevel = Transactions.IsolationLevel.Serializable }))
+            Type lastContextType = null;
+            try
             {
-                foreach (var context in this.contexts.Values)
+                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required))
                 {
-                    numberOfChanges += context.SaveChanges();
-                }
+                    foreach (var context in this.contexts)
+                    {
+                        lastContextType = context.Key;
+                        numberOfChanges += context.Value.SaveChanges();
+                    }
 
-                transactionScope.Complete();
+                    transactionScope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new UnitOfWorkException(string.Format("UnitOfWork in context '{0}' failed to commit.", lastContextType?.Name), ex);
             }
 
             return numberOfChanges;

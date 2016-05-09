@@ -6,7 +6,7 @@ using System.Text;
 
 namespace System.Data.Extensions
 {
-    public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext, ILoggable
+    public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
     {
         /// <summary>
         /// Empty constructor is used for 'update-database' command-line command.
@@ -22,7 +22,9 @@ namespace System.Data.Extensions
             Database.SetInitializer(databaseInitializer);
         }
 
-        protected abstract void Log(string message);
+        protected virtual void Log(string message)
+        {
+        }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {
