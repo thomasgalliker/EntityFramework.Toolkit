@@ -30,35 +30,6 @@ namespace EntityFramework.Toolkit.Tests
             sampleContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
-        ////[Fact]
-        ////public void ShouldCommitToSingleContextReal()
-        ////{
-        ////    // Arrange
-        ////    var unitOfWork = new UnitOfWork();
-        ////    var sampleContextMock = new Mock<ISampleContext>();
-        ////    sampleContextMock.Setup(m => m.SaveChanges()).Throws(new InvalidOperationException("SampleContextOne failed to SaveChanges."));
-        ////    var sampleContext = new SampleContext();
-        ////    sampleContext.SaveCalled += (sender, args) => { };
-
-        ////    unitOfWork.RegisterContext(sampleContext);
-        ////    unitOfWork.RegisterContext(sampleContextMock.Object);
-
-        ////    sampleContext.Employees.Add(new Employee());
-        ////    sampleContext.Employees.Add(new Employee());
-        ////    sampleContext.Employees.Add(new Employee());
-        ////    sampleContext.Departments.Add(new Department());
-        ////    sampleContext.Departments.Add(new Department());
-
-        ////    // Act
-        ////    Action action = () => unitOfWork.Commit();
-
-
-        ////    // Assert
-        ////    action.ShouldThrow<UnitOfWorkException>().WithInnerException<InvalidOperationException>();
-        ////    sampleContext.Employees.Should().HaveCount(0);
-        ////    sampleContext.Departments.Should().HaveCount(0);
-        ////}
-
         [Fact]
         public void ShouldCommitToMultipleContexts()
         {
