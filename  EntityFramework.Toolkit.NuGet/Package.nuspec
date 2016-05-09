@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>EntityFramework.Toolkit</id>
+    <version>1.0.0-pre1</version>
+    <title>EntityFramework.Toolkit</title>
+    <authors>Thomas Galliker</authors>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <projectUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/EntityFramework.Toolkit.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>EntityFramework.Toolkit is a library which provides best practice patterns and utilities.</summary>
+    <description>EntityFramework.Toolkit is a library which provides best practice patterns and utilities.</description>
+    <tags>
+      Entity Framework EntityFramework UnitOfWork Repository DbContext
+    </tags>
+    <releaseNotes>
+      1.0.0
+      - Initial release
+    </releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <language>en-US</language>
+    <dependencies>
+      <group>
+        <dependency id="EntityFramework" version="6.1.3" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!--.Net 4.0-->
+    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.dll" target="lib\net40\EntityFramework.Toolkit.dll" />
+    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.pdb" target="lib\net40\EntityFramework.Toolkit.pdb" />
+    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.xml" target="lib\net40\EntityFramework.Toolkit.xml" />
+
+    <!--.Net 4.5-->
+    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.dll" target="lib\net45\EntityFramework.Toolkit.dll" />
+    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.pdb" target="lib\net45\EntityFramework.Toolkit.pdb" />
+    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.xml" target="lib\net45\EntityFramework.Toolkit.xml" />
+
+    <file src="tools\init.ps1" target="tools\init.ps1" />
+    <file src="tools\install.ps1" target="tools\install.ps1" />
+    <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
+  </files>
+</package>
