@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.Net
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.Net45", "EntityFramework.Toolkit\EntityFramework.Toolkit.Net45.csproj", "{03410D31-944C-48E4-B7FC-0AF78C81F224}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C7DE2A3B-583C-4A61-AB17-F68B729BCBC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSample.DataAccess", "Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj", "{2A48F310-09B6-4FDB-A93C-4B42064788C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{03410D31-944C-48E4-B7FC-0AF78C81F224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03410D31-944C-48E4-B7FC-0AF78C81F224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03410D31-944C-48E4-B7FC-0AF78C81F224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,5 +54,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2CF5E868-1098-4C6D-9001-27D8DC0D87BE} = {B5AEA046-0E87-4A7B-8F11-80B6BDDA1F2A}
 		{8146AB24-C2E9-4AAA-9BD0-E9E4E402C612} = {533683F1-B92C-4149-A2AD-6045623BC6D8}
+		{2A48F310-09B6-4FDB-A93C-4B42064788C6} = {C7DE2A3B-583C-4A61-AB17-F68B729BCBC6}
 	EndGlobalSection
 EndGlobal
