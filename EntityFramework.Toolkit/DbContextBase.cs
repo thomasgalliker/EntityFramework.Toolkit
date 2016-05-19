@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -24,6 +25,7 @@ namespace System.Data.Extensions
 
         protected virtual void Log(string message)
         {
+            Debug.WriteLine(message);
         }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
