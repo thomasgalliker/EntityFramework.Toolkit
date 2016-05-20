@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -13,19 +12,16 @@ using Xunit;
 
 namespace EntityFramework.Toolkit.Tests.Repository
 {
-    [Collection("EmployeeRepositoryTests")]
     public class EmployeeRepositoryTests
     {
-        public EmployeeRepositoryTests()
-        {
-            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
-        }
-
         [Fact]
         public void ShouldReturnEmptyGetAll()
         {
             // Arrange
-            using (IEmployeeContext employeeContext = new EmployeeContext(new DropCreateDatabaseAlways<EmployeeContext>()))
+            var dbConnection = new EmployeeContextTestDbConnection();
+            var dataInitializer = new DropCreateDatabaseAlways<EmployeeContext>();
+
+            using (IEmployeeContext employeeContext = new EmployeeContext(dbConnection, dataInitializer))
             {
                 IEmployeeRepository employeeRepository = new EmployeeRepository(employeeContext);
 
@@ -41,7 +37,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddEmployee()
         {
             // Arrange
-            using (IEmployeeContext employeeContext = new EmployeeContext(new DropCreateDatabaseAlways<EmployeeContext>()))
+            var dbConnection = new EmployeeContextTestDbConnection();
+            var dataInitializer = new DropCreateDatabaseAlways<EmployeeContext>();
+
+            using (IEmployeeContext employeeContext = new EmployeeContext(dbConnection, dataInitializer))
             {
                 IEmployeeRepository employeeRepository = new EmployeeRepository(employeeContext);
                 var employee = CreateEntity.Employee1;
@@ -63,7 +62,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldDeleteEmployee()
         {
             // Arrange
-            using (IEmployeeContext employeeContext = new EmployeeContext(new DropCreateDatabaseAlways<EmployeeContext>()))
+            var dbConnection = new EmployeeContextTestDbConnection();
+            var dataInitializer = new DropCreateDatabaseAlways<EmployeeContext>();
+
+            using (IEmployeeContext employeeContext = new EmployeeContext(dbConnection, dataInitializer))
             {
                 IEmployeeRepository employeeRepository = new EmployeeRepository(employeeContext);
                 var employee1 = CreateEntity.Employee1;
