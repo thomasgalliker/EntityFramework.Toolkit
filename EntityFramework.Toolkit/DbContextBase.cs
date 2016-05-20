@@ -1,31 +1,29 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
+using System.Data.Extensions.Extensions;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace System.Data.Extensions
 {
     public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
     {
+        private readonly IDatabaseInitializer<TContext> databaseInitializer;
+
         /// <summary>
         /// Empty constructor is used for 'update-database' command-line command.
         /// </summary>
-        public DbContextBase()
+        protected DbContextBase()
         {
         }
 
-        public DbContextBase(string connectionString, IDatabaseInitializer<TContext> databaseInitializer)
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
         {
-            this.Database.Log = this.Log;
-            this.Database.Connection.ConnectionString = connectionString;
+            this.Database.Log = message => Debug.WriteLine(message);
+            this.Database.Connection.ConnectionString = dbConnection.ConnectionString;
+            this.databaseInitializer = databaseInitializer;
             Database.SetInitializer(databaseInitializer);
-        }
-
-        protected virtual void Log(string message)
-        {
-            Debug.WriteLine(message);
         }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
@@ -33,6 +31,19 @@ namespace System.Data.Extensions
             return base.Set<TEntity>();
         }
 
+        public void ResetDatabase()
+        {
+            this.Database.KillConnectionsToTheDatabase();
+
+            // Set DropCreate initializer and force initialize
+            Database.SetInitializer(new DropCreateDatabaseAlways<TContext>());
+            this.Database.Initialize(force: true);
+
+            // Restore original initializer
+            Database.SetInitializer(this.databaseInitializer);
+            this.Database.Initialize(force: true);
+        }
+        
         public void Edit<TEntity>(TEntity entity) where TEntity : class
         {
             this.Entry(entity).State = EntityState.Modified;
@@ -52,38 +63,14 @@ namespace System.Data.Extensions
 
         public override int SaveChanges()
         {
-            this.Log(string.Format("Calling {0}.SaveChanges()", typeof(TContext).Name));
-
             try
             {
                 return base.SaveChanges();
             }
             catch (DbEntityValidationException validationException)
             {
-                var stringBuilder = new StringBuilder();
-
-                // In case something goes wrong during entity validation
-                // we trace the affected properties with its problems to the console and rethrow the exception
-                foreach (var result in validationException.EntityValidationErrors)
-                {
-                    stringBuilder.AppendLine(
-                        string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            result.Entry.Entity.GetType().Name,
-                            result.Entry.State));
-
-                    foreach (var ve in result.ValidationErrors)
-                    {
-                        stringBuilder.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            result.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage));
-                    }
-                    stringBuilder.AppendLine();
-                }
-
-                string errorMessage = stringBuilder.ToString();
-                this.Log(errorMessage);
-                throw;
+                string errorMessage = validationException.GetFormattedErrorMessage();
+                throw new DbEntityValidationException(errorMessage, validationException);
             }
         }
 
@@ -91,10 +78,5 @@ namespace System.Data.Extensions
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-    }
-
-    public interface ILoggable
-    {
-        void Log(string message);
     }
 }

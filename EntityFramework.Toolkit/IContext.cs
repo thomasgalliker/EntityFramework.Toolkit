@@ -4,6 +4,12 @@ namespace System.Data.Extensions
 {
     public interface IContext : IDisposable
     {
+        /// <summary>
+        /// Drops and recreates the underlying database.
+        /// USE WITH CARE!
+        /// </summary>
+        void ResetDatabase();
+
         void Edit<TEntity>(TEntity entity) where TEntity : class;
 
         void Delete<TEntity>(TEntity entity) where TEntity : class;
