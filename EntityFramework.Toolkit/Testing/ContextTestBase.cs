@@ -37,7 +37,7 @@ namespace System.Data.Extensions.Testing
             }
         }
 
-        protected void InitializeDatabase(IDatabaseInitializer<T> databaseInitializer = null, bool deleteDatabaseOnDispose = true)
+        protected void InitializeDatabase(IDatabaseInitializer<T> databaseInitializer = null)
         {
             var contextType = typeof(T);
             databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<T>();
