@@ -1,9 +1,10 @@
 ﻿using System.Data.Entity;
 
-namespace System.Data.Extensions
+namespace System.Data.Extensions.Extensions
 {
     public static class DatabaseExtensions
     {
+        [Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static void KillConnectionsToTheDatabase(this Database database)
         {
             var databaseName = database.Connection.Database;

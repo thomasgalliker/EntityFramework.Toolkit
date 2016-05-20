@@ -91,6 +91,11 @@ namespace ToolkitSample.DataAccess.Context
             }
         }
 
+        public void ResetDatabase()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Edit<TEntity>(TEntity entity) where TEntity : class
         {
             throw new NotImplementedException();

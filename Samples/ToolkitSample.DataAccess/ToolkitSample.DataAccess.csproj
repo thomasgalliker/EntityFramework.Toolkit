@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Context\DepartmentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeContext.cs" />
+    <Compile Include="Context\EmployeeContextDbConnection.cs" />
     <Compile Include="Context\EmployeeEntityConfiguration.cs" />
     <Compile Include="Context\IEmployeeContext.cs" />
     <Compile Include="Context\ISampleContext.cs" />

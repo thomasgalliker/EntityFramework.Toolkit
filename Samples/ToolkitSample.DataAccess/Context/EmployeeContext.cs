@@ -1,13 +1,14 @@
 ﻿using System.Data.Entity;
 using System.Data.Extensions;
+using System.Data.Extensions.Extensions;
 using System.Diagnostics;
 
 namespace ToolkitSample.DataAccess.Context
 {
     public class EmployeeContext : DbContextBase<EmployeeContext>, IEmployeeContext
     {
-        public EmployeeContext(IDatabaseInitializer<EmployeeContext> initializer = null) 
-            : base(connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EntityFramework.Toolkit.Tests.mdf; Integrated Security=True;", databaseInitializer: initializer)
+        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer)
+            : base(dbConnection, initializer)
         {
             this.Database.Log = s => Debug.WriteLine(s);
         }
