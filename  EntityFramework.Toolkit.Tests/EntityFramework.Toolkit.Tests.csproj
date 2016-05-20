@@ -89,8 +89,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DataSeedTests.IntegrationTests.cs" />
     <Compile Include="EdmxTests.cs" />
     <Compile Include="EmployeeContextTestDbConnection.cs" />
+    <Compile Include="DataSeedTests.UnitTests.cs" />
     <Compile Include="Stubs\Create.cs" />
     <Compile Include="Repository\EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
