@@ -7,6 +7,13 @@ namespace ToolkitSample.DataAccess.Context
 {
     public class EmployeeContext : DbContextBase<EmployeeContext>, IEmployeeContext
     {
+        /// <summary>
+        /// Empty constructor is used for code-first database migrations.
+        /// </summary>
+        public EmployeeContext()
+        {
+        }
+
         public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer)
             : base(dbConnection, initializer)
         {

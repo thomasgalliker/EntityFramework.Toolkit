@@ -16,11 +16,11 @@ namespace System.Data.Extensions
         /// </summary>
         protected DbContextBase()
         {
+            this.Database.Log = message => Debug.WriteLine(message);
         }
 
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer) : this()
         {
-            this.Database.Log = message => Debug.WriteLine(message);
             this.Database.Connection.ConnectionString = dbConnection.ConnectionString;
             this.databaseInitializer = databaseInitializer;
             Database.SetInitializer(databaseInitializer);
