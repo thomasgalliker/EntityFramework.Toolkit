@@ -18,7 +18,7 @@ namespace ToolkitSample.DataAccess.Context
 
             this.Property(e => e.RowVersion).IsConcurrencyToken();
 
-            this.HasRequired(e => e.Department)
+            this.HasOptional(e => e.Department)
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DepartmentId);
         }

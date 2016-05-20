@@ -86,12 +86,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Stubs\Model\Department.cs" />
-    <Compile Include="Stubs\Model\Employee.cs" />
-    <Compile Include="Stubs\SampleContext.cs" />
-    <Compile Include="Stubs\FakeDbSet.cs" />
-    <Compile Include="Stubs\ISampleContextTwo.cs" />
-    <Compile Include="Stubs\ISampleContext.cs" />
+    <Compile Include="Stubs\Create.cs" />
+    <Compile Include="Repository\EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWorkTests.cs" />
   </ItemGroup>
@@ -103,6 +99,10 @@
     <ProjectReference Include="..\EntityFramework.Toolkit\EntityFramework.Toolkit.Net40.csproj">
       <Project>{50d9f9a8-92aa-40f0-b3ea-69b2f5825872}</Project>
       <Name>EntityFramework.Toolkit.Net40</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj">
+      <Project>{2a48f310-09b6-4fdb-a93c-4b42064788c6}</Project>
+      <Name>ToolkitSample.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
