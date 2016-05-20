@@ -38,6 +38,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +56,11 @@
     <Compile Include="Context\ISampleContext.cs" />
     <Compile Include="Context\ISampleContextTwo.cs" />
     <Compile Include="Context\SampleContext.cs" />
+    <Compile Include="EmployeeContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeContext.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Model\Department.cs" />
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +69,10 @@
     <Compile Include="Stubs\FakeDbSet.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="EmployeeContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EmployeeContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +80,9 @@
       <Project>{50d9f9a8-92aa-40f0-b3ea-69b2f5825872}</Project>
       <Name>EntityFramework.Toolkit.Net40</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmployeeContext.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

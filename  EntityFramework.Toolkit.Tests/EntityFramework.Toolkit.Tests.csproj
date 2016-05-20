@@ -57,6 +57,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -86,6 +89,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="EdmxTests.cs" />
     <Compile Include="EmployeeContextTestDbConnection.cs" />
     <Compile Include="Stubs\Create.cs" />
     <Compile Include="Repository\EmployeeRepositoryTests.cs" />

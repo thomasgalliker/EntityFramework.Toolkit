@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="ToolkitSample.DataAccess.Context" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.DataAccess.Model.Employee, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Department" Relationship="Self.Employee_Department" FromRole="Employee_Department_Source" ToRole="Employee_Department_Target" />
+        </EntityType>
+        <EntityType Name="Department" customannotation:ClrType="ToolkitSample.DataAccess.Model.Department, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LeaderId" Type="Int32" />
+          <NavigationProperty Name="Employees" Relationship="Self.Employee_Department" FromRole="Employee_Department_Target" ToRole="Employee_Department_Source" />
+          <NavigationProperty Name="Leader" Relationship="Self.Department_Leader" FromRole="Department_Leader_Source" ToRole="Department_Leader_Target" />
+        </EntityType>
+        <Association Name="Department_Leader">
+          <End Role="Department_Leader_Source" Type="Self.Department" Multiplicity="*" />
+          <End Role="Department_Leader_Target" Type="Self.Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Department_Leader_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Department_Leader_Source">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_Department">
+          <End Role="Employee_Department_Source" Type="Self.Employee" Multiplicity="*" />
+          <End Role="Employee_Department_Target" Type="Self.Department" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee_Department_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Department_Source">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EmployeeContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
+            <End Role="Department_Leader_Source" EntitySet="Departments" />
+            <End Role="Department_Leader_Target" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
+            <End Role="Employee_Department_Source" EntitySet="Employees" />
+            <End Role="Employee_Department_Target" EntitySet="Departments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="EmployeeContext">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Birthdate" Type="datetime" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" customannotation:Index="{ Name: IX_DepartmentId, Order: 0 }" Nullable="true" />
+          <Property Name="RowVersion" Type="varbinary(max)" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <Association Name="Department_Leader">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employees" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" Table="Departments" />
+          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="a0b9ee91d833462d880835d0b16f2426" Name="Diagram1">
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Employee" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Department" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="ToolkitSample.DataAccess.Context.Department_Leader" ManuallyRouted="false" />
+        <AssociationConnector Association="ToolkitSample.DataAccess.Context.Employee_Department" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>
