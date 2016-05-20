@@ -13,14 +13,17 @@ using Xunit;
 
 namespace EntityFramework.Toolkit.Tests.Repository
 {
-    [Collection("EmployeeRepository")]
+    [Collection("EmployeeRepositoryTests")]
     public class EmployeeRepositoryTests
     {
+        public EmployeeRepositoryTests()
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+        }
+
         [Fact]
         public void ShouldReturnEmptyGetAll()
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
-
             // Arrange
             using (IEmployeeContext employeeContext = new EmployeeContext(new DropCreateDatabaseAlways<EmployeeContext>()))
             {
