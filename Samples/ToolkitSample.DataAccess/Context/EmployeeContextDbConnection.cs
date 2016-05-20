@@ -7,7 +7,7 @@ namespace ToolkitSample.DataAccess.Context
     /// This DbConnection implementation provides a ConnectionString for production.
     /// You can receive the production ConnectionString from an application configuration (app.config) if you like.
     /// </summary>
-    public class EmployeeContextDbConnection : IDbConnection
+    internal class EmployeeContextDbConnection : IDbConnection
     {
         public EmployeeContextDbConnection()
         {
