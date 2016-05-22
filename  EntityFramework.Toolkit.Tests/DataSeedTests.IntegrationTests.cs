@@ -17,8 +17,8 @@ namespace EntityFramework.Toolkit.Tests
     public class DataSeedTests_IntegrationTests : ContextTestBase<EmployeeContext>
     {
         public DataSeedTests_IntegrationTests()
-            : base(dbConnection: new EmployeeContextTestDbConnection(), 
-                   initializeDatabase: false)
+            : base(dbConnection: new EmployeeContextTestDbConnection(),
+                     initializeDatabase: false)
         {
         }
 
