@@ -79,13 +79,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit\EntityFramework.Toolkit.Net40.csproj">
-      <Project>{50d9f9a8-92aa-40f0-b3ea-69b2f5825872}</Project>
-      <Name>EntityFramework.Toolkit.Net40</Name>
-    </ProjectReference>
+    <Content Include="EmployeeContext.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmployeeContext.sql" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit\EntityFramework.Toolkit.Net45.csproj">
+      <Project>{03410d31-944c-48e4-b7fc-0af78c81f224}</Project>
+      <Name>EntityFramework.Toolkit.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

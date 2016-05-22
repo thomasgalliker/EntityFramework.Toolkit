@@ -108,7 +108,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_695d5376-9465-4d48-9bf7-57f0a3427e2e, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
         </EntityType>
         <Association Name="Department_Leader">
@@ -164,7 +164,7 @@
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </Options>
-    <Diagrams >
+    <Diagrams>
       <Diagram DiagramId="a0b9ee91d833462d880835d0b16f2426" Name="Diagram1">
         <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Employee" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Department" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
