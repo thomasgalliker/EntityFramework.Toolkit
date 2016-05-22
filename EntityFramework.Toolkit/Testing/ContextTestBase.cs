@@ -3,11 +3,11 @@ using System.Data.Extensions.Extensions;
 
 namespace System.Data.Extensions.Testing
 {
-    public abstract class ContextTestBase<T> : IDisposable where T : DbContext
+    public abstract class ContextTestBase<TContext> : IDisposable where TContext : DbContext
     {
         private readonly IDbConnection dbConnection;
 
-        protected T Context { get; set; }
+        protected TContext Context { get; set; }
 
         protected bool DeleteDatabaseOnDispose { get; set; }
 
@@ -19,14 +19,21 @@ namespace System.Data.Extensions.Testing
         {
         }
 
-        protected ContextTestBase(IDbConnection dbConnection, IDatabaseInitializer<T> initializer) 
+        protected ContextTestBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> initializer) 
             : this(dbConnection: dbConnection, 
                   initializeDatabase: true,
                   databaseInitializer: initializer)
         {
         }
 
-        protected ContextTestBase(IDbConnection dbConnection, bool initializeDatabase = true, IDatabaseInitializer<T> databaseInitializer = null, bool deleteDatabaseOnDispose = true)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextTestBase{TContext}"/> class.
+        /// </summary>
+        /// <param name="dbConnection">The <see cref="IDbConnection"/> which is used to connect to the database.</param>
+        /// <param name="initializeDatabase">Determines if the database needs to be initialized at construction time.  (Default is true).</param>
+        /// <param name="databaseInitializer">The <see cref="IDatabaseInitializer{TContext}"/> which is used initialize the database. (Default is <see cref="DropCreateDatabaseAlways{TContext}"/>).</param>
+        /// <param name="deleteDatabaseOnDispose">Determines if the database needs to be deleted on dispose. (Default is true).</param>
+        protected ContextTestBase(IDbConnection dbConnection, bool initializeDatabase = true, IDatabaseInitializer<TContext> databaseInitializer = null, bool deleteDatabaseOnDispose = true)
         {
             this.DeleteDatabaseOnDispose = deleteDatabaseOnDispose;
             this.dbConnection = dbConnection;
@@ -37,14 +44,14 @@ namespace System.Data.Extensions.Testing
             }
         }
 
-        protected void InitializeDatabase(IDatabaseInitializer<T> databaseInitializer = null)
+        protected void InitializeDatabase(IDatabaseInitializer<TContext> databaseInitializer = null)
         {
-            var contextType = typeof(T);
-            databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<T>();
+            var contextType = typeof(TContext);
+            databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
 
-            this.Context = (T)Activator.CreateInstance(contextType, this.dbConnection, databaseInitializer);
+            this.Context = (TContext)Activator.CreateInstance(contextType, this.dbConnection, databaseInitializer);
 
-            if (databaseInitializer is DropCreateDatabaseAlways<T>)
+            if (databaseInitializer is DropCreateDatabaseAlways<TContext>)
             {
                 // Only force initialization if the initializer is a DropCreateDatabaseAlways
                 this.Context.Database.Initialize(force: true);
