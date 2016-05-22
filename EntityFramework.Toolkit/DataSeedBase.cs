@@ -9,6 +9,9 @@ namespace System.Data.Extensions
     /// <typeparam name="TEntity">The entity type for which the implementor provides a seed.</typeparam>
     public abstract class DataSeedBase<TEntity> : IDataSeed
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataSeedBase{TEntity}"/> class.
+        /// </summary>
         protected DataSeedBase()
         {
             this.EntityType = typeof(TEntity);
