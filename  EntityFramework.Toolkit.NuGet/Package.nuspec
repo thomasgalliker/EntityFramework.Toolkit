@@ -2,21 +2,26 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.0-pre3</version>
+    <version>1.0.0</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <projectUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/EntityFramework.Toolkit.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <summary>EntityFramework.Toolkit is a library which provides best practice patterns and utilities.</summary>
-    <description>EntityFramework.Toolkit is a library which provides best practice patterns and utilities.</description>
+    <summary>EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.</summary>
+    <description>EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.</description>
     <tags>
-      Entity Framework EntityFramework UnitOfWork Repository DbContext
+      Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
-      1.0.0-pre
-      - Initial pre-release
+      1.0.0
+      - Patterns such as UnitOfWork, Repository
+      - Helper classes, e.g. DbContextBase, ContextTestBase
+      - Generic way to seed data using IDataSeed and DataSeedBase
+      - DbConnection abstraction IDbConnection to inject ConnectionString into EntityFramework context
+      - EDMX tools to generate *.edmx file from EntityFramework context
+
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <language>en-US</language>
