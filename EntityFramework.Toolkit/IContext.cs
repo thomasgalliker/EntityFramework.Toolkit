@@ -1,4 +1,7 @@
 ﻿using System.Linq.Expressions;
+#if !NET40
+using System.Threading.Tasks;
+#endif
 
 namespace System.Data.Extensions
 {
@@ -24,5 +27,9 @@ namespace System.Data.Extensions
         /// <returns>The number of objects written to the underlying database.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown if the context has been disposed.</exception>
         int SaveChanges();
+
+#if !NET40
+        Task<int> SaveChangesAsync();
+#endif
     }
 }

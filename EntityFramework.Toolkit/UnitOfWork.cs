@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Extensions.Exceptions;
+#if !NET40
+using System.Threading.Tasks;
+#endif
 using System.Transactions;
 
 namespace System.Data.Extensions
@@ -54,6 +57,33 @@ namespace System.Data.Extensions
 
             return numberOfChanges;
         }
+
+#if !NET40
+        public async Task<int> CommitAsync()
+        {
+            int numberOfChanges = 0;
+            Type lastContextType = null;
+            try
+            {
+                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required))
+                {
+                    foreach (var context in this.contexts)
+                    {
+                        lastContextType = context.Key;
+                        numberOfChanges += await context.Value.SaveChangesAsync();
+                    }
+
+                    transactionScope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new UnitOfWorkException(string.Format("UnitOfWork in context '{0}' failed to commit.", lastContextType?.Name), ex);
+            }
+
+            return numberOfChanges;
+        }
+#endif
 
         public void Dispose()
         {

@@ -4,6 +4,7 @@ using System.Data.Entity.Validation;
 using System.Data.Extensions.Extensions;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace System.Data.Extensions
 {
@@ -73,6 +74,21 @@ namespace System.Data.Extensions
                 throw new DbEntityValidationException(errorMessage, validationException);
             }
         }
+
+#if !NET40
+        public override async Task<int> SaveChangesAsync()
+        {
+            try
+            {
+                return await base.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException validationException)
+            {
+                string errorMessage = validationException.GetFormattedErrorMessage();
+                throw new DbEntityValidationException(errorMessage, validationException);
+            }
+        }
+#endif
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

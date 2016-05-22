@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 using ToolkitSample.DataAccess.Model;
 using ToolkitSample.DataAccess.Stubs;
@@ -116,6 +117,11 @@ namespace ToolkitSample.DataAccess.Context
             this.OnSaveCalled(EventArgs.Empty);
 
             return 1;
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return Task.Factory.StartNew(() => 99);
         }
 
         public IDbSet<TEntity> Set<TEntity>() where TEntity : class
