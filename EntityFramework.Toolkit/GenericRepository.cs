@@ -11,6 +11,9 @@ namespace System.Data.Extensions
         protected readonly IDbSet<T> DbSet;
         private readonly IDbContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenericRepository{T}"/> class.
+        /// </summary>
         protected GenericRepository(IDbContext context)
         {
             if (context == null)
@@ -91,9 +94,9 @@ namespace System.Data.Extensions
             this.Context.LoadReferenced(entity, navigationProperty);
         }
 
-        public virtual void Save()
+        public virtual int Save()
         {
-            this.Context.SaveChanges();
+            return this.Context.SaveChanges();
         }
     }
 }

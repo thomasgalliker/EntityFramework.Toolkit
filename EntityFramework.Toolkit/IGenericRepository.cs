@@ -24,6 +24,10 @@ namespace System.Data.Extensions
             where TEntity : class
             where TProperty : class;
 
-        void Save();
+        /// <summary>
+        /// Saves the changes made in this repository.
+        /// </summary>
+        /// <returns></returns>
+        int Save();
     }
 }
