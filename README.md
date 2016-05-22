@@ -1,5 +1,10 @@
 # EntityFramework.Toolkit
-EntityFramework.Toolkit is a library which provides implementations for best practice patterns, utilities and extensions for EntityFramework 6.
+EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.
+- Patterns such as UnitOfWork, Repository
+- Helper classes, e.g. DbContextBase, ContextTestBase
+- Generic way to seed data using IDataSeed and DataSeedBase
+- DbConnection abstraction IDbConnection to inject ConnectionString into EntityFramework context
+- EDMX tools to generate *.edmx file from EntityFramework context
 
 ### Download and Install EntityFramework.Toolkit
 This library is available on NuGet: https://www.nuget.org/packages/EntityFramework.Toolkit/
