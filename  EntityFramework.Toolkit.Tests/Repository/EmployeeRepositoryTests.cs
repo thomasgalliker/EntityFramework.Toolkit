@@ -1,4 +1,5 @@
-﻿using System.Data.Extensions.Testing;
+﻿using System.Data.Extensions.Extensions;
+using System.Data.Extensions.Testing;
 using System.Linq;
 
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -14,7 +15,6 @@ namespace EntityFramework.Toolkit.Tests.Repository
 {
     public class EmployeeRepositoryTests : ContextTestBase<EmployeeContext>
     {
-
         public EmployeeRepositoryTests()
             : base(dbConnection: new EmployeeContextTestDbConnection())
         {
@@ -47,9 +47,11 @@ namespace EntityFramework.Toolkit.Tests.Repository
             // Assert
             numberOfChangesCommitted.Should().Be(1);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee, options => options.IncludingAllDeclaredProperties());
+            var getEmployee = employeeRepository.Get()
+                .Include(d => d.Department)
+                .Single(e => e.FirstName == employee.FirstName);
+
+            getEmployee.ShouldBeEquivalentTo(employee, options => options.IncludingAllDeclaredProperties());
 
         }
 

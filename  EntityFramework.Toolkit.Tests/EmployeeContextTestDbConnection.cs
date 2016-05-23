@@ -13,11 +13,13 @@ namespace EntityFramework.Toolkit.Tests
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
         }
 
+        public string Name { get { return "EntityFramework.Toolkit.Tests"; } }
+
         public string ConnectionString
         {
             get
             {
-                return @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EntityFramework.Toolkit.Tests.mdf; Integrated Security=True;";
+                return @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\" + this.Name + ".mdf; Integrated Security=True;";
             }
         }
     }

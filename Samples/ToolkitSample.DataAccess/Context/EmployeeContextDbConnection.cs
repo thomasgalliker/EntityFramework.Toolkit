@@ -13,12 +13,13 @@ namespace ToolkitSample.DataAccess.Context
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
         }
+        public string Name { get { return "EntityFramework.Toolkit"; } }
 
         public string ConnectionString
         {
             get
             {
-                return @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EntityFramework.Toolkit.mdf; Integrated Security=True;";
+                return @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\" + this.Name + ".mdf; Integrated Security=True;";
             }
         }
     }

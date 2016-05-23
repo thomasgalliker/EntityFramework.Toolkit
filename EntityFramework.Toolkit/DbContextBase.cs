@@ -23,9 +23,12 @@ namespace System.Data.Extensions
         protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer) : this()
         {
             this.Database.Connection.ConnectionString = dbConnection.ConnectionString;
+            this.Name = dbConnection.Name;
             this.databaseInitializer = databaseInitializer;
             Database.SetInitializer(databaseInitializer);
         }
+
+        public string Name { get; private set; }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {

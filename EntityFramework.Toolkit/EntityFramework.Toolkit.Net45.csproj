@@ -61,6 +61,7 @@
     <Compile Include="Extensions\DbEntityValidationExceptionFormatter.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IDataSeed.cs" />
