@@ -124,10 +124,13 @@ namespace ToolkitSample.DataAccess.Context
             return Task.Factory.StartNew(() => 99);
         }
 
-        public string Name { get
+        public string Name
         {
-            return "Sample Context";
-        } }
+            get
+            {
+                return "Sample Context";
+            }
+        }
 
         public IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {
