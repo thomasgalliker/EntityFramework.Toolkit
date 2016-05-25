@@ -10,16 +10,16 @@ namespace System.Data.Extensions
         void RegisterContext<TContext>(TContext contextFactory) where TContext : IContext;
 
         /// <summary>
-        /// Saves all pending changes.
+        /// Saves pending changes to all registered contexts.
         /// </summary>
-        /// <returns>The number of objects in an Added, Modified, or Deleted state</returns>
+        /// <returns>The total number of objects committed.</returns>
         int Commit();
 
 #if !NET40
         /// <summary>
-        /// Saves all pending changes asynchronously.
+        /// Saves pending changes to all registered contexts.
         /// </summary>
-        /// <returns>The number of objects in an Added, Modified, or Deleted state</returns>
+        /// <returns>The total number of objects committed.</returns>
         Task<int> CommitAsync();
 #endif
     }

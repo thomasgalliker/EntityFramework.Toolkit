@@ -33,6 +33,7 @@ namespace System.Data.Extensions
             }
         }
 
+        /// <inheritdoc />
         public int Commit()
         {
             int numberOfChanges = 0;
@@ -59,6 +60,7 @@ namespace System.Data.Extensions
         }
 
 #if !NET40
+        /// <inheritdoc />
         public async Task<int> CommitAsync()
         {
             int numberOfChanges = 0;
@@ -85,6 +87,7 @@ namespace System.Data.Extensions
         }
 #endif
 
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Dispose(true);
