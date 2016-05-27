@@ -1,10 +1,17 @@
-﻿namespace System.Data.Extensions
+﻿using System.Diagnostics;
+
+namespace System.Data.Extensions
 {
+    [DebuggerDisplay("Name={this.Name}, ConnectionString={this.ConnectionString}")]
     public class DbConnection : IDbConnection
     {
-        public DbConnection(string connectionString)
+        public DbConnection(string connectionString) : this(string.Empty, connectionString)
         {
-            this.Name = string.Empty;
+        }
+
+        public DbConnection(string name, string connectionString)
+        {
+            this.Name = name;
             this.ConnectionString = connectionString;
         }
 
