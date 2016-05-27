@@ -12,6 +12,18 @@ namespace System.Data.Extensions
 
         IEnumerable<T> GetAll();
 
+        /// <summary>
+        /// Finds an entity with the given primary key values.
+        /// If an entity with the given primary key values exists in the context, then it is
+        /// returned immediately without making a request to the store.  Otherwise, a request
+        /// is made to the store for an entity with the given primary key values and this entity,
+        /// if found, is attached to the context and returned.  If no entity is found in the
+        /// context or the store, then null is returned.
+        /// </summary>
+        /// <param name="ids"> The values of the primary key for the entity to be found. </param>
+        /// <returns> The entity found, or null. </returns>
+        T FindById(params object[] ids);
+
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
 
         T Add(T entity);
@@ -19,6 +31,8 @@ namespace System.Data.Extensions
         T Delete(T entity);
 
         void DeleteAll(Expression<Func<T, bool>> predicate = null);
+
+        void Edit(T entity);
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
             where TEntity : class

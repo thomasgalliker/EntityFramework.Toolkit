@@ -26,6 +26,7 @@ namespace System.Data.Extensions
             this.DbSet = this.context.Set<T>();
         }
 
+        /// <inheritdoc />
         public IContext Context
         {
             get
@@ -34,6 +35,7 @@ namespace System.Data.Extensions
             }
         }
 
+        /// <inheritdoc />
         public IQueryable<T> Get(params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = this.DbSet;
@@ -47,9 +49,16 @@ namespace System.Data.Extensions
             return query;
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<T> GetAll()
         {
             return this.DbSet.AsEnumerable<T>();
+        }
+
+        /// <inheritdoc />
+        public T FindById(params object[] ids)
+        {
+            return this.DbSet.Find(ids);
         }
 
         public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
@@ -87,6 +96,7 @@ namespace System.Data.Extensions
            this.Context.Edit(entity);
         }
 
+        /// <inheritdoc />
         public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
             where TEntity : class
             where TProperty : class
@@ -94,6 +104,7 @@ namespace System.Data.Extensions
             this.Context.LoadReferenced(entity, navigationProperty);
         }
 
+        /// <inheritdoc />
         public virtual int Save()
         {
             return this.Context.SaveChanges();
