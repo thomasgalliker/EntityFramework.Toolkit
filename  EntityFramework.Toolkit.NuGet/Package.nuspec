@@ -16,7 +16,8 @@
     </tags>
     <releaseNotes>
       1.0.1
-	  - Add IConcurrencyResolveStrategy with ClientWins, DatabaseWins and Rethrow (default) strategies
+      - Add AutoConfigure extension method to scan for and configure EntityTypeConfigurations.
+	    - Add IConcurrencyResolveStrategy with ClientWins, DatabaseWins and Rethrow (default) strategies
       - Add Name property to IDbConnection
       - Add QueryableExtensions.Include extension method
       

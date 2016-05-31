@@ -90,6 +90,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataSeedTests.IntegrationTests.cs" />
+    <Compile Include="DbContextExtensionsTests.cs" />
     <Compile Include="EdmxTests.cs" />
     <Compile Include="EmployeeContextTestDbConnection.cs" />
     <Compile Include="DataSeedTests.UnitTests.cs" />
