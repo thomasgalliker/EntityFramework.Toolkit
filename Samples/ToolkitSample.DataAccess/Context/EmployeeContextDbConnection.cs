@@ -7,20 +7,13 @@ namespace ToolkitSample.DataAccess.Context
     /// This DbConnection implementation provides a ConnectionString for production.
     /// You can receive the production ConnectionString from an application configuration (app.config) if you like.
     /// </summary>
-    internal class EmployeeContextDbConnection : IDbConnection
+    internal class EmployeeContextDbConnection : DbConnection
     {
         public EmployeeContextDbConnection()
+            : base(name: "EntityFramework.Toolkit", 
+                   connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EntityFramework.Toolkit.mdf; Integrated Security=True;")
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
-        }
-        public string Name { get { return "EntityFramework.Toolkit"; } }
-
-        public string ConnectionString
-        {
-            get
-            {
-                return @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\" + this.Name + ".mdf; Integrated Security=True;";
-            }
         }
     }
 }

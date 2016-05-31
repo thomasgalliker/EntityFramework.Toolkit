@@ -54,6 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Change.cs" />
+    <Compile Include="ChangeSet.cs" />
+    <Compile Include="Concurrency\RethrowConcurrencyResolveStrategy.cs" />
+    <Compile Include="Concurrency\ClientWinsConcurrencyResolveStrategy.cs" />
+    <Compile Include="Concurrency\DatabaseWinsConcurrencyResolveStrategy.cs" />
     <Compile Include="DataSeedBase.cs" />
     <Compile Include="DbConnection.cs" />
     <Compile Include="DbContextBase.cs" />
@@ -66,6 +71,8 @@
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\QueryableExtensions.cs" />
     <Compile Include="GenericRepository.cs" />
+    <Compile Include="IChange.cs" />
+    <Compile Include="Concurrency\IConcurrencyResolveStrategy.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="IDataSeed.cs" />
     <Compile Include="IDbConnection.cs" />
@@ -73,13 +80,13 @@
     <Compile Include="IGenericRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyChangeInfo.cs" />
     <Compile Include="Testing\ConnectionStringGenerator.cs" />
     <Compile Include="Testing\ContextTestBase.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -9,14 +9,14 @@ namespace ToolkitSample.DataAccess.Context
             this.HasKey(d => d.Id);
 
             this.Property(e => e.LastName).IsRequired();
-            this.Property(e => e.LastName).HasMaxLength(20);
+            this.Property(e => e.LastName).HasMaxLength(255);
 
             this.Property(e => e.FirstName).IsRequired();
-            this.Property(e => e.FirstName).HasMaxLength(20);
+            this.Property(e => e.FirstName).HasMaxLength(255);
 
             this.Property(e => e.Birthdate).IsRequired();
 
-            this.Property(e => e.RowVersion).IsConcurrencyToken();
+            this.Property(e => e.RowVersion).IsRowVersion();
 
             this.HasOptional(e => e.Department)
                 .WithMany(d => d.Employees)

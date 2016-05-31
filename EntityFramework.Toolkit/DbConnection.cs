@@ -13,11 +13,17 @@ namespace System.Data.Extensions
         {
             this.Name = name;
             this.ConnectionString = connectionString;
+            this.LazyLoadingEnabled = true;
+            this.ProxyCreationEnabled = true;
         }
 
         public virtual string Name { get; }
 
         public string ConnectionString { get; }
+
+        public virtual bool LazyLoadingEnabled { get; set; }
+
+        public virtual bool ProxyCreationEnabled { get; set; }
 
         public override string ToString()
         {

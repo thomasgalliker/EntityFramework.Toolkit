@@ -6,6 +6,7 @@ namespace System.Data.Extensions.Testing
     public abstract class ContextTestBase<TContext> : IDisposable where TContext : DbContext
     {
         private readonly IDbConnection dbConnection;
+        private readonly IDatabaseInitializer<TContext> databaseInitializer;
 
         protected TContext Context { get; set; }
 
@@ -37,6 +38,7 @@ namespace System.Data.Extensions.Testing
         {
             this.DeleteDatabaseOnDispose = deleteDatabaseOnDispose;
             this.dbConnection = dbConnection;
+            this.databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
 
             if (initializeDatabase)
             {
@@ -46,16 +48,24 @@ namespace System.Data.Extensions.Testing
 
         protected void InitializeDatabase(IDatabaseInitializer<TContext> databaseInitializer = null)
         {
-            var contextType = typeof(TContext);
-            databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
+            if (databaseInitializer == null)
+            {
+                databaseInitializer = this.databaseInitializer;
+            }
 
-            this.Context = (TContext)Activator.CreateInstance(contextType, this.dbConnection, databaseInitializer);
+            this.Context = this.CreateContext();
 
             if (databaseInitializer is DropCreateDatabaseAlways<TContext>)
             {
                 // Only force initialization if the initializer is a DropCreateDatabaseAlways
                 this.Context.Database.Initialize(force: true);
             }
+        }
+
+        protected TContext CreateContext()
+        {
+            var contextType = typeof(TContext);
+            return (TContext)Activator.CreateInstance(contextType, this.dbConnection, databaseInitializer);
         }
         
         public void Dispose()

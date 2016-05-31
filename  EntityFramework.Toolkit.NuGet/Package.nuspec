@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -15,6 +15,11 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
+      1.0.1
+	  - Add IConcurrencyResolveStrategy
+      - Add Name property to IDbConnection
+      - Add QueryableExtensions.Include extension method
+      
       1.0.0
       - Patterns such as UnitOfWork, Repository
       - Helper classes, e.g. DbContextBase, ContextTestBase
