@@ -4,6 +4,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
 using System.Data.Extensions.Concurrency;
+using System.Data.Extensions.Exceptions;
 using System.Data.Extensions.Extensions;
 using System.Diagnostics;
 using System.Linq;
@@ -94,6 +95,11 @@ namespace System.Data.Extensions
                 // as instances of the entity type 
                 var entry = concurrencyException.Entries.Single();
                 var databaseValues = entry.GetDatabaseValues();
+                if (databaseValues == null)
+                {
+                    throw new UpdateConcurrencyException("Failed to update an entity which which has previsouly been deleted.", concurrencyException);
+                }
+
                 var databaseValuesAsObject = databaseValues.ToObject();
                 var conflictingEntity = entry.Entity;
 
@@ -105,10 +111,6 @@ namespace System.Data.Extensions
                     {
                         throw;
                     }
-
-                    // Choose a default set of resolved values. In this case we 
-                    // make the default be the values currently in the database. 
-                    //resolvedValuesAsObject = databaseValues.ToObject();
                 }
 
                 // Update the original values with the database values and 

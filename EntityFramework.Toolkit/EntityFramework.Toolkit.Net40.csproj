@@ -64,6 +64,7 @@
     <Compile Include="DbContextBase.cs" />
     <Compile Include="EdmxTools.cs" />
     <Compile Include="Exceptions\UnitOfWorkException.cs" />
+    <Compile Include="Exceptions\UpdateConcurrencyException.cs" />
     <Compile Include="Extensions\DatabaseExtensions.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\DbEntityValidationExceptionFormatter.cs" />

@@ -24,8 +24,7 @@ namespace ToolkitSample.DataAccess.Context
         {
             this.Database.KillConnectionsToTheDatabase();
 
-            modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
-            modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
+            this.AutoConfigure(modelBuilder);
         }
     }
 }
