@@ -78,7 +78,7 @@ namespace System.Data.Extensions
 
         public override int SaveChanges()
         {
-            var changeSet = this.GetChangeSet();
+            //var changeSet = this.GetChangeSet();
             try
             {
                 return base.SaveChanges();
