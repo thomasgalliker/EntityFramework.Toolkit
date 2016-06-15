@@ -17,8 +17,7 @@ namespace EntityFramework.Toolkit.Tests
     public class DataSeedTests_IntegrationTests : ContextTestBase<EmployeeContext>
     {
         public DataSeedTests_IntegrationTests()
-            : base(dbConnection: new EmployeeContextTestDbConnection(),
-                     initializeDatabase: false)
+            : base(dbConnection: new EmployeeContextTestDbConnection(), initializeDatabase: false, databaseInitializer: null)
         {
         }
 
@@ -53,7 +52,7 @@ namespace EntityFramework.Toolkit.Tests
             allDepartments.Should().HaveCount(2);
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void ShouldInitializeContextTwiceWithDepartmentsSeed()
         {
             // Arrange
@@ -62,8 +61,10 @@ namespace EntityFramework.Toolkit.Tests
 
             // Act
             this.InitializeDatabase(databaseInitializer);
+
             var allDepartments1 = this.Context.Set<Department>().ToList();
             allDepartments1.Should().HaveCount(2);
+
             this.InitializeDatabase(databaseInitializer);
 
             // Assert

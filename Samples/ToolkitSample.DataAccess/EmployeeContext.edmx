@@ -3,18 +3,6 @@
   <Runtime>
     <ConceptualModels>
       <Schema Namespace="ToolkitSample.DataAccess.Context" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.DataAccess.Model.Employee, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Birthdate" Type="DateTime" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Department" Relationship="Self.Employee_Department" FromRole="Employee_Department_Source" ToRole="Employee_Department_Target" />
-        </EntityType>
         <EntityType Name="Department" customannotation:ClrType="ToolkitSample.DataAccess.Model.Department, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
@@ -25,18 +13,18 @@
           <NavigationProperty Name="Employees" Relationship="Self.Employee_Department" FromRole="Employee_Department_Target" ToRole="Employee_Department_Source" />
           <NavigationProperty Name="Leader" Relationship="Self.Department_Leader" FromRole="Department_Leader_Source" ToRole="Department_Leader_Target" />
         </EntityType>
-        <Association Name="Department_Leader">
-          <End Role="Department_Leader_Source" Type="Self.Department" Multiplicity="*" />
-          <End Role="Department_Leader_Target" Type="Self.Employee" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Department_Leader_Target">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Department_Leader_Source">
-              <PropertyRef Name="LeaderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.DataAccess.Model.Employee, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="8" FixedLength="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Department" Relationship="Self.Employee_Department" FromRole="Employee_Department_Source" ToRole="Employee_Department_Target" />
+        </EntityType>
         <Association Name="Employee_Department">
           <End Role="Employee_Department_Source" Type="Self.Employee" Multiplicity="*" />
           <End Role="Employee_Department_Target" Type="Self.Department" Multiplicity="0..1" />
@@ -49,16 +37,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Department_Leader">
+          <End Role="Department_Leader_Source" Type="Self.Department" Multiplicity="*" />
+          <End Role="Department_Leader_Target" Type="Self.Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Department_Leader_Target">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Department_Leader_Source">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="EmployeeContext" customannotation:UseClrTypes="true">
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
-          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
-            <End Role="Department_Leader_Source" EntitySet="Departments" />
-            <End Role="Department_Leader_Target" EntitySet="Employees" />
-          </AssociationSet>
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
           <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
             <End Role="Employee_Department_Source" EntitySet="Employees" />
             <End Role="Employee_Department_Target" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
+            <End Role="Department_Leader_Source" EntitySet="Departments" />
+            <End Role="Department_Leader_Target" EntitySet="Employees" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -66,6 +66,15 @@
     <Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="EmployeeContext">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Employee">
               <MappingFragment StoreEntitySet="Employee">
@@ -78,51 +87,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Departments">
-            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Department">
-              <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </Mappings>
     <StorageModels>
       <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Birthdate" Type="datetime" Nullable="false" />
-          <Property Name="DepartmentId" Type="int" customannotation:Index="{ Name: IX_DepartmentId, Order: 0 }" Nullable="true" />
-          <Property Name="RowVersion" Type="varbinary(max)" Nullable="true" />
-        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_695d5376-9465-4d48-9bf7-57f0a3427e2e, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_39050804-bcdc-468c-900d-cff60145b5df, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
         </EntityType>
-        <Association Name="Department_Leader">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-          <End Role="Department" Type="Self.Department" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Department">
-              <PropertyRef Name="LeaderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Birthdate" Type="datetime" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" customannotation:Index="{ Name: IX_DepartmentId, Order: 0 }" Nullable="true" />
+          <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <Association Name="Employee_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -135,16 +123,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Department_Leader">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CodeFirstDatabase">
-          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employees" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" Table="Departments" />
-          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
-            <End Role="Employee" EntitySet="Employee" />
-            <End Role="Department" EntitySet="Department" />
-          </AssociationSet>
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employees" />
           <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Department" EntitySet="Department" />
           </AssociationSet>
         </EntityContainer>
       </Schema>

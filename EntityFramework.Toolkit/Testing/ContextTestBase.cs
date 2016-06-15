@@ -46,14 +46,35 @@ namespace System.Data.Extensions.Testing
             }
         }
 
-        protected void InitializeDatabase(IDatabaseInitializer<TContext> databaseInitializer = null)
+        /// <summary>
+        /// Returns the default database initializer (given by ctor) if <paramref name="databaseInitializer"/> is null.
+        /// </summary>
+        private IDatabaseInitializer<TContext> EnsureDatabaseInitializer(IDatabaseInitializer<TContext> databaseInitializer)
         {
             if (databaseInitializer == null)
             {
                 databaseInitializer = this.databaseInitializer;
             }
 
-            this.Context = this.CreateContext();
+            return databaseInitializer;
+        }
+
+        /// <summary>
+        /// Returns the default db connection (given by ctor) if <paramref name="dbConnection"/> is null.
+        /// </summary>
+        private IDbConnection EnsureDbConnection(IDbConnection dbConnection)
+        {
+            if (dbConnection == null)
+            {
+                dbConnection = this.dbConnection;
+            }
+
+            return dbConnection;
+        }
+
+        protected void InitializeDatabase(IDatabaseInitializer<TContext> databaseInitializer = null)
+        {
+            this.Context = this.CreateContext(this.dbConnection, databaseInitializer);
 
             if (databaseInitializer is DropCreateDatabaseAlways<TContext>)
             {
@@ -62,10 +83,13 @@ namespace System.Data.Extensions.Testing
             }
         }
 
-        protected TContext CreateContext()
+        protected TContext CreateContext(IDbConnection dbConnection = null, IDatabaseInitializer<TContext> databaseInitializer = null)
         {
+            databaseInitializer = this.EnsureDatabaseInitializer(databaseInitializer);
+            dbConnection = this.EnsureDbConnection(dbConnection);
+
             var contextType = typeof(TContext);
-            return (TContext)Activator.CreateInstance(contextType, this.dbConnection, databaseInitializer);
+            return (TContext)Activator.CreateInstance(contextType, dbConnection, databaseInitializer);
         }
         
         public void Dispose()

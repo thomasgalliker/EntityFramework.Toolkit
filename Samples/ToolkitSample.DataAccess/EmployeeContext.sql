@@ -6,11 +6,11 @@ create table [dbo].[Departments] (
 );
 create table [dbo].[Employees] (
     [Id] [int] not null identity,
-    [LastName] [nvarchar](20) not null,
-    [FirstName] [nvarchar](20) not null,
+    [LastName] [nvarchar](255) not null,
+    [FirstName] [nvarchar](255) not null,
     [Birthdate] [datetime] not null,
     [DepartmentId] [int] null,
-    [RowVersion] [varbinary](max) null,
+    [RowVersion] [rowversion] not null,
     primary key ([Id])
 );
 alter table [dbo].[Departments] add constraint [Department_Leader] foreign key ([LeaderId]) references [dbo].[Employees]([Id]);
