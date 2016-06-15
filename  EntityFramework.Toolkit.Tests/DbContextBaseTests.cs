@@ -26,7 +26,6 @@ namespace EntityFramework.Toolkit.Tests
         public void ShouldRethrowConcurrencyUpdateExceptionAsDefault()
         {
             // Arrange
-            var dbConnection = new EmployeeContextTestDbConnection();
             var initialEmployee = CreateEntity.Employee1;
 
             string firstNameChange1 = initialEmployee.FirstName + " from employeeContext1";
