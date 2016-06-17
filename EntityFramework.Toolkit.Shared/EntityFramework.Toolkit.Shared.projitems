@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f6106ef4-9681-4fb2-a34d-8120578401f5</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>EntityFramework.Toolkit.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChangeSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Concurrency\ClientWinsConcurrencyResolveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Concurrency\DatabaseWinsConcurrencyResolveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Concurrency\IConcurrencyResolveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Concurrency\RethrowConcurrencyResolveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSeedBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DbContextBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdmxTools.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UnitOfWorkException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UpdateConcurrencyException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DatabaseExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbContextExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbEntityValidationExceptionFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExpressionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MappingExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IChange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyChangeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Testing\ConnectionStringGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Testing\ContextTestBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnitOfWork.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ReflectionHelper.cs" />
+  </ItemGroup>
+</Project>

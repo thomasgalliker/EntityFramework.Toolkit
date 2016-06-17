@@ -83,6 +83,10 @@
     <Content Include="EmployeeContext.sql" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.Net40.csproj">
+      <Project>{e9c3b9de-fada-40f2-ab8b-7b48a5c7ff9f}</Project>
+      <Name>EntityFramework.Toolkit.Core.Net40</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\EntityFramework.Toolkit\EntityFramework.Toolkit.Net45.csproj">
       <Project>{03410d31-944c-48e4-b7fc-0af78c81f224}</Project>
       <Name>EntityFramework.Toolkit.Net45</Name>

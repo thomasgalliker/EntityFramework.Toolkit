@@ -47,46 +47,21 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Change.cs" />
-    <Compile Include="ChangeSet.cs" />
-    <Compile Include="Concurrency\ClientWinsConcurrencyResolveStrategy.cs" />
-    <Compile Include="Concurrency\DatabaseWinsConcurrencyResolveStrategy.cs" />
-    <Compile Include="Concurrency\IConcurrencyResolveStrategy.cs" />
-    <Compile Include="Concurrency\RethrowConcurrencyResolveStrategy.cs" />
-    <Compile Include="DataSeedBase.cs" />
-    <Compile Include="DbConnection.cs" />
-    <Compile Include="DbContextBase.cs" />
-    <Compile Include="EdmxTools.cs" />
-    <Compile Include="Exceptions\UnitOfWorkException.cs" />
-    <Compile Include="Exceptions\UpdateConcurrencyException.cs" />
-    <Compile Include="Extensions\DatabaseExtensions.cs" />
-    <Compile Include="Extensions\DbContextExtensions.cs" />
-    <Compile Include="Extensions\DbEntityValidationExceptionFormatter.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Extensions\MappingExtensions.cs" />
-    <Compile Include="Extensions\QueryableExtensions.cs" />
-    <Compile Include="GenericRepository.cs" />
-    <Compile Include="IChange.cs" />
-    <Compile Include="IContext.cs" />
-    <Compile Include="IDataSeed.cs" />
-    <Compile Include="IDbConnection.cs" />
-    <Compile Include="IDbContext.cs" />
-    <Compile Include="IGenericRepository.cs" />
-    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyChangeInfo.cs" />
-    <Compile Include="Testing\ConnectionStringGenerator.cs" />
-    <Compile Include="Testing\ContextTestBase.cs" />
-    <Compile Include="UnitOfWork.cs" />
-    <Compile Include="Utils\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.Net45.csproj">
+      <Project>{8ded605e-58ef-4cb4-8d15-12d493cfcaee}</Project>
+      <Name>EntityFramework.Toolkit.Core.Net45</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\EntityFramework.Toolkit.Shared\EntityFramework.Toolkit.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
