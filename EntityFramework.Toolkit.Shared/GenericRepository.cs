@@ -8,7 +8,7 @@ namespace System.Data.Extensions
     public abstract class GenericRepository<T> : IGenericRepository<T>
         where T : class
     {
-        protected readonly IDbSet<T> DbSet;
+        protected readonly DbSet<T> DbSet;
         private readonly IDbContext context;
 
         /// <summary>
@@ -72,12 +72,17 @@ namespace System.Data.Extensions
             return this.DbSet.Add(entity);
         }
 
-        public virtual T Delete(T entity)
+        public virtual IEnumerable<T> AddRange(IEnumerable<T> entity)
+        {
+            return this.DbSet.AddRange(entity);
+        }
+
+        public virtual T Remove(T entity)
         {
             return this.DbSet.Remove(entity);
         }
 
-        public virtual void DeleteAll(Expression<Func<T, bool>> predicate = null)
+        public virtual void RemoveAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = this.DbSet;
             if (predicate != null)
@@ -85,10 +90,12 @@ namespace System.Data.Extensions
                 query = query.Where(predicate);
             }
 
-            foreach (var entity in query)
-            {
-                this.context.Delete(entity);
-            }
+            this.DbSet.RemoveRange(query);
+        }
+
+        public virtual IEnumerable<T> RemoveRange(IEnumerable<T> entities)
+        {
+            return this.DbSet.RemoveRange(entities);
         }
 
         public virtual void Edit(T entity)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
@@ -14,7 +13,7 @@ namespace ToolkitSample.DataAccess.Stubs
     /// for testing.
     /// </summary>
     /// <typeparam name="T">The type of entity to store.</typeparam>
-    public class FakeDbSet<T> : IDbSet<T> where T : class
+    public class FakeDbSet<T> : DbSet<T> where T : class
     {
         private readonly List<T> _data;
 
@@ -29,11 +28,6 @@ namespace ToolkitSample.DataAccess.Stubs
         }
 
         public IEnumerator<T> GetEnumerator()
-        {
-            return this._data.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
         {
             return this._data.GetEnumerator();
         }

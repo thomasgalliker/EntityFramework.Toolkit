@@ -28,9 +28,13 @@ namespace System.Data.Extensions
 
         T Add(T entity);
 
-        T Delete(T entity);
+        IEnumerable<T> AddRange(IEnumerable<T> entity);
 
-        void DeleteAll(Expression<Func<T, bool>> predicate = null);
+        T Remove(T entity);
+        
+        void RemoveAll(Expression<Func<T, bool>> predicate = null);
+
+        IEnumerable<T> RemoveRange(IEnumerable<T> entities);
 
         void Edit(T entity);
 

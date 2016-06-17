@@ -6,6 +6,6 @@ namespace System.Data.Extensions
     {
         string Name { get; }
 
-        IDbSet<TEntity> Set<TEntity>() where TEntity : class; 
+        DbSet<TEntity> Set<TEntity>() where TEntity : class; 
     }
 }

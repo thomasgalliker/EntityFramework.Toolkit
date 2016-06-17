@@ -132,7 +132,7 @@ namespace ToolkitSample.DataAccess.Context
             }
         }
 
-        public IDbSet<TEntity> Set<TEntity>() where TEntity : class
+        public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return new FakeDbSet<TEntity>();
         }
