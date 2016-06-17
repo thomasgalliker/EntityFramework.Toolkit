@@ -137,10 +137,25 @@ namespace EntityFramework.Toolkit.Tests.Repository
             allEmployees.ElementAt(1).ShouldBeEquivalentTo(CreateEntity.Employee3, options => options.IncludingAllDeclaredProperties());
         }
 
-
-        [Fact(Skip = "work in progress")]
+        [Fact]
         public void ShouldRemoveRangeEmployees()
         {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            // Act
+            employeeRepository.RemoveRange(new [] { CreateEntity.Employee1, CreateEntity.Employee3 });
+            var numberOfRemoves = +employeeRepository.Save();
+
+            // Assert
+            numberOfRemoves.Should().BeGreaterThan(0);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(1);
+            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
         }
     }
 }
