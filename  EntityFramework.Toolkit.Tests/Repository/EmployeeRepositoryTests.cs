@@ -53,7 +53,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 .Include(d => d.Department)
                 .Single(e => e.FirstName == employee.FirstName);
 
-            getEmployee.ShouldBeEquivalentTo(employee, options => options.IncludingAllDeclaredProperties());
+            getEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
         }
 
         [Fact]
@@ -79,29 +79,62 @@ namespace EntityFramework.Toolkit.Tests.Repository
         {
             // Arrange
             IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employee1 = CreateEntity.Employee1;
-            var employee2 = CreateEntity.Employee2;
-
-            employeeRepository.Add(employee1);
-            employeeRepository.Add(employee2);
-            var numberOfAdds = +employeeRepository.Save();
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2 };
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
 
             // Act
-            employeeRepository.Remove(employee2);
+            employeeRepository.Remove(employees.First());
             var numberOfRemoves = +employeeRepository.Save();
 
             // Assert
-            numberOfAdds.Should().BeGreaterThan(0);
             numberOfRemoves.Should().BeGreaterThan(0);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1, options => options.IncludingAllDeclaredProperties());
+            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
         }
 
-        [Fact(Skip = "work in progress")]
+        [Fact]
         public void ShouldRemoveAllEmployees()
         {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            // Act
+            employeeRepository.RemoveAll();
+            var numberOfRemoves = +employeeRepository.Save();
+
+            // Assert
+            numberOfRemoves.Should().BeGreaterThan(0);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public void ShouldRemoveAllEmployeesWithCondition()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            // Act
+            employeeRepository.RemoveAll(e => e.FirstName == "Thomas");
+            var numberOfRemoves = +employeeRepository.Save();
+
+            // Assert
+            numberOfRemoves.Should().BeGreaterThan(0);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(2);
+            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
+            allEmployees.ElementAt(1).ShouldBeEquivalentTo(CreateEntity.Employee3, options => options.IncludingAllDeclaredProperties());
         }
 
 
