@@ -17,6 +17,7 @@
     <releaseNotes>
       1.0.1
       - Split the abstractions off into EntityFramework.Toolkit.Core assembly which is not dependent on EntityFramework
+      - Refactor GenericRepository to support AddRange and RemoveRange
       - Add AutoConfigure extension method to scan for and configure EntityTypeConfigurations.
       - Add IConcurrencyResolveStrategy with ClientWins, DatabaseWins and Rethrow (default) strategies
       - Add Name property to IDbConnection

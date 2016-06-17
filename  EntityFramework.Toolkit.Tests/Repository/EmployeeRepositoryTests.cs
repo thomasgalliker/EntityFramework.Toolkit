@@ -52,11 +52,15 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 .Single(e => e.FirstName == employee.FirstName);
 
             getEmployee.ShouldBeEquivalentTo(employee, options => options.IncludingAllDeclaredProperties());
+        }
 
+        [Fact(Skip = "work in progress")]
+        public void ShouldAddRangeOfEmployees()
+        {
         }
 
         [Fact]
-        public void ShouldDeleteEmployee()
+        public void ShouldRemoveEmployee()
         {
             // Arrange
             IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
@@ -68,16 +72,27 @@ namespace EntityFramework.Toolkit.Tests.Repository
             var numberOfAdds = +employeeRepository.Save();
 
             // Act
-            employeeRepository.Delete(employee2);
-            var numberOfDeletes = +employeeRepository.Save();
+            employeeRepository.Remove(employee2);
+            var numberOfRemoves = +employeeRepository.Save();
 
             // Assert
             numberOfAdds.Should().Be(2);
-            numberOfDeletes.Should().Be(1);
+            numberOfRemoves.Should().Be(1);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(1);
             allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1, options => options.IncludingAllDeclaredProperties());
+        }
+
+        [Fact(Skip = "work in progress")]
+        public void ShouldRemoveAllEmployees()
+        {
+        }
+
+
+        [Fact(Skip = "work in progress")]
+        public void ShouldRemoveRangeEmployees()
+        {
         }
     }
 }
