@@ -30,16 +30,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Toolkit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Toolkit.1.0.2-pre1\lib\net45\EntityFramework.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Toolkit.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Toolkit.Core.1.0.2-pre1\lib\net45\EntityFramework.Toolkit.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,16 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EmployeeContext.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.Core.Net45\EntityFramework.Toolkit.Core.Net45.csproj">
-      <Project>{0ea8395e-21be-4042-ac70-f6b21ef845af}</Project>
-      <Name>EntityFramework.Toolkit.Core.Net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.Net45\EntityFramework.Toolkit.Net45.csproj">
-      <Project>{e3c977bf-ffc7-4fae-bfca-b20ffb7a3a96}</Project>
-      <Name>EntityFramework.Toolkit.Net45</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

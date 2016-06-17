@@ -133,8 +133,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(2);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
-            allEmployees.ElementAt(1).ShouldBeEquivalentTo(CreateEntity.Employee3, options => options.IncludingAllDeclaredProperties());
+            allEmployees.Single(e => e.FirstName == CreateEntity.Employee2.FirstName).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
+            allEmployees.Single(e => e.FirstName == CreateEntity.Employee3.FirstName).ShouldBeEquivalentTo(CreateEntity.Employee3, options => options.IncludingAllDeclaredProperties());
         }
 
         [Fact]

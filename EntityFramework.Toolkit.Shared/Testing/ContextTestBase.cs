@@ -13,15 +13,15 @@ namespace System.Data.Extensions.Testing
         protected bool DeleteDatabaseOnDispose { get; set; }
 
         protected ContextTestBase(IDbConnection dbConnection, bool deleteDatabaseOnDispose)
-          : this(dbConnection: dbConnection, 
+          : this(dbConnection: dbConnection,
                 initializeDatabase: true,
                 databaseInitializer: null,
                 deleteDatabaseOnDispose: deleteDatabaseOnDispose)
         {
         }
 
-        protected ContextTestBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> initializer) 
-            : this(dbConnection: dbConnection, 
+        protected ContextTestBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> initializer)
+            : this(dbConnection: dbConnection,
                   initializeDatabase: true,
                   databaseInitializer: initializer)
         {
@@ -42,7 +42,7 @@ namespace System.Data.Extensions.Testing
 
             if (initializeDatabase)
             {
-               this.InitializeDatabase(databaseInitializer);
+                this.InitializeDatabase(databaseInitializer);
             }
         }
 
@@ -91,11 +91,12 @@ namespace System.Data.Extensions.Testing
             var contextType = typeof(TContext);
             return (TContext)Activator.CreateInstance(contextType, dbConnection, databaseInitializer);
         }
-        
+
         public void Dispose()
         {
             if (this.Context != null)
             {
+
                 if (this.DeleteDatabaseOnDispose)
                 {
                     this.Context.Database.KillConnectionsToTheDatabase();
@@ -103,6 +104,7 @@ namespace System.Data.Extensions.Testing
                 }
 
                 this.Context.Dispose();
+                this.Context = null;
             }
         }
     }

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.1-pre8</version>
+    <version>1.0.2-pre1</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -15,9 +15,11 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
-      1.0.1
+      1.0.2
       - Split the abstractions off into EntityFramework.Toolkit.Core assembly which is not dependent on EntityFramework
       - Refactor GenericRepository to support AddRange and RemoveRange
+      
+      1.0.1
       - Add AutoConfigure extension method to scan for and configure EntityTypeConfigurations.
       - Add IConcurrencyResolveStrategy with ClientWins, DatabaseWins and Rethrow (default) strategies
       - Add Name property to IDbConnection
@@ -33,9 +35,11 @@
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
     <language>en-US</language>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Transactions" targetFramework="net40, net45" />
+    </frameworkAssemblies>
     <dependencies>
       <group>
-        <dependency id="System.Transactions" />
         <dependency id="EntityFramework" version="6.1.3" />
         <dependency id="EntityFramework.Toolkit.Core" version="[1.0.0, 2.0.0)" />
       </group>
