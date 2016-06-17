@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Extensions;
 using System.Data.Extensions.Exceptions;
+using System.Transactions;
 #if !NET40
 using System.Threading.Tasks;
 #endif
-using System.Transactions;
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit
 {
     public sealed class UnitOfWork : IUnitOfWork
     {
