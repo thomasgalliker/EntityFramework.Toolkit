@@ -108,12 +108,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.Net45.csproj">
-      <Project>{8ded605e-58ef-4cb4-8d15-12d493cfcaee}</Project>
+    <ProjectReference Include="..\EntityFramework.Toolkit.Core.Net45\EntityFramework.Toolkit.Core.Net45.csproj">
+      <Project>{0ea8395e-21be-4042-ac70-f6b21ef845af}</Project>
       <Name>EntityFramework.Toolkit.Core.Net45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EntityFramework.Toolkit\EntityFramework.Toolkit.Net45.csproj">
-      <Project>{03410d31-944c-48e4-b7fc-0af78c81f224}</Project>
+    <ProjectReference Include="..\EntityFramework.Toolkit.Net45\EntityFramework.Toolkit.Net45.csproj">
+      <Project>{e3c977bf-ffc7-4fae-bfca-b20ffb7a3a96}</Project>
       <Name>EntityFramework.Toolkit.Net45</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj">

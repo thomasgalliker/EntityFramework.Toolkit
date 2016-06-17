@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.1-pre2</version>
+    <version>1.0.1-pre8</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -35,29 +35,22 @@
     <language>en-US</language>
     <dependencies>
       <group>
+        <dependency id="System.Transactions" />
         <dependency id="EntityFramework" version="6.1.3" />
-        <dependency id="EntityFramework.Toolkit.Core" version="1.0.0" />
+        <dependency id="EntityFramework.Toolkit.Core" version="[1.0.0, 2.0.0)" />
       </group>
     </dependencies>
   </metadata>
   <files>
     <!--.Net 4.0-->
-    <!--<file src="..\EntityFramework.Toolkit.Core\bin\net40\Release\EntityFramework.Toolkit.Core.dll" target="lib\net40\EntityFramework.Toolkit.Core.dll" />
-    <file src="..\EntityFramework.Toolkit.Core\bin\net40\Release\EntityFramework.Toolkit.Core.pdb" target="lib\net40\EntityFramework.Toolkit.Core.pdb" />
-    <file src="..\EntityFramework.Toolkit.Core\bin\net40\Release\EntityFramework.Toolkit.Core.xml" target="lib\net40\EntityFramework.Toolkit.Core.xml" />-->
-    
-    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.dll" target="lib\net40\EntityFramework.Toolkit.dll" />
-    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.pdb" target="lib\net40\EntityFramework.Toolkit.pdb" />
-    <file src="..\EntityFramework.Toolkit\bin\net40\Release\EntityFramework.Toolkit.xml" target="lib\net40\EntityFramework.Toolkit.xml" />
+    <file src="..\EntityFramework.Toolkit.Net40\bin\Release\EntityFramework.Toolkit.dll" target="lib\net40\EntityFramework.Toolkit.dll" />
+    <file src="..\EntityFramework.Toolkit.Net40\bin\Release\EntityFramework.Toolkit.pdb" target="lib\net40\EntityFramework.Toolkit.pdb" />
+    <file src="..\EntityFramework.Toolkit.Net40\bin\Release\EntityFramework.Toolkit.xml" target="lib\net40\EntityFramework.Toolkit.xml" />
 
     <!--.Net 4.5-->
-    <!--<file src="..\EntityFramework.Toolkit.Core\bin\net45\Release\EntityFramework.Toolkit.Core.dll" target="lib\net45\EntityFramework.Toolkit.Core.dll" />
-    <file src="..\EntityFramework.Toolkit.Core\bin\net45\Release\EntityFramework.Toolkit.Core.pdb" target="lib\net45\EntityFramework.Toolkit.Core.pdb" />
-    <file src="..\EntityFramework.Toolkit.Core\bin\net45\Release\EntityFramework.Toolkit.Core.xml" target="lib\net45\EntityFramework.Toolkit.Core.xml" />-->
-    
-    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.dll" target="lib\net45\EntityFramework.Toolkit.dll" />
-    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.pdb" target="lib\net45\EntityFramework.Toolkit.pdb" />
-    <file src="..\EntityFramework.Toolkit\bin\net45\Release\EntityFramework.Toolkit.xml" target="lib\net45\EntityFramework.Toolkit.xml" />
+    <file src="..\EntityFramework.Toolkit.Net45\bin\Release\EntityFramework.Toolkit.dll" target="lib\net45\EntityFramework.Toolkit.dll" />
+    <file src="..\EntityFramework.Toolkit.Net45\bin\Release\EntityFramework.Toolkit.pdb" target="lib\net45\EntityFramework.Toolkit.pdb" />
+    <file src="..\EntityFramework.Toolkit.Net45\bin\Release\EntityFramework.Toolkit.xml" target="lib\net45\EntityFramework.Toolkit.xml" />
 
     <file src="tools\init.ps1" target="tools\init.ps1" />
     <file src="tools\install.ps1" target="tools\install.ps1" />
