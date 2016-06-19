@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit.Core</id>
-    <version>1.0.2-pre3</version>
+    <version>1.0.2</version>
     <title>EntityFramework.Toolkit.Core</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,7 +16,7 @@
     </tags>
     <releaseNotes>
       1.0.2
-      - Introduction of abtractions for EntityFramework.Toolkit
+      - Introduction of abtractions EntityFramework.Toolkit.Core for EntityFramework.Toolkit
 
     </releaseNotes>
     <copyright>Copyright 2016</copyright>
