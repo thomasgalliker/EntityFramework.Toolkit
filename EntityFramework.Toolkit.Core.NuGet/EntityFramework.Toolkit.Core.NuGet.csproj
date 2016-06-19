@@ -8,8 +8,8 @@
     <ProjectGuid>{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EntityFramework.Toolkit.NuGet</RootNamespace>
-    <AssemblyName>EntityFramework.Toolkit.NuGet</AssemblyName>
+    <RootNamespace>EntityFramework.Toolkit.Core.NuGet</RootNamespace>
+    <AssemblyName>EntityFramework.Toolkit.Core.NuGet</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
