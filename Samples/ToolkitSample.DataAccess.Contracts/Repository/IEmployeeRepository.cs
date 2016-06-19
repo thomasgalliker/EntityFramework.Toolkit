@@ -1,6 +1,6 @@
 ﻿using System.Data.Extensions;
 
-namespace ToolkitSample.DataAccess.Repository
+namespace ToolkitSample.DataAccess.Contracts.Repository
 {
     /// <summary>
     /// This interface abstracts the EmployeeRepository implementation.

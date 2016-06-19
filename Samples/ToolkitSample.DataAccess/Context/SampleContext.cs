@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-using ToolkitSample.DataAccess.Model;
 using ToolkitSample.DataAccess.Stubs;
+using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Context
 {

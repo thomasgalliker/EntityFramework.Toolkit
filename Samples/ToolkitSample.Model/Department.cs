@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ToolkitSample.DataAccess.Model
+namespace ToolkitSample.Model
 {
     [DebuggerDisplay("Id={Id}, Name={Name}")]
     public class Department

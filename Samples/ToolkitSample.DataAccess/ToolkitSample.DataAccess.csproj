@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -76,11 +80,9 @@
     </Compile>
     <Compile Include="EmployeeContextDatabaseInitializer.cs" />
     <Compile Include="Migrations\EmployeeContextMigrationConfiguration.cs" />
-    <Compile Include="Model\Department.cs" />
-    <Compile Include="Model\Employee.cs" />
+    <Compile Include="Modularity\DataAccessModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
-    <Compile Include="Repository\IEmployeeRepository.cs" />
     <Compile Include="Seed\DepartmentDataSeed.cs" />
     <Compile Include="Stubs\FakeDbSet.cs" />
   </ItemGroup>
@@ -93,6 +95,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EmployeeContext.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj">
+      <Project>{8b9396bc-1312-409a-bc0e-6888443c06b9}</Project>
+      <Name>ToolkitSample.DataAccess.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToolkitSample.Model\ToolkitSample.Model.csproj">
+      <Project>{f73b662b-33eb-4d15-9da7-2798645aafaa}</Project>
+      <Name>ToolkitSample.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

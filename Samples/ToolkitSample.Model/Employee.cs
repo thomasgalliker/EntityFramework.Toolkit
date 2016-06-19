@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ToolkitSample.DataAccess.Model
+namespace ToolkitSample.Model
 {
     [DebuggerDisplay("Id={Id}, FirstName={FirstName}, LastName={LastName}")]
     public class Employee

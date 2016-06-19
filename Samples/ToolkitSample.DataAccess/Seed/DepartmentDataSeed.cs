@@ -2,7 +2,7 @@
 using System.Data.Extensions;
 using System.Linq.Expressions;
 
-using ToolkitSample.DataAccess.Model;
+using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Seed
 {

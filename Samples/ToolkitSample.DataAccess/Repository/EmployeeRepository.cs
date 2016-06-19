@@ -1,5 +1,8 @@
 ﻿using System.Data.Extensions;
 
+using ToolkitSample.DataAccess.Context;
+using ToolkitSample.DataAccess.Contracts.Repository;
+
 namespace ToolkitSample.DataAccess.Repository
 {
     /// <summary>
@@ -8,7 +11,7 @@ namespace ToolkitSample.DataAccess.Repository
     /// </summary>
     public class EmployeeRepository : GenericRepository<Model.Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(IDbContext context)
+        public EmployeeRepository(IEmployeeContext context)
             : base(context)
         {
         }
