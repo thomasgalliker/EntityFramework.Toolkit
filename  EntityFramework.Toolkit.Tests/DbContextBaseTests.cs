@@ -9,7 +9,7 @@ using EntityFramework.Toolkit.Tests.Stubs;
 using FluentAssertions;
 
 using ToolkitSample.DataAccess.Context;
-using ToolkitSample.DataAccess.Model;
+using ToolkitSample.Model;
 
 using Xunit;
 

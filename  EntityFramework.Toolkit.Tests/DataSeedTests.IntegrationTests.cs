@@ -7,8 +7,8 @@ using FluentAssertions;
 using ToolkitSample.DataAccess;
 using ToolkitSample.DataAccess.Context;
 using ToolkitSample.DataAccess.Migrations;
-using ToolkitSample.DataAccess.Model;
 using ToolkitSample.DataAccess.Seed;
+using ToolkitSample.Model;
 
 using Xunit;
 

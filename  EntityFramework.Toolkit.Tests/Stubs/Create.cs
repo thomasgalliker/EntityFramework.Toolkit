@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using ToolkitSample.DataAccess.Model;
+using ToolkitSample.Model;
 
 namespace EntityFramework.Toolkit.Tests.Stubs
 {

@@ -2,8 +2,9 @@
 using System.Linq;
 
 using FluentAssertions;
-using ToolkitSample.DataAccess.Model;
+
 using ToolkitSample.DataAccess.Seed;
+using ToolkitSample.Model;
 
 using Xunit;
 

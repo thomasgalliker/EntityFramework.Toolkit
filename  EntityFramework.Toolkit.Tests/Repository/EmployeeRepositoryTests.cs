@@ -8,13 +8,17 @@ using EntityFramework.Toolkit.Tests.Stubs;
 using FluentAssertions;
 
 using ToolkitSample.DataAccess.Context;
-using ToolkitSample.DataAccess.Model;
+using ToolkitSample.DataAccess.Contracts.Repository;
 using ToolkitSample.DataAccess.Repository;
+using ToolkitSample.Model;
 
 using Xunit;
 
 namespace EntityFramework.Toolkit.Tests.Repository
 {
+    /// <summary>
+    /// Repository tests using <see cref="EmployeeContextTestDbConnection"/> as database connection.
+    /// </summary>
     public class EmployeeRepositoryTests : ContextTestBase<EmployeeContext>
     {
         public EmployeeRepositoryTests()
