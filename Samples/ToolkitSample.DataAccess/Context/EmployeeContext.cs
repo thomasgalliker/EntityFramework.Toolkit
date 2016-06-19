@@ -1,7 +1,8 @@
 ﻿using System.Data.Entity;
-using System.Data.Extensions;
-using System.Data.Extensions.Extensions;
 using System.Diagnostics;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
 
 namespace ToolkitSample.DataAccess.Context
 {

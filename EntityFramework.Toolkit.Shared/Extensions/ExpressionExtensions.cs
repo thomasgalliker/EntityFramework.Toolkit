@@ -1,7 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
-namespace System.Data.Extensions.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     internal static class ExpressionExtensions
     {

@@ -1,9 +1,11 @@
-﻿using System.Linq.Expressions;
-#if !NET40
+﻿using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+#if !NET40
+
 #endif
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit.Core
 {
     public interface IContext : IDisposable
     {

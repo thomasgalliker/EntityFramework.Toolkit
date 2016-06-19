@@ -1,4 +1,6 @@
-﻿namespace System.Data.Extensions.Testing
+﻿using System;
+
+namespace EntityFramework.Toolkit.Testing
 {
     public static class ConnectionStringGenerator
     {

@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 
-namespace System.Data.Extensions
+using EntityFramework.Toolkit.Core;
+
+namespace EntityFramework.Toolkit
 {
     /// <summary>
     /// Provides a template for generic seed implementors.

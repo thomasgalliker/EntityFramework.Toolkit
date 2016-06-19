@@ -1,7 +1,10 @@
-﻿using System.Data.Entity;
-using System.Data.Extensions.Extensions;
+﻿using System;
+using System.Data.Entity;
 
-namespace System.Data.Extensions.Testing
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
+
+namespace EntityFramework.Toolkit.Testing
 {
     public abstract class ContextTestBase<TContext> : IDisposable where TContext : DbContext
     {

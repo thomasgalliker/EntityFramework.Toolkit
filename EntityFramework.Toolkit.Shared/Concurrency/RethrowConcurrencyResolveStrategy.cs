@@ -1,6 +1,6 @@
-﻿using System.Data.Extensions.Exceptions;
+﻿using EntityFramework.Toolkit.Exceptions;
 
-namespace System.Data.Extensions.Concurrency
+namespace EntityFramework.Toolkit.Concurrency
 {
     /// <summary>
     /// Rethrow strategy throws an <see cref="UpdateConcurrencyException"/> in case of a conflicting update.

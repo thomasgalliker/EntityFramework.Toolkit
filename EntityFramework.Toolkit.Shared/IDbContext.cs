@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
 
-namespace System.Data.Extensions
+using EntityFramework.Toolkit.Core;
+
+namespace EntityFramework.Toolkit
 {
     public interface IDbContext : IContext
     {

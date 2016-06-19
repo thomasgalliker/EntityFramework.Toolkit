@@ -1,4 +1,6 @@
-﻿namespace System.Data.Extensions.Exceptions
+﻿using System;
+
+namespace EntityFramework.Toolkit.Exceptions
 {
     public class UpdateConcurrencyException : Exception
     {

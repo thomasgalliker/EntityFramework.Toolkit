@@ -1,11 +1,12 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit
 {
     public static class EdmxTools
     {

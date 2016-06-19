@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace System.Data.Extensions
+using EntityFramework.Toolkit.Core;
+
+namespace EntityFramework.Toolkit
 {
     public abstract class GenericRepository<T> : IGenericRepository<T>
         where T : class

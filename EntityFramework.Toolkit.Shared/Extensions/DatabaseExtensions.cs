@@ -1,10 +1,12 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data;
+using System.Data.Entity;
 
-namespace System.Data.Extensions.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DatabaseExtensions
     {
-        [Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static void KillConnectionsToTheDatabase(this Database database)
         {
             var databaseName = database.Connection.Database;

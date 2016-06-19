@@ -1,4 +1,4 @@
-﻿using System.Data.Extensions;
+﻿using EntityFramework.Toolkit.Core;
 
 namespace ToolkitSample.DataAccess.Contracts.Repository
 {

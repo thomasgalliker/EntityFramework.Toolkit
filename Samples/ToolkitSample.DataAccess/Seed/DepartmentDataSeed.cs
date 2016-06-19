@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Data.Extensions;
 using System.Linq.Expressions;
+
+using EntityFramework.Toolkit;
 
 using ToolkitSample.Model;
 

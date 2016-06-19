@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Configuration;
 
-namespace System.Data.Extensions.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class MappingExtensions
     {

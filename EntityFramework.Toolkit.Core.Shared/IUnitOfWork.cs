@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-#if !NET40
+﻿using System;
 using System.Threading.Tasks;
+#if !NET40
+
 #endif
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit.Core
 {
     public interface IUnitOfWork : IDisposable
     {

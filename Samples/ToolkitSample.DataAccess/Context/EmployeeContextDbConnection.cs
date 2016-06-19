@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Extensions;
+using EntityFramework.Toolkit;
 
 namespace ToolkitSample.DataAccess.Context
 {

@@ -1,6 +1,6 @@
 using System.Data.Entity.Infrastructure;
 
-namespace System.Data.Extensions.Concurrency
+namespace EntityFramework.Toolkit.Concurrency
 {
     public interface IConcurrencyResolveStrategy
     {

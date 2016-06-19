@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
-using System.Data.Extensions.Utils;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace System.Data.Extensions.Extensions
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Utils;
+
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DbContextExtensions
     {

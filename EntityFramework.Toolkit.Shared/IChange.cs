@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit
 {
     /// <summary>
     ///     Interface for changed objects and object properties.

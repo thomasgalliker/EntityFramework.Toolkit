@@ -1,4 +1,4 @@
-﻿namespace System.Data.Extensions
+﻿namespace EntityFramework.Toolkit.Core
 {
     public interface IDbConnection
     {

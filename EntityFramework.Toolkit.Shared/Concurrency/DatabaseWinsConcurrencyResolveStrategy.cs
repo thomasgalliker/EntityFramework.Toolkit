@@ -1,4 +1,4 @@
-﻿namespace System.Data.Extensions.Concurrency
+﻿namespace EntityFramework.Toolkit.Concurrency
 {
     public sealed class DatabaseWinsConcurrencyResolveStrategy : IConcurrencyResolveStrategy
     {

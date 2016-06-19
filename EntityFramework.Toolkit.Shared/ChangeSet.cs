@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit
 {
     public class ChangeSet : ReadOnlyCollection<IChange>
     {

@@ -1,7 +1,8 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
-namespace System.Data.Extensions.Utils
+namespace EntityFramework.Toolkit.Utils
 {
     internal static class ReflectionHelper
     {

@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
-using System.Data.Extensions.Concurrency;
-using System.Data.Extensions.Exceptions;
-using System.Data.Extensions.Extensions;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+#if !NET40
 using System.Threading.Tasks;
+#endif
 
-namespace System.Data.Extensions
+using EntityFramework.Toolkit.Concurrency;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
+using EntityFramework.Toolkit.Extensions;
+
+namespace EntityFramework.Toolkit
 {
     public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
     {

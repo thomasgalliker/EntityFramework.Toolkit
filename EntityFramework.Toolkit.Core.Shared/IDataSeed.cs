@@ -1,6 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
-namespace System.Data.Extensions
+namespace EntityFramework.Toolkit.Core
 {
     public interface IDataSeed
     {

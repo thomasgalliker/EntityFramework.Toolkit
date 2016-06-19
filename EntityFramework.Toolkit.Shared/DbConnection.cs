@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 
-namespace System.Data.Extensions
+using EntityFramework.Toolkit.Core;
+
+namespace EntityFramework.Toolkit
 {
     [DebuggerDisplay("Name={this.Name}, ConnectionString={this.ConnectionString}")]
     public class DbConnection : IDbConnection

@@ -1,8 +1,9 @@
 ﻿
 using System.Data.Entity;
-using System.Data.Extensions;
 
 using Autofac;
+
+using EntityFramework.Toolkit.Core;
 
 using ToolkitSample.DataAccess.Context;
 using ToolkitSample.DataAccess.Contracts.Repository;

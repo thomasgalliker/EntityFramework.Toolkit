@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Extensions;
-using System.Data.Extensions.Exceptions;
 using System.Transactions;
+
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
+
 #if !NET40
 using System.Threading.Tasks;
 #endif

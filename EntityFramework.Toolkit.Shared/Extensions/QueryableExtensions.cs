@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 
-namespace System.Data.Extensions.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class QueryableExtensions
     {
@@ -22,7 +23,7 @@ namespace System.Data.Extensions.Extensions
 
             foreach (Expression<Func<T, object>> property in properties)
             {
-                queryable = Entity.QueryableExtensions.Include(queryable, property);
+                queryable = System.Data.Entity.QueryableExtensions.Include(queryable, property);
             }
 
             return queryable;
