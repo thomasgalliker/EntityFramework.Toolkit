@@ -152,11 +152,6 @@ namespace EntityFramework.Toolkit
             }
         }
 
-        public virtual object ResolveConcurrencyException(object conflictingEntity, object databaseEntity)
-        {
-            return null;
-        }
-
         public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; }
 
 #if !NET40
