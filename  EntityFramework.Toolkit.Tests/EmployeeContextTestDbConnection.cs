@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data.Extensions;
-using System.Data.Extensions.Testing;
+
+using EntityFramework.Toolkit.Testing;
 
 namespace EntityFramework.Toolkit.Tests
 {

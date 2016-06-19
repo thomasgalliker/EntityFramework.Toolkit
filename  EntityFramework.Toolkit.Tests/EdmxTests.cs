@@ -1,5 +1,4 @@
-﻿using System.Data.Extensions;
-using System.Data.Extensions.Testing;
+﻿using EntityFramework.Toolkit.Testing;
 
 using ToolkitSample.DataAccess.Context;
 

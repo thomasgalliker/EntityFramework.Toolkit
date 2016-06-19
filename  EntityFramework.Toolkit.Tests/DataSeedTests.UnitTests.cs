@@ -1,5 +1,6 @@
-﻿using System.Data.Extensions;
-using System.Linq;
+﻿using System.Linq;
+
+using EntityFramework.Toolkit.Core;
 
 using FluentAssertions;
 

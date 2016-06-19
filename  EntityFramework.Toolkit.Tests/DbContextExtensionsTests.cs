@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using System.Data.Extensions.Extensions;
-using System.Data.Extensions.Testing;
 using System.Linq;
 
+using EntityFramework.Toolkit.Extensions;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;

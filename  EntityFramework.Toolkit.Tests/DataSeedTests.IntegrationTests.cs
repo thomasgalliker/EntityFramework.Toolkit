@@ -1,6 +1,7 @@
-﻿using System.Data.Extensions;
-using System.Data.Extensions.Testing;
-using System.Linq;
+﻿using System.Linq;
+
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Testing;
 
 using FluentAssertions;
 

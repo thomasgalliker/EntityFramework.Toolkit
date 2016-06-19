@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Data.Extensions;
-using System.Data.Extensions.Exceptions;
+
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
 
 using FluentAssertions;
 
