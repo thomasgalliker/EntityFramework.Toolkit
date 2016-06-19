@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 
 namespace ToolkitSample.DataAccess.Context
 {
@@ -16,7 +17,11 @@ namespace ToolkitSample.DataAccess.Context
 
             this.Property(e => e.Birthdate).IsRequired();
 
-            this.Property(e => e.RowVersion).IsRowVersion();
+            this.Property(e => e.RowVersion)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed)
+                .HasMaxLength(8)
+                .IsRowVersion()
+                .IsRequired();
 
             this.HasOptional(e => e.Department)
                 .WithMany(d => d.Employees)
