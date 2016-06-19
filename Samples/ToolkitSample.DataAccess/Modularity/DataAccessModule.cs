@@ -15,10 +15,14 @@ namespace ToolkitSample.DataAccess.Modularity
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<DepartmentDataSeed>().As<IDataSeed>().SingleInstance(); // TODO: Find a better way to register data seeds
+            // Register all data seeds:
+            builder.RegisterType<DepartmentDataSeed>().As<IDataSeed>().SingleInstance();
 
+            // Register an IDbConnection and an IDatabaseInitializer which are used to be injected into EmployeeContext
             builder.RegisterType<EmployeeContextDbConnection>().As<IDbConnection>().SingleInstance();
             builder.RegisterType<EmployeeContextDatabaseInitializer>().As<IDatabaseInitializer<EmployeeContext>>().SingleInstance();
+
+            // Finally, register the context all the repositories as InstancePerDependency
             builder.RegisterType<EmployeeContext>().As<IEmployeeContext>().InstancePerDependency();
             builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>().InstancePerDependency();
         }
