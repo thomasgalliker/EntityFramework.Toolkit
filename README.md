@@ -1,4 +1,5 @@
 # EntityFramework.Toolkit
+<img src="https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/logo.png" width="100" height="100" alt="EntityFramework.Toolkit" align="right">
 EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.
 - Patterns such as UnitOfWork, Repository
 - Helper classes, e.g. DbContextBase, ContextTestBase

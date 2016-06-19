@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit.Core</id>
-    <version>1.0.2-pre1</version>
+    <version>1.0.2-pre2</version>
     <title>EntityFramework.Toolkit.Core</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
     <projectUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/EntityFramework.Toolkit.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.</summary>
     <description>EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.</description>
