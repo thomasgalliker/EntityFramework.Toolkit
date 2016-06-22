@@ -97,17 +97,24 @@ namespace EntityFramework.Toolkit.Testing
 
         public void Dispose()
         {
-            if (this.Context != null)
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-
-                if (this.DeleteDatabaseOnDispose)
+                if (this.Context != null)
                 {
-                    this.Context.Database.KillConnectionsToTheDatabase();
-                    this.Context.Database.Delete();
+                    if (this.DeleteDatabaseOnDispose)
+                    {
+                        this.Context.Database.KillConnectionsToTheDatabase();
+                        this.Context.Database.Delete();
+                    }
+                    this.Context.Dispose();
+                    this.Context = null;
                 }
-
-                this.Context.Dispose();
-                this.Context = null;
             }
         }
     }
