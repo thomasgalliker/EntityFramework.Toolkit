@@ -32,8 +32,8 @@ namespace EntityFramework.Toolkit.Core
         IEnumerable<T> AddRange(IEnumerable<T> entity);
 
         T Remove(T entity);
-        
-        void RemoveAll(Expression<Func<T, bool>> predicate = null);
+
+        IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null);
 
         IEnumerable<T> RemoveRange(IEnumerable<T> entities);
 

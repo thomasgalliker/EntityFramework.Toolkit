@@ -85,7 +85,7 @@ namespace EntityFramework.Toolkit
             return this.DbSet.Remove(entity);
         }
 
-        public virtual void RemoveAll(Expression<Func<T, bool>> predicate = null)
+        public virtual IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = this.DbSet;
             if (predicate != null)
@@ -93,7 +93,7 @@ namespace EntityFramework.Toolkit
                 query = query.Where(predicate);
             }
 
-            this.DbSet.RemoveRange(query);
+            return this.DbSet.RemoveRange(query);
         }
 
         public virtual IEnumerable<T> RemoveRange(IEnumerable<T> entities)
@@ -115,7 +115,7 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public virtual int Save()
+        public virtual ChangeSet Save()
         {
             return this.Context.SaveChanges();
         }
