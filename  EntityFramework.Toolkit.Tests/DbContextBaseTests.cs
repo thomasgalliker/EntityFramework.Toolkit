@@ -23,6 +23,23 @@ namespace EntityFramework.Toolkit.Tests
         }
 
         [Fact]
+        public async void ShouldSaveAsync()
+        {
+            // Arrange
+            var initialEmployee = CreateEntity.Employee1;
+            ChangeSet changeSet = null;
+            // Act
+            using (var employeeContext = this.CreateContext())
+            {
+                employeeContext.Set<Employee>().Add(initialEmployee);
+                changeSet = await employeeContext.SaveChangesAsync();
+            }
+
+            // Assert
+            changeSet.Should().NotBeNull();
+        }
+
+        [Fact]
         public void ShouldRethrowConcurrencyUpdateExceptionAsDefault()
         {
             // Arrange
