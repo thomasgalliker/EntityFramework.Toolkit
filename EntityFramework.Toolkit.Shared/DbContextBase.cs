@@ -159,11 +159,14 @@ namespace EntityFramework.Toolkit
 
 #if !NET40
         //TODO: Refactoer Async method too
-        public override async Task<int> SaveChangesAsync()
+        public new async Task<ChangeSet> SaveChangesAsync()
         {
+            var changeSet = this.GetChangeSet();
             try
             {
-                return await base.SaveChangesAsync();
+                await base.SaveChangesAsync();
+
+                return changeSet;
             }
             catch (DbEntityValidationException validationException)
             {
