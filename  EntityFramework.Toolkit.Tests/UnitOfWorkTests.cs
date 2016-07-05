@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Exceptions;
 
@@ -81,7 +81,7 @@ namespace EntityFramework.Toolkit.Tests
                 var numberOfChanges = unitOfWork.Commit();
 
                 // Assert
-                numberOfChanges.Should().Be(0);
+                numberOfChanges.Should().HaveCount(0);
             }
         }
 
@@ -91,14 +91,14 @@ namespace EntityFramework.Toolkit.Tests
             // Arrange
             IUnitOfWork unitOfWork = new UnitOfWork();
             var contextMock = new Mock<IContext>();
-            contextMock.Setup(c => c.SaveChanges()).Returns(99);
+            contextMock.Setup(c => c.SaveChanges()).Returns(new ChangeSet(contextMock.GetType(), new List<IChange> { Change.CreateAddedChange(new object()) }));
             unitOfWork.RegisterContext(contextMock.Object);
 
             // Act
             var numberOfChanges = unitOfWork.Commit();
 
             // Assert
-            numberOfChanges.Should().Be(99);
+            numberOfChanges.Should().HaveCount(1);
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace EntityFramework.Toolkit.Tests
                     var numberOfChanges = innerUnitofWork.Commit();
 
                     // Assert
-                    numberOfChanges.Should().Be(0);
+                    numberOfChanges.Should().HaveCount(0);
                 }
                 outerUnitOfWork.Commit();
             }

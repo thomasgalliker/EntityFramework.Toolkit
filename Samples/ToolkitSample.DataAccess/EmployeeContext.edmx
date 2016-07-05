@@ -3,7 +3,7 @@
   <Runtime>
     <ConceptualModels>
       <Schema Namespace="ToolkitSample.DataAccess.Context" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Department" customannotation:ClrType="ToolkitSample.DataAccess.Model.Department, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Department" customannotation:ClrType="ToolkitSample.Model.Department, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -13,7 +13,7 @@
           <NavigationProperty Name="Employees" Relationship="Self.Employee_Department" FromRole="Employee_Department_Target" ToRole="Employee_Department_Source" />
           <NavigationProperty Name="Leader" Relationship="Self.Department_Leader" FromRole="Department_Leader_Source" ToRole="Department_Leader_Target" />
         </EntityType>
-        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.DataAccess.Model.Employee, ToolkitSample.DataAccess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.Model.Employee, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -97,7 +97,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_09593799-d958-4adc-aaca-fa4629e857fd, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_05a80dcf-0fbe-4684-9a87-6cc1759e4166, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
         </EntityType>
         <EntityType Name="Employee">

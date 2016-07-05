@@ -82,12 +82,15 @@ namespace EntityFramework.Toolkit
             this.Entry(entity).Reference(navigationProperty).Load();
         }
 
-        public override int SaveChanges()
+        public new ChangeSet SaveChanges()
         {
-            //var changeSet = this.GetChangeSet();
+            var changeSet = this.GetChangeSet();
+
             try
             {
-                return base.SaveChanges();
+                base.SaveChanges();
+
+                return changeSet;
             }
             catch (DbEntityValidationException validationException)
             {
@@ -125,7 +128,7 @@ namespace EntityFramework.Toolkit
 
                 //TODO: Handle number of max retries
 
-                return this.SaveChanges();
+                return ((IContext)this).SaveChanges();
 
                 //////assume just one
                 ////var dbEntityEntry = concurrencyException.Entries.First();
@@ -155,6 +158,7 @@ namespace EntityFramework.Toolkit
         public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; }
 
 #if !NET40
+        //TODO: Refactoer Async method too
         public override async Task<int> SaveChangesAsync()
         {
             try
@@ -204,7 +208,7 @@ namespace EntityFramework.Toolkit
             result.AddRange(deleteChanges);
             result.AddRange(updateChanges);
 
-            return new ChangeSet(result);
+            return new ChangeSet(typeof(TContext), result);
         }
 
         /// <summary>

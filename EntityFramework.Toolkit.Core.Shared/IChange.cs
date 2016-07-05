@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Data.Entity;
+using EntityFramework.Toolkit.Core;
 
 namespace EntityFramework.Toolkit
 {
@@ -30,6 +30,6 @@ namespace EntityFramework.Toolkit
         /// <value>
         ///     See <see cref="EntityState" />.
         /// </value>
-        EntityState State { get; }
+        ChangeState State { get; }
     }
 }

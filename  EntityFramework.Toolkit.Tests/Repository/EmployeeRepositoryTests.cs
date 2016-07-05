@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -48,12 +49,12 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.Add(employee);
-            var numberOfChangesCommitted = employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfChangesCommitted.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 1, numberOfModified: 0, numberOfDeleted: 0);
 
-            var getEmployee = employeeRepository.Get()
+                        var getEmployee = employeeRepository.Get()
                 .Include(d => d.Department)
                 .Single(e => e.FirstName == employee.FirstName);
 
@@ -69,10 +70,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.AddRange(employees);
-            var numberOfChangesCommitted = employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfChangesCommitted.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 3, numberOfModified: 0, numberOfDeleted: 0);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(3);
@@ -89,10 +90,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.Remove(employees.First());
-            var numberOfRemoves = +employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfRemoves.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(1);
@@ -110,10 +111,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.RemoveAll();
-            var numberOfRemoves = +employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfRemoves.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 3);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(0);
@@ -130,10 +131,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.RemoveAll(e => e.FirstName == "Thomas");
-            var numberOfRemoves = +employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfRemoves.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(2);
@@ -152,14 +153,21 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             // Act
             employeeRepository.RemoveRange(new [] { CreateEntity.Employee1, CreateEntity.Employee3 });
-            var numberOfRemoves = +employeeRepository.Save();
+            var committedChangeSet = employeeRepository.Save();
 
             // Assert
-            numberOfRemoves.Should().BeGreaterThan(0);
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 2);
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(1);
             allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
+        }
+
+        private static void AssertChangeSet(ChangeSet changeSet, int numberOfAdded, int numberOfModified, int numberOfDeleted)
+        {
+            changeSet.Changes.Where(c => c.State == ChangeState.Added).Should().HaveCount(numberOfAdded);
+            changeSet.Changes.Where(c => c.State == ChangeState.Modified).Should().HaveCount(numberOfModified);
+            changeSet.Changes.Where(c => c.State == ChangeState.Deleted).Should().HaveCount(numberOfDeleted);
         }
     }
 }

@@ -24,7 +24,8 @@ namespace ToolkitSample.DataAccess.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             this.Database.KillConnectionsToTheDatabase();
-            this.AutoConfigure(modelBuilder);
+            //this.AutoConfigure(modelBuilder);
+            modelBuilder.Configurations.AddFromAssembly(this.GetType().Assembly);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Diagnostics;
+using EntityFramework.Toolkit.Core;
 
 namespace EntityFramework.Toolkit
 {
     [DebuggerDisplay("ChangedEntity='{ChangedEntity}', State={State}", Type = "Change")]
     public class Change : IChange
     {
-        private Change(object changedEntity, EntityState state)
+        private Change(object changedEntity, ChangeState state)
             : this(changedEntity, state, null)
         {
         }
@@ -23,14 +23,24 @@ namespace EntityFramework.Toolkit
         ///     The List of the properties that have been changed.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown if the specified <paramref name="changedEntity" /> is NULL.
+        ///     Thrown if the specified <paramref name="changedEntity" /> is null.
         /// </exception>
         /// .
         /// <exception cref="ArgumentNullException">
-        ///     Thrown if the specified <paramref name="changedProperties" /> is NULL.
+        ///     Thrown if the specified <paramref name="changedProperties" /> is null.
         /// </exception>
-        private Change(object changedEntity, EntityState state, IEnumerable<PropertyChangeInfo> changedProperties)
+        private Change(object changedEntity, ChangeState state, IEnumerable<PropertyChangeInfo> changedProperties)
         {
+            if(changedEntity == null)
+            {
+                throw new ArgumentNullException(nameof(changedEntity));
+            }
+
+            if (state == ChangeState.Modified && changedProperties == null)
+            {
+                throw new ArgumentNullException($"Parameter {nameof(changedProperties)} must be defined if ChangeState is Modified.", nameof(changedProperties));
+            }
+
             this.ChangedEntity = changedEntity;
             this.ChangedProperties = changedProperties;
             this.State = state;
@@ -40,21 +50,21 @@ namespace EntityFramework.Toolkit
 
         public IEnumerable<PropertyChangeInfo> ChangedProperties { get; private set; }
 
-        public EntityState State { get; private set; }
+        public ChangeState State { get; private set; }
 
         public static IChange CreateUpdateChange(object changedEntity, IEnumerable<PropertyChangeInfo> changedProperties)
         {
-            return new Change(changedEntity, EntityState.Modified, changedProperties);
+            return new Change(changedEntity, ChangeState.Modified, changedProperties);
         }
 
         public static IChange CreateDeleteChange(object changedEntity)
         {
-            return new Change(changedEntity, EntityState.Deleted);
+            return new Change(changedEntity, ChangeState.Deleted);
         }
 
         public static IChange CreateAddedChange(object changedEntity)
         {
-            return new Change(changedEntity, EntityState.Added);
+            return new Change(changedEntity, ChangeState.Added);
         }
     }
 }

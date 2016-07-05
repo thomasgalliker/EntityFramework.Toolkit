@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 #if !NET40
 
@@ -14,7 +15,7 @@ namespace EntityFramework.Toolkit.Core
         /// Saves pending changes to all registered contexts.
         /// </summary>
         /// <returns>The total number of objects committed.</returns>
-        int Commit();
+        ICollection<ChangeSet> Commit();
 
 #if !NET40
         /// <summary>

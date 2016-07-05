@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Transactions;
 
 using EntityFramework.Toolkit.Core;
@@ -38,9 +39,9 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public int Commit()
+        public ICollection<ChangeSet> Commit()
         {
-            int numberOfChanges = 0;
+            var changeSets = new Collection<ChangeSet>();
             Type lastContextType = null;
             try
             {
@@ -49,7 +50,8 @@ namespace EntityFramework.Toolkit
                     foreach (var context in this.contexts)
                     {
                         lastContextType = context.Key;
-                        numberOfChanges += context.Value.SaveChanges();
+                        var changes = context.Value.SaveChanges();
+                        changeSets.Add(changes);
                     }
 
                     transactionScope.Complete();
@@ -60,7 +62,7 @@ namespace EntityFramework.Toolkit
                 throw new UnitOfWorkException(string.Format("UnitOfWork in context '{0}' failed to commit.", lastContextType?.Name), ex);
             }
 
-            return numberOfChanges;
+            return changeSets;
         }
 
 #if !NET40

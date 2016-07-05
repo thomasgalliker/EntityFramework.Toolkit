@@ -340,12 +340,19 @@ namespace EntityFramework.Toolkit.Extensions
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="modelBuilder">The model builder used to configure the EntityTypeConfigurations.</param>
-        public static void AutoConfigure(this DbContext context, DbModelBuilder modelBuilder)
+        /// <param name="targetAssembly">The assembly which contains the EntityTypeConfigurations.</param>
+        public static void AutoConfigure(this DbContext context, DbModelBuilder modelBuilder, Assembly targetAssembly = null)
         {
-            var assembly = Assembly.GetAssembly(context.GetType());
-            var entityConfigurationTypes = assembly.GetTypes().Where(type => 
+            if (targetAssembly == null)
+            {
+                targetAssembly = Assembly.GetAssembly(context.GetType());
+            }
+
+            var types = targetAssembly.TryGetTypes();
+
+            var entityConfigurationTypes = types.Where(type =>
                 type.BaseType != null &&
-                type.BaseType.IsGenericType && 
+                type.BaseType.IsGenericType &&
                 type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
 
             foreach (var entityConfigurationType in entityConfigurationTypes)

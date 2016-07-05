@@ -28,7 +28,7 @@ namespace EntityFramework.Toolkit.Core
         /// </summary>
         /// <returns>The number of objects written to the underlying database.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown if the context has been disposed.</exception>
-        int SaveChanges();
+        ChangeSet SaveChanges();
 
 #if !NET40
         Task<int> SaveChangesAsync();

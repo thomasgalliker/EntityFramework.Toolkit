@@ -47,6 +47,6 @@ namespace EntityFramework.Toolkit.Core
         /// Saves the changes made in this repository.
         /// </summary>
         /// <returns></returns>
-        int Save();
+        ChangeSet Save();
     }
 }

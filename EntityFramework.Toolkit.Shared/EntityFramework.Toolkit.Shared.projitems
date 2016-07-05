@@ -9,8 +9,6 @@
     <Import_RootNamespace>EntityFramework.Toolkit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ChangeSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\ClientWinsConcurrencyResolveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\DatabaseWinsConcurrencyResolveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\IConcurrencyResolveStrategy.cs" />
@@ -21,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EdmxTools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UnitOfWorkException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UpdateConcurrencyException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\AssemblyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DatabaseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbContextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbEntityValidationExceptionFormatter.cs" />
@@ -28,9 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MappingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PropertyChangeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ConnectionStringGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ContextTestBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnitOfWork.cs" />
