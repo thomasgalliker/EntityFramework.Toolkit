@@ -15,7 +15,7 @@ namespace EntityFramework.Toolkit
         private readonly IDbContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericRepository{T}"/> class.
+        ///     Initializes a new instance of the <see cref="GenericRepository{T}" /> class.
         /// </summary>
         protected GenericRepository(IDbContext context)
         {
@@ -58,6 +58,15 @@ namespace EntityFramework.Toolkit
             return this.DbSet.AsEnumerable<T>();
         }
 
+        ////public virtual bool Any(object id)
+        ////{
+        ////    // TODO TEST Performance impact here
+        ////    //var prop = this.context.GetPrimaryKeyFor<T>();
+        ////    //return this.DbSet.Any(x => prop.GetValue(x) == id);
+
+        ////    return this.DbSet.Find(id) != null;
+        ////}
+
         /// <inheritdoc />
         public T FindById(params object[] ids)
         {
@@ -78,6 +87,16 @@ namespace EntityFramework.Toolkit
         public virtual IEnumerable<T> AddRange(IEnumerable<T> entity)
         {
             return this.DbSet.AddRange(entity);
+        }
+
+        //public virtual T AddOrUpdate(T entity)
+        //{
+        //    return this.context.AddOrUpdate(entity);
+        //}
+
+        public virtual void Update(T entity)
+        {
+            this.context.Edit(entity);
         }
 
         public virtual T Remove(T entity)
@@ -101,23 +120,16 @@ namespace EntityFramework.Toolkit
             return this.DbSet.RemoveRange(entities);
         }
 
-        public virtual void Edit(T entity)
-        {
-           this.Context.Edit(entity);
-        }
-
         /// <inheritdoc />
-        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
-            where TEntity : class
-            where TProperty : class
+        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
         {
-            this.Context.LoadReferenced(entity, navigationProperty);
+            this.context.LoadReferenced(entity, navigationProperty);
         }
 
         /// <inheritdoc />
         public virtual ChangeSet Save()
         {
-            return this.Context.SaveChanges();
+            return this.context.SaveChanges();
         }
     }
 }

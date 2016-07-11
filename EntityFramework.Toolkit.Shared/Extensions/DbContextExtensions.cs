@@ -264,34 +264,30 @@ namespace EntityFramework.Toolkit.Extensions
                 throw new ArgumentNullException(nameof(dataTransferObject));
             }
 
-            var property = GetPrimaryKeyFor<T>(context);
             //find the id property of the dto
-            var idProperty = dataTransferObject.GetType().GetProperty(property.Name);
-            if (idProperty == null)
-            {
-                throw new InvalidOperationException("Cannot find an id on the dataTransferObject");
-            }
-            var id = idProperty.GetValue(dataTransferObject, null);
+            var primaryKey = context.GetPrimaryKeyForEntity(dataTransferObject);
+
             //has the id been set (existing item) or not (transient)?
-            var propertyType = property.PropertyType;
+            var propertyType = primaryKey.PropertyInfo.PropertyType;
             var transientValue = propertyType.IsValueType ? Activator.CreateInstance(propertyType) : null;
-            var isTransient = Equals(id, transientValue);
+            var isTransient = Equals(primaryKey.Value, transientValue);
+
             T entity;
             if (isTransient)
             {
                 //it's transient, just create a dummy
-                entity = CreateEntity<T>(id, property);
+                entity = CreateEntity<T>(primaryKey, primaryKey.PropertyInfo);
                 //if DatabaseGeneratedOption(DatabaseGeneratedOption.None) and no id, this errors
                 context.Set<T>().Attach(entity);
             }
             else
             {
                 //try to load from identity map or database
-                entity = context.Set<T>().Find(id);
+                entity = context.Set<T>().Find(primaryKey);
                 if (entity == null)
                 {
                     //could not find entity, assume assigned primary key
-                    entity = CreateEntity<T>(id, property);
+                    entity = CreateEntity<T>(primaryKey, primaryKey.PropertyInfo);
                     context.Set<T>().Add(entity);
                 }
             }
@@ -322,6 +318,25 @@ namespace EntityFramework.Toolkit.Extensions
             //look it up on the entity
             var propertyInfo = typeof(TEntity).GetProperty(primaryKey.Name);
             return propertyInfo;
+        }
+
+        /// <summary>
+        /// Returns the primary key for the given entity.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entity.</typeparam>
+        /// <param name="context">The target context.</param>
+        /// <param name="entity">The given entity.<</param>
+        /// <returns></returns>
+        public static PrimaryKey GetPrimaryKeyForEntity<TEntity>(this DbContext context, TEntity entity) where TEntity : class
+        {
+            var idProperty = context.GetPrimaryKeyFor<TEntity>();
+            if (idProperty == null)
+            {
+                throw new InvalidOperationException("Cannot find an id on the dataTransferObject");
+            }
+
+            var primaryKey = idProperty.GetValue(entity, null);
+            return new PrimaryKey(idProperty, primaryKey);
         }
 
         private static T CreateEntity<T>(object id, PropertyInfo property) where T : class

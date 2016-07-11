@@ -31,13 +31,18 @@ namespace EntityFramework.Toolkit.Core
 
         IEnumerable<T> AddRange(IEnumerable<T> entity);
 
+        /// <summary>
+        /// Updates the given entity. This method checks if an entity exists before it tries to perform the update activity.
+        /// </summary>
+        /// <param name="entity">The entity to be updated in the database context.</param>
+        /// <exception cref="EntityNotFoundException">Thrown if the update entity does not exist.</exception>
+        void Update(T entity);
+
         T Remove(T entity);
 
         IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null);
 
         IEnumerable<T> RemoveRange(IEnumerable<T> entities);
-
-        void Edit(T entity);
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
             where TEntity : class

@@ -64,10 +64,28 @@ namespace EntityFramework.Toolkit
             Database.SetInitializer(this.databaseInitializer);
             this.Database.Initialize(force: true);
         }
-        
+
         public void Edit<TEntity>(TEntity entity) where TEntity : class
         {
-            this.Entry(entity).State = EntityState.Modified;
+            // Most efficient update solution according to
+            // http://stackoverflow.com/questions/12585664/an-object-with-the-same-key-already-exists-in-the-objectstatemanager-the-object
+
+            var entry = this.Entry(entity);
+            if (entry.State == EntityState.Detached)
+            {
+                var primaryKey = this.GetPrimaryKeyForEntity(entity);
+                var attachedEntity = this.Set<TEntity>().Local.SingleOrDefault(e => primaryKey.PropertyInfo.GetValue(e, null) == primaryKey.PropertyInfo.GetValue(entity, null));
+                if (attachedEntity != null)
+                {
+                    // If the item is already attached, update its values
+                    var attachedEntry = this.Entry(attachedEntity);
+                    attachedEntry.CurrentValues.SetValues(entity);
+                }
+                else
+                {
+                    entry.State = EntityState.Modified;
+                }
+            }
         }
 
         public void Delete<TEntity>(TEntity entity) where TEntity : class
