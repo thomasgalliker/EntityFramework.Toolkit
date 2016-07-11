@@ -29,9 +29,10 @@ namespace EntityFramework.Toolkit.Tests
 
             // Assert
             primaryKeyProperty.Should().NotBeNull();
-            primaryKeyProperty.Should().BeReadable();
-            primaryKeyProperty.Should().BeWritable();
-            primaryKeyProperty.Name.Should().Be("Id");
+            primaryKeyProperty.PropertyInfo.Should().NotBeNull();
+            primaryKeyProperty.PropertyInfo.Should().BeReadable();
+            primaryKeyProperty.PropertyInfo.Should().BeWritable();
+            primaryKeyProperty.PropertyInfo.Name.Should().Be("Id");
         }
 
         [Fact]

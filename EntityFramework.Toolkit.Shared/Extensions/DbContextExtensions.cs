@@ -125,12 +125,12 @@ namespace EntityFramework.Toolkit.Extensions
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            var propertyInfo = GetPrimaryKeyFor<T>(context);
-            var propertyType = propertyInfo.PropertyType;
+            var primaryKey = GetPrimaryKeyFor<T>(context);
+            var propertyType = primaryKey.PropertyInfo.PropertyType;
             //what's the default value for the type?
             var transientValue = propertyType.IsValueType ? Activator.CreateInstance(propertyType) : null;
             //is the pk the same as the default value (int == 0, string == null ...)
-            return Equals(propertyInfo.GetValue(entity, null), transientValue);
+            return Equals(primaryKey.PropertyInfo.GetValue(entity, null), transientValue);
         }
 
         /// <summary>
@@ -155,13 +155,13 @@ namespace EntityFramework.Toolkit.Extensions
                 throw new ArgumentNullException(nameof(id));
             }
 
-            var property = GetPrimaryKeyFor<T>(context);
+            var primaryKey = GetPrimaryKeyFor<T>(context);
             //check to see if it's already loaded (slow if large numbers loaded)
-            var entity = context.Set<T>().Local.FirstOrDefault(x => id.Equals(property.GetValue(x, null)));
+            var entity = context.Set<T>().Local.SingleOrDefault(x => id.Equals(primaryKey.PropertyInfo.GetValue(x, null)));
             if (entity == null)
             {
                 //it's not loaded, just create a stub with only primary key set
-                entity = CreateEntity<T>(id, property);
+                entity = CreateEntity<T>(id, primaryKey.PropertyInfo);
 
                 context.Set<T>().Attach(entity);
             }
@@ -192,9 +192,9 @@ namespace EntityFramework.Toolkit.Extensions
                 throw new ArgumentNullException(nameof(id));
             }
 
-            var property = GetPrimaryKeyFor<T>(context);
+            var primaryKey = GetPrimaryKeyFor<T>(context);
             //check to see if it's already loaded (slow if large numbers loaded)
-            var entity = context.Set<T>().Local.FirstOrDefault(x => id.Equals(property.GetValue(x, null)));
+            var entity = context.Set<T>().Local.SingleOrDefault(x => id.Equals(primaryKey.PropertyInfo.GetValue(x, null)));
             return entity != null;
         }
 
@@ -276,18 +276,18 @@ namespace EntityFramework.Toolkit.Extensions
             if (isTransient)
             {
                 //it's transient, just create a dummy
-                entity = CreateEntity<T>(primaryKey, primaryKey.PropertyInfo);
+                entity = CreateEntity<T>(primaryKey.Value, primaryKey.PropertyInfo);
                 //if DatabaseGeneratedOption(DatabaseGeneratedOption.None) and no id, this errors
                 context.Set<T>().Attach(entity);
             }
             else
             {
                 //try to load from identity map or database
-                entity = context.Set<T>().Find(primaryKey);
+                entity = context.Set<T>().Find(primaryKey.Value);
                 if (entity == null)
                 {
                     //could not find entity, assume assigned primary key
-                    entity = CreateEntity<T>(primaryKey, primaryKey.PropertyInfo);
+                    entity = CreateEntity<T>(primaryKey.Value, primaryKey.PropertyInfo);
                     context.Set<T>().Add(entity);
                 }
             }
@@ -302,7 +302,7 @@ namespace EntityFramework.Toolkit.Extensions
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="context">The context in which the given entity type lives.</param>
         /// <returns></returns>
-        public static PropertyInfo GetPrimaryKeyFor<TEntity>(this DbContext context) where TEntity : class
+        public static PrimaryKey GetPrimaryKeyFor<TEntity>(this DbContext context) where TEntity : class
         {
             if (context == null)
             {
@@ -317,7 +317,7 @@ namespace EntityFramework.Toolkit.Extensions
             var primaryKey = elementType.KeyMembers.First();
             //look it up on the entity
             var propertyInfo = typeof(TEntity).GetProperty(primaryKey.Name);
-            return propertyInfo;
+            return propertyInfo == null ? null : new PrimaryKey(propertyInfo, null);
         }
 
         /// <summary>
@@ -329,14 +329,14 @@ namespace EntityFramework.Toolkit.Extensions
         /// <returns></returns>
         public static PrimaryKey GetPrimaryKeyForEntity<TEntity>(this DbContext context, TEntity entity) where TEntity : class
         {
-            var idProperty = context.GetPrimaryKeyFor<TEntity>();
-            if (idProperty == null)
+            var primaryKey = context.GetPrimaryKeyFor<TEntity>();
+            if (primaryKey == null)
             {
                 throw new InvalidOperationException("Cannot find an id on the dataTransferObject");
             }
 
-            var primaryKey = idProperty.GetValue(entity, null);
-            return new PrimaryKey(idProperty, primaryKey);
+            var value = primaryKey.PropertyInfo.GetValue(entity, null);
+            return new PrimaryKey(primaryKey.PropertyInfo, value);
         }
 
         private static T CreateEntity<T>(object id, PropertyInfo property) where T : class

@@ -97,7 +97,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_05a80dcf-0fbe-4684-9a87-6cc1759e4166, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_cd394616-1266-4f57-ae81-1aa666e7ef14, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
         </EntityType>
         <EntityType Name="Employee">
