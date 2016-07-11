@@ -32,6 +32,14 @@ namespace EntityFramework.Toolkit.Core
         IEnumerable<T> AddRange(IEnumerable<T> entity);
 
         /// <summary>
+        /// Adds or updates the given entity. If the entity is existing, it's going to be updated with the new values.
+        /// If the entity does not exist in the context, it's going to be created.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        T AddOrUpdate(T entity);
+
+        /// <summary>
         /// Updates the given entity. This method checks if an entity exists before it tries to perform the update activity.
         /// </summary>
         /// <param name="entity">The entity to be updated in the database context.</param>

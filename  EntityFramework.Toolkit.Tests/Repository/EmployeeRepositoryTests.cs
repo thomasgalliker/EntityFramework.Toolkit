@@ -171,6 +171,50 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldAddOrUpdateExistingEmployee_UpdateIfExists()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employee1 = employeeRepository.Add(CreateEntity.Employee1);
+            employeeRepository.Save();
+
+            employeeRepository = new EmployeeRepository(this.CreateContext());
+            var employee1Update = CreateEntity.Employee1;
+            employee1Update.FirstName = "Updated " + employee1Update.FirstName;
+
+            // Act
+            employeeRepository.AddOrUpdate(employee1Update);
+            var committedChangeSet = employeeRepository.Save();
+
+            // Assert
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 1, numberOfDeleted: 0);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(1);
+            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties());
+        }
+
+        [Fact]
+        public void ShouldAddOrUpdateExistingEmployee_AddIfDoesNotExist()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employee1Update = CreateEntity.Employee1;
+            employee1Update.FirstName = "Updated " + employee1Update.FirstName;
+
+            // Act
+            employeeRepository.AddOrUpdate(employee1Update);
+            var committedChangeSet = employeeRepository.Save();
+
+            // Assert
+            AssertChangeSet(committedChangeSet, numberOfAdded: 1, numberOfModified: 0, numberOfDeleted: 0);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(1);
+            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties());
+        }
+
+        [Fact]
         public void ShouldUpdateExistingEmployee()
         {
             // Arrange
@@ -258,9 +302,9 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
         private static void AssertChangeSet(ChangeSet changeSet, int numberOfAdded, int numberOfModified, int numberOfDeleted)
         {
-            changeSet.Changes.Where(c => c.State == ChangeState.Added).Should().HaveCount(numberOfAdded);
-            changeSet.Changes.Where(c => c.State == ChangeState.Modified).Should().HaveCount(numberOfModified);
-            changeSet.Changes.Where(c => c.State == ChangeState.Deleted).Should().HaveCount(numberOfDeleted);
+            changeSet.Changes.Where(c => c.State == ChangeState.Added).Should().HaveCount(numberOfAdded, $"Number of added should be {numberOfAdded}.");
+            changeSet.Changes.Where(c => c.State == ChangeState.Modified).Should().HaveCount(numberOfModified, $"Number of modified should be {numberOfModified}.");
+            changeSet.Changes.Where(c => c.State == ChangeState.Deleted).Should().HaveCount(numberOfDeleted, $"Number of deleted should be {numberOfDeleted}.");
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
 
 namespace EntityFramework.Toolkit
 {
@@ -89,10 +90,10 @@ namespace EntityFramework.Toolkit
             return this.DbSet.AddRange(entity);
         }
 
-        //public virtual T AddOrUpdate(T entity)
-        //{
-        //    return this.context.AddOrUpdate(entity);
-        //}
+        public virtual T AddOrUpdate(T entity)
+        {
+            return ((DbContext)this.context).AddOrUpdate(entity);
+        }
 
         public virtual void Update(T entity)
         {
