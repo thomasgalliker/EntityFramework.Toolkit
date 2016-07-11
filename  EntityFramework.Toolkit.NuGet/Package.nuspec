@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.3-pre1</version>
+    <version>1.0.3</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -15,8 +15,10 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
-      1.0.3-pre release
+      1.0.3
       - Aggregate committed changes in a new type ChangeSet
+      - Add new methods Update and AddOrUpdate to GenericRepository
+      
       1.0.2
       - Split the abstractions off into EntityFramework.Toolkit.Core assembly which is not dependent on EntityFramework
       - Refactor GenericRepository to support AddRange and RemoveRange
