@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace EntityFramework.Toolkit.Core
 {
+    /// <summary>
+    /// <see cref="IContext"/> is the abstraction of a data context.
+    /// </summary>
     public interface IContext : IDisposable
     {
         /// <summary>
