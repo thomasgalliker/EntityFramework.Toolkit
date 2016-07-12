@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace EntityFramework.Toolkit.Core
 {
     /// <summary>
-    /// Abstraction of a generic repository.
+    ///     Abstraction of a generic repository.
     /// </summary>
     public interface IGenericRepository<T>
     {
@@ -14,16 +14,23 @@ namespace EntityFramework.Toolkit.Core
 
         /// <summary>
         ///     Returns a collection of all entities in the context, or that can be queried from the
-        ///     database, of given type <typeparamref name="T"/>.
+        ///     database, of given type <typeparamref name="T" />.
         /// </summary>
         /// <param name="includes">The lazy-loading includes.</param>
         IQueryable<T> Get(params Expression<Func<T, object>>[] includes);
 
         /// <summary>
         ///     Returns a collection of all entities in the context, or that can be queried from the
-        ///     database, of given type <typeparamref name="T"/>.
+        ///     database, of given type <typeparamref name="T" />.
         /// </summary>
         IEnumerable<T> GetAll();
+
+        /// <summary>
+        ///     Indicates whether an entity with the given primary key value exists.
+        /// </summary>
+        /// <param name="id">The value of the primary key for the entity to be found.</param>
+        /// <returns>true, if an entity with given primary key exists; otherwise, false.</returns>
+        bool Any(object id);
 
         /// <summary>
         ///     Finds an entity with the given primary key values.
@@ -33,7 +40,7 @@ namespace EntityFramework.Toolkit.Core
         ///     if found, is attached to the context and returned.  If no entity is found in the
         ///     context or the store, then null is returned.
         /// </summary>
-        /// <param name="ids"> The values of the primary key for the entity to be found. </param>
+        /// <param name="ids">The values of the primary key for the entity to be found. </param>
         /// <returns> The entity found, or null. </returns>
         T FindById(params object[] ids);
 

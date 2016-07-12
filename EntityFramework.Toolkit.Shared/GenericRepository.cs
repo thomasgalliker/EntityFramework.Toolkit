@@ -63,14 +63,10 @@ namespace EntityFramework.Toolkit
             return this.DbSet.AsEnumerable<T>();
         }
 
-        ////public virtual bool Any(object id)
-        ////{
-        ////    // TODO TEST Performance impact here
-        ////    //var prop = this.context.GetPrimaryKeyFor<T>();
-        ////    //return this.DbSet.Any(x => prop.GetValue(x) == id);
-
-        ////    return this.DbSet.Find(id) != null;
-        ////}
+        public virtual bool Any(object id)
+        {
+            return this.DbSet.Find(id) != null;
+        }
 
         /// <inheritdoc />
         public T FindById(params object[] ids)
