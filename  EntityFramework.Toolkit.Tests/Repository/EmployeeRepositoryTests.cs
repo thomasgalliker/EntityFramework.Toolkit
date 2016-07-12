@@ -139,11 +139,14 @@ namespace EntityFramework.Toolkit.Tests.Repository
             employeeRepository.Save();
 
             // Act
-            employeeRepository.Remove(employees.First());
+            var removedEmployee = employeeRepository.Remove(employees.First());
             var committedChangeSet = employeeRepository.Save();
 
             // Assert
             AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
+
+            removedEmployee.Should().NotBeNull();
+            removedEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(1);
