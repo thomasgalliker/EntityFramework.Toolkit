@@ -26,7 +26,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
     /// </summary>
     public class EmployeeRepositoryTests : ContextTestBase<EmployeeContext>
     {
-        private ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper testOutputHelper;
 
         public EmployeeRepositoryTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: new EmployeeContextTestDbConnection())
@@ -84,6 +84,39 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public void ShouldGetAnyTrueIfEmployeeExists()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            employeeRepository = new EmployeeRepository(this.CreateContext());
+            var expectedId = employees[0].Id;
+
+            // Act
+            var hasAny = employeeRepository.Any(expectedId);
+
+            // Assert
+            hasAny.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShouldGetAnyFalseIfEmployeeDoesNotExist()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+
+            // Act
+            var hasAny = employeeRepository.Any(0);
+
+            // Assert
+            hasAny.Should().BeFalse();
         }
 
         [Fact]
