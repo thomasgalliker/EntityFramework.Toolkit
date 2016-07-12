@@ -87,6 +87,28 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldFindByFirstName()
+        {
+            // Arrange
+            string expectedFirstName = "Thomas";
+
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            employeeRepository = new EmployeeRepository(this.CreateContext());
+
+            // Act
+            var findByResult = employeeRepository.FindBy(employee => employee.FirstName == expectedFirstName);
+
+            // Assert
+            findByResult.Should().HaveCount(1);
+            findByResult.ElementAt(0).FirstName.Should().Be(expectedFirstName);
+        }
+
+        [Fact]
         public void ShouldRemoveEmployee()
         {
             // Arrange
@@ -183,7 +205,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             employee1Update.FirstName = "Updated " + employee1Update.FirstName;
 
             // Act
-            employeeRepository.AddOrUpdate(employee1Update);
+            employee1Update = employeeRepository.AddOrUpdate(employee1Update);
             var committedChangeSet = employeeRepository.Save();
 
             // Assert
@@ -203,7 +225,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             employee1Update.FirstName = "Updated " + employee1Update.FirstName;
 
             // Act
-            employeeRepository.AddOrUpdate(employee1Update);
+            employee1Update = employeeRepository.AddOrUpdate(employee1Update);
             var committedChangeSet = employeeRepository.Save();
 
             // Assert
