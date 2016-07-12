@@ -87,6 +87,27 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldFindEmployeeById()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            employeeRepository = new EmployeeRepository(this.CreateContext());
+            var expectedId = employees[0].Id;
+
+            // Act
+            var findByIdResult = employeeRepository.FindById(expectedId);
+
+            // Assert
+            findByIdResult.Should().NotBeNull();
+            findByIdResult.Id.Should().Be(expectedId);
+        }
+        
+        [Fact]
         public void ShouldFindByFirstName()
         {
             // Arrange
