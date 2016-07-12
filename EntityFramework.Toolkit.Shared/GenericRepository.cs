@@ -9,6 +9,10 @@ using EntityFramework.Toolkit.Extensions;
 
 namespace EntityFramework.Toolkit
 {
+    /// <summary>
+    /// Implementation of a generic repository.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class GenericRepository<T> : IGenericRepository<T>
         where T : class
     {
@@ -74,22 +78,26 @@ namespace EntityFramework.Toolkit
             return this.DbSet.Find(ids);
         }
 
+        /// <inheritdoc />
         public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             IEnumerable<T> query = this.DbSet.Where(predicate).AsEnumerable();
             return query;
         }
 
+        /// <inheritdoc />
         public virtual T Add(T entity)
         {
             return this.DbSet.Add(entity);
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<T> AddRange(IEnumerable<T> entity)
         {
             return this.DbSet.AddRange(entity);
         }
 
+        /// <inheritdoc />
         public virtual T AddOrUpdate(T entity)
         {
             return ((DbContext)this.context).AddOrUpdate(entity);
@@ -100,11 +108,13 @@ namespace EntityFramework.Toolkit
             this.context.Edit(entity);
         }
 
+        /// <inheritdoc />
         public virtual T Remove(T entity)
         {
             return this.DbSet.Remove(entity);
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = this.DbSet;
@@ -116,6 +126,7 @@ namespace EntityFramework.Toolkit
             return this.DbSet.RemoveRange(query);
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<T> RemoveRange(IEnumerable<T> entities)
         {
             return this.DbSet.RemoveRange(entities);
