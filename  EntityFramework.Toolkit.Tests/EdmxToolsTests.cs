@@ -7,12 +7,12 @@ using Xunit.Abstractions;
 
 namespace EntityFramework.Toolkit.Tests
 {
-    public class EdmxTests : ContextTestBase<EmployeeContext>
+    public class EdmxToolsTests : ContextTestBase<EmployeeContext>
     {
         private readonly string basePath = @"..\..\..\Samples\ToolkitSample.DataAccess\" + typeof(EmployeeContext).Name;
         private readonly ITestOutputHelper testOutputHelper;
 
-        public EdmxTests(ITestOutputHelper testOutputHelper)
+        public EdmxToolsTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: new EmployeeContextTestDbConnection())
         {
             this.testOutputHelper = testOutputHelper;

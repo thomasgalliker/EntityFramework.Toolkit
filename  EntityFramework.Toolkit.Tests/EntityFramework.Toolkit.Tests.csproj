@@ -101,7 +101,7 @@
     <Compile Include="Modularity\DataAccessModuleTests.cs" />
     <Compile Include="DataSeedTests.IntegrationTests.cs" />
     <Compile Include="DbContextExtensionsTests.cs" />
-    <Compile Include="EdmxTests.cs" />
+    <Compile Include="EdmxToolsTests.cs" />
     <Compile Include="EmployeeContextTestDbConnection.cs" />
     <Compile Include="DataSeedTests.UnitTests.cs" />
     <Compile Include="DbContextBaseTests.cs" />
