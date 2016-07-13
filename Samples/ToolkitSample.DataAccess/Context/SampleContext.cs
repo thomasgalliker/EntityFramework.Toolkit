@@ -2,7 +2,8 @@
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
 using ToolkitSample.DataAccess.Stubs;
 using ToolkitSample.Model;
 
@@ -135,6 +136,11 @@ namespace ToolkitSample.DataAccess.Context
         public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return new FakeDbSet<TEntity>();
+        }
+
+        ChangeSet IContext.SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }
