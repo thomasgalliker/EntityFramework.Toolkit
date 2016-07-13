@@ -18,8 +18,6 @@ namespace EntityFramework.Toolkit.Tests
             this.testOutputHelper = testOutputHelper;
         }
 
-
-
         [Fact]
         public void WriteEdmxFileTest()
         {
