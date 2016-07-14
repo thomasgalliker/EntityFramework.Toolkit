@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Concurrency\CustomConcurrencyResolveStrategy.cs" />
+    <Compile Include="Context\ApplicationSettingEntityTypeConfiguration.cs" />
     <Compile Include="Context\DepartmentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeContext.cs" />
     <Compile Include="Context\EmployeeContextDbConnection.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Modularity\DataAccessModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
+    <Compile Include="Seed\ApplicationSettingDataSeed.cs" />
     <Compile Include="Seed\DepartmentDataSeed.cs" />
     <Compile Include="Stubs\FakeDbSet.cs" />
   </ItemGroup>

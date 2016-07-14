@@ -43,17 +43,14 @@ namespace EntityFramework.Toolkit.Extensions
 
             var set = context.Set<TEntity>();
             var parameter = Expression.Parameter(typeof(TEntity));
+            var propertyName = propertyExpression.GetPropertyInfo().Name;
+            var property = Expression.Property(parameter, propertyName);
             foreach (var entity in entities)
             {
-                string propertyName = propertyExpression.GetPropertyInfo().Name;
-                object propertyValue = entity.GetPropertyValue(propertyName);
-
-                var equalExpression = Expression.Equal(
-                 Expression.Property(parameter, propertyName),
-                 Expression.Constant(propertyValue));
-
+                var propertyValue = entity.GetPropertyValue(propertyName);
+                var equalExpression = Expression.Equal(property, Expression.Constant(propertyValue));
                 var lambdaExpression = Expression.Lambda<Func<TEntity, bool>>(equalExpression, parameter);
-                TEntity existingEntity = set.SingleOrDefault(lambdaExpression);
+                var existingEntity = set.SingleOrDefault(lambdaExpression);
                 if (existingEntity != null)
                 {
                     context.Entry(existingEntity).CurrentValues.SetValues(entity);
