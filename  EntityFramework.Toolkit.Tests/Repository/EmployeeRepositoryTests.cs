@@ -298,24 +298,29 @@ namespace EntityFramework.Toolkit.Tests.Repository
         {
             // Arrange
             IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
             var employee1 = employeeRepository.Add(CreateEntity.Employee1);
+            employee1.Department = departmentHr;
             var employee2 = employeeRepository.Add(CreateEntity.Employee2);
+            employee2.Department = departmentHr;
             employeeRepository.Save();
 
             var employee1Update = CreateEntity.Employee1;
             employee1Update.FirstName = "Updated " + employee1Update.FirstName;
 
             // Act
+            employeeRepository = new EmployeeRepository(this.CreateContext());
             employeeRepository.Update(employee1Update);
             var committedChangeSet = employeeRepository.Save();
 
             // Assert
             AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 1, numberOfDeleted: 0);
 
+            employeeRepository = new EmployeeRepository(this.CreateContext());
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(2);
-            allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties());
-            allEmployees.Single(e => e.Id == employee2.Id).ShouldBeEquivalentTo(employee2, options => options.IncludingAllDeclaredProperties());
+            allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties().IgnoringCyclicReferences());
+            allEmployees.Single(e => e.Id == employee2.Id).ShouldBeEquivalentTo(employee2, options => options.IncludingAllDeclaredProperties().IgnoringCyclicReferences());
         }
 
         [Fact]

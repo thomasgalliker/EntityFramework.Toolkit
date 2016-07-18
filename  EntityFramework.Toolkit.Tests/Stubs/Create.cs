@@ -24,6 +24,17 @@ namespace EntityFramework.Toolkit.Tests.Stubs
                 return new Employee { FirstName = "Lorem", LastName = "Ipsum", Birthdate = new DateTime(2000, 12, 31) };
             }
         }
+
+        public static class Departments
+        {
+            public static Department CreateDepartmentHumanResources()
+            {
+                return new Department
+                {
+                    Name = "Human Resources",
+                };
+            }
+        }
     }
     public static class CreateEntity
     {
