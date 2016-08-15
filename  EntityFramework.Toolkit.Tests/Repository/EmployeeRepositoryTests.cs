@@ -62,8 +62,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
             AssertChangeSet(committedChangeSet, numberOfAdded: 1, numberOfModified: 0, numberOfDeleted: 0);
 
             var getEmployee = employeeRepository.Get()
-    .Include(d => d.Department)
-    .Single(e => e.FirstName == employee.FirstName);
+                .Include(d => d.Department)
+                .Single(e => e.FirstName == employee.FirstName);
 
             getEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
         }
