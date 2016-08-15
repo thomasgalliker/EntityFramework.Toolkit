@@ -102,6 +102,7 @@ namespace EntityFramework.Toolkit
             return ((DbContext)this.context).AddOrUpdate(entity);
         }
 
+        /// <inheritdoc />
         public virtual void Update(T entity)
         {
             this.context.Edit(entity);
