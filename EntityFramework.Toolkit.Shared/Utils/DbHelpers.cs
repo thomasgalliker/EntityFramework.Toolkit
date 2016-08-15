@@ -42,7 +42,12 @@ namespace EntityFramework.Toolkit.Utils
                 if (methodCallExpression.Method.Name == "As" &&
                     methodCallExpression.Arguments.Count == 1)
                 {
-                    return true;
+                    var parameterExpression = methodCallExpression.Arguments[0] as MemberExpression;
+                    if (parameterExpression != null)
+                    {
+                        path = parameterExpression.Member.Name;
+                        return true;
+                    }
                 }
                 return false;
             }

@@ -14,12 +14,11 @@ namespace EntityFramework.Toolkit.Tests.Utils
 {
     public class DbHelpersTests
     {
-
         [Fact]
         public void ShouldParseStringMemberExpression()
         {
             // Arrange
-            Expression<Func<BaseClass, string>> expr = bond => bond.StringProperty;
+            Expression<Func<Product, string>> expr = p => p.StringProperty;
             string path;
 
             // Act
@@ -34,7 +33,7 @@ namespace EntityFramework.Toolkit.Tests.Utils
         public void ShouldParseObjectMemberExpression()
         {
             // Arrange
-            Expression<Func<DerivedClass, object>> expr = bond => bond.ObjectProperty;
+            Expression<Func<Product, object>> expr = p => p.BaseProperty;
             string path;
 
             // Act
@@ -42,14 +41,14 @@ namespace EntityFramework.Toolkit.Tests.Utils
 
             // Assert
             isParsed.Should().BeTrue();
-            path.Should().Be("ObjectProperty");
+            path.Should().Be("BaseProperty");
         }
 
         [Fact]
         public void ShouldParseSelectCollectionMemberExpression()
         {
             // Arrange
-            Expression<Func<BaseClass, object>> expr = bond => bond.CollectionProperty.Select(x => x.Key);
+            Expression<Func<Product, object>> expr = p => p.CollectionProperty.Select(x => x.Key);
             string path;
 
             // Act
@@ -64,7 +63,7 @@ namespace EntityFramework.Toolkit.Tests.Utils
         public void ShouldParseCastAsMemberExpression()
         {
             // Arrange
-            Expression<Func<BaseClass, object>> expr = bond => bond.As<DerivedClass>().ObjectProperty;
+            Expression<Func<Product, object>> expr = p => p.BaseProperty.As<DerivedClass>().ObjectProperty;
             string path;
 
             // Act
@@ -72,7 +71,7 @@ namespace EntityFramework.Toolkit.Tests.Utils
 
             // Assert
             isParsed.Should().BeTrue();
-            path.Should().Be("ObjectProperty");
+            path.Should().Be("BaseProperty.ObjectProperty");
         }
     }
 
@@ -83,7 +82,13 @@ namespace EntityFramework.Toolkit.Tests.Utils
 
     public class BaseClass
     {
+    }
+
+    public class Product
+    {
         public string StringProperty { get; set; }
+
+        public BaseClass BaseProperty { get; set; }
 
         public ICollection<KeyValuePair<int, string>> CollectionProperty { get; set; }
     }
