@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Extensions;
 
+using QueryableExtensions = EntityFramework.Toolkit.Extensions.QueryableExtensions;
+
 namespace EntityFramework.Toolkit
 {
     /// <summary>
@@ -51,7 +53,7 @@ namespace EntityFramework.Toolkit
             {
                 foreach (var include in includes)
                 {
-                    query = query.Include(include);
+                    query = QueryableExtensions.Include(query, include);
                 }
             }
             return query;

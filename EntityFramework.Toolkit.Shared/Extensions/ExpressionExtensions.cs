@@ -13,6 +13,7 @@ namespace EntityFramework.Toolkit.Extensions
             {
                 return memberExpression;
             }
+
             var unaryExpression = lambdaExpression.Body as UnaryExpression;
             if (unaryExpression != null)
             {
@@ -21,8 +22,10 @@ namespace EntityFramework.Toolkit.Extensions
                 {
                     return innerUnaryExpression.Operand as MemberExpression;
                 }
+
                 return unaryExpression.Operand as MemberExpression;
             }
+
             throw new ArgumentException("'lambdaExpression' should be a member expression");
         }
 
@@ -37,6 +40,15 @@ namespace EntityFramework.Toolkit.Extensions
             }
 
             return propertyInfo;
+        }
+
+        internal static Expression RemoveConvert(this Expression expression)
+        {
+            while (expression.NodeType == ExpressionType.Convert || expression.NodeType == ExpressionType.ConvertChecked)
+            {
+                expression = ((UnaryExpression)expression).Operand;
+            }
+            return expression;
         }
     }
 }
