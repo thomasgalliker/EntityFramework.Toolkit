@@ -65,6 +65,7 @@ namespace EntityFramework.Toolkit
             return this.DbSet.AsEnumerable<T>();
         }
 
+        /// <inheritdoc />
         public virtual bool Any(object id)
         {
             return this.DbSet.Find(id) != null;
