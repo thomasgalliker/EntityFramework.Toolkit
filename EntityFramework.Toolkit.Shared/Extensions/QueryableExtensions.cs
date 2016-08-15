@@ -35,8 +35,9 @@ namespace EntityFramework.Toolkit.Extensions
         ///     Includes navigation properties.
         /// </summary>
         /// <typeparam name="T">Generic type T.</typeparam>
+        /// <typeparam name="TProperty">Generic property type TProperty.</typeparam>
         /// <param name="queryable">Queryable</param>
-        /// <param name="properties">The navigation property to include.</param>
+        /// <param name="pathExpression">The navigation property to include.</param>
         /// <returns>New queryable which includes the given navigation properties.</returns>
         public static IQueryable<T> Include<T, TProperty>(this IQueryable<T> queryable, Expression<Func<T, TProperty>> pathExpression)
         {
@@ -54,7 +55,7 @@ namespace EntityFramework.Toolkit.Extensions
 
             if (!DbHelpers.TryParsePath(pathExpression.Body, out path) || path == null)
             {
-                throw new ArgumentException("InvalidIncludePathExpression", nameof(pathExpression));
+                throw new ArgumentException("A specified Include path is not valid. The given path expression may contains invalid elements.", nameof(pathExpression));
             }
 
             return queryable.Include(path);
