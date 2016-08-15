@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{B5AEA046-0E87-4A7B-8F11-80B6BDDA1F2A}"
 EndProject
@@ -9,8 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{533683F1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.NuGet", " EntityFramework.Toolkit.NuGet\EntityFramework.Toolkit.NuGet.csproj", "{2CF5E868-1098-4C6D-9001-27D8DC0D87BE}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0EA8395E-21BE-4042-AC70-F6B21EF845AF} = {0EA8395E-21BE-4042-AC70-F6B21EF845AF}
 		{9BE74677-3AE7-435B-9DD8-566202F0FA7F} = {9BE74677-3AE7-435B-9DD8-566202F0FA7F}
 		{E3C977BF-FFC7-4FAE-BFCA-B20FFB7A3A96} = {E3C977BF-FFC7-4FAE-BFCA-B20FFB7A3A96}
+		{6A0C86CF-F948-4BB3-A6DC-3F3EC7A594B5} = {6A0C86CF-F948-4BB3-A6DC-3F3EC7A594B5}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.Tests", " EntityFramework.Toolkit.Tests\EntityFramework.Toolkit.Tests.csproj", "{8146AB24-C2E9-4AAA-9BD0-E9E4E402C612}"
@@ -24,6 +26,10 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "EntityFramework.Toolkit.Core.Shared", "EntityFramework.Toolkit.Core.Shared\EntityFramework.Toolkit.Core.Shared.shproj", "{F0ED9E44-F8FD-49B0-BEAD-C73BC6B230E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.Core.NuGet", "EntityFramework.Toolkit.Core.NuGet\EntityFramework.Toolkit.Core.NuGet.csproj", "{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EA8395E-21BE-4042-AC70-F6B21EF845AF} = {0EA8395E-21BE-4042-AC70-F6B21EF845AF}
+		{6A0C86CF-F948-4BB3-A6DC-3F3EC7A594B5} = {6A0C86CF-F948-4BB3-A6DC-3F3EC7A594B5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Toolkit.Net45", "EntityFramework.Toolkit.Net45\EntityFramework.Toolkit.Net45.csproj", "{E3C977BF-FFC7-4FAE-BFCA-B20FFB7A3A96}"
 EndProject
@@ -39,12 +45,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSample.Model", "Samp
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		EntityFramework.Toolkit.Core.Shared\EntityFramework.Toolkit.Core.Shared.projitems*{0ea8395e-21be-4042-ac70-f6b21ef845af}*SharedItemsImports = 4
 		EntityFramework.Toolkit.Core.Shared\EntityFramework.Toolkit.Core.Shared.projitems*{6a0c86cf-f948-4bb3-a6dc-3f3ec7a594b5}*SharedItemsImports = 4
+		EntityFramework.Toolkit.Shared\EntityFramework.Toolkit.Shared.projitems*{9be74677-3ae7-435b-9dd8-566202f0fa7f}*SharedItemsImports = 4
 		EntityFramework.Toolkit.Shared\EntityFramework.Toolkit.Shared.projitems*{e3c977bf-ffc7-4fae-bfca-b20ffb7a3a96}*SharedItemsImports = 4
 		EntityFramework.Toolkit.Core.Shared\EntityFramework.Toolkit.Core.Shared.projitems*{f0ed9e44-f8fd-49b0-bead-c73bc6b230e2}*SharedItemsImports = 13
-		EntityFramework.Toolkit.Core.Shared\EntityFramework.Toolkit.Core.Shared.projitems*{0ea8395e-21be-4042-ac70-f6b21ef845af}*SharedItemsImports = 4
 		EntityFramework.Toolkit.Shared\EntityFramework.Toolkit.Shared.projitems*{f6106ef4-9681-4fb2-a34d-8120578401f5}*SharedItemsImports = 13
-		EntityFramework.Toolkit.Shared\EntityFramework.Toolkit.Shared.projitems*{9be74677-3ae7-435b-9dd8-566202f0fa7f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

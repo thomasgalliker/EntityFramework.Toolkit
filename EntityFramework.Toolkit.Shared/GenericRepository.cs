@@ -111,6 +111,18 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
+        public T RemoveById(params object[] ids)
+        {
+            var entity = this.FindById(ids);
+            if (entity == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ids));
+            }
+
+            return this.Remove(entity);
+        }
+
+        /// <inheritdoc />
         public virtual IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null)
         {
             IQueryable<T> query = this.DbSet;
