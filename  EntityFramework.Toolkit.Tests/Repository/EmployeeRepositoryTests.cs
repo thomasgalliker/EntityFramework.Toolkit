@@ -250,6 +250,27 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldRemoveEmployeeById()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            // Act
+            var removedEmployee = employeeRepository.RemoveById(employees[0].Id);
+            var committedChangeSet = employeeRepository.Save();
+
+            // Assert
+            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
+
+            var allEmployees = employeeRepository.GetAll().ToList();
+            allEmployees.Should().HaveCount(2);
+            removedEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
+        }
+
+        [Fact]
         public void ShouldAddOrUpdateExistingEmployee_UpdateIfExists()
         {
             // Arrange
