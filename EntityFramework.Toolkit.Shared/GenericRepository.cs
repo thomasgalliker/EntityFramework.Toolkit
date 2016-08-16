@@ -62,13 +62,7 @@ namespace EntityFramework.Toolkit
         /// <inheritdoc />
         public virtual IEnumerable<T> GetAll()
         {
-            return this.DbSet.AsEnumerable<T>();
-        }
-
-        /// <inheritdoc />
-        public virtual bool Any(object id)
-        {
-            return this.DbSet.Find(id) != null;
+            return this.DbSet.AsEnumerable();
         }
 
         /// <inheritdoc />
@@ -112,30 +106,6 @@ namespace EntityFramework.Toolkit
         public virtual T Remove(T entity)
         {
             return this.DbSet.Remove(entity);
-        }
-
-        /// <inheritdoc />
-        public T RemoveById(params object[] ids)
-        {
-            var entity = this.FindById(ids);
-            if (entity == null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(ids));
-            }
-
-            return this.Remove(entity);
-        }
-
-        /// <inheritdoc />
-        public virtual IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null)
-        {
-            IQueryable<T> query = this.DbSet;
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-
-            return this.DbSet.RemoveRange(query);
         }
 
         /// <inheritdoc />

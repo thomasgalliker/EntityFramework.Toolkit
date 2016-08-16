@@ -26,13 +26,6 @@ namespace EntityFramework.Toolkit.Core
         IEnumerable<T> GetAll();
 
         /// <summary>
-        ///     Indicates whether an entity with the given primary key value exists.
-        /// </summary>
-        /// <param name="id">The value of the primary key for the entity to be found.</param>
-        /// <returns>true, if an entity with given primary key exists; otherwise, false.</returns>
-        bool Any(object id);
-
-        /// <summary>
         ///     Finds an entity with the given primary key values.
         ///     If an entity with the given primary key values exists in the context, then it is
         ///     returned immediately without making a request to the store.  Otherwise, a request
@@ -92,27 +85,6 @@ namespace EntityFramework.Toolkit.Core
         ///     exist in the database such that trying to delete it does not make sense.
         /// </remarks>
         T Remove(T entity);
-
-        /// <summary>
-        ///     Marks the the entity with the given primary key as Deleted such that it will be deleted from the database when SaveChanges
-        ///     is called. Note that the entity must exist in the context in some other state before this method
-        ///     is called.
-        /// </summary>
-        /// <returns> The entity that has been removed.</returns>
-        /// <remarks>
-        ///     Note that if the entity exists in the context in the Added state, then this method
-        ///     will cause it to be detached from the context.  This is because an Added entity is assumed not to
-        ///     exist in the database such that trying to delete it does not make sense.
-        /// </remarks>
-        T RemoveById(params object[] ids);
-
-        /// <summary>Removes all entities that match the conditions defined by the given predicate.</summary>
-        /// <returns>The removed entities.</returns>
-        /// <param name="predicate">The expression that defines the conditions of the elements to remove.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="predicate" /> is null.
-        /// </exception>
-        IEnumerable<T> RemoveAll(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         ///     Removes the given collection of entities from the context underlying the set with each entity being put into
