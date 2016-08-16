@@ -20,6 +20,7 @@ namespace EntityFramework.Toolkit
     {
         protected readonly DbSet<T> DbSet;
         private readonly IDbContext context;
+        private bool isDisposed;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GenericRepository{T}" /> class.
@@ -124,6 +125,26 @@ namespace EntityFramework.Toolkit
         public virtual ChangeSet Save()
         {
             return this.context.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.context.Dispose();
+            }
+
+            this.isDisposed = true;
         }
     }
 }
