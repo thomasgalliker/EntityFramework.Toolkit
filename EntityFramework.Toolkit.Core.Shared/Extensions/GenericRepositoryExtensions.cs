@@ -18,6 +18,16 @@ namespace EntityFramework.Toolkit.Core.Extensions
         }
 
         /// <summary>
+        ///     Indicates whether an entity which matches the given predicate exists.
+        /// </summary>
+        /// <param name="predicate">The predicate to filter the entity.</param>
+        /// <returns>true, if an entity exists for given predicate; otherwise, false.</returns>
+        public static bool Any<T>(this IGenericRepository<T> repository, Expression<Func<T, bool>> predicate)
+        {
+            return repository.Get().Any(predicate);
+        }
+
+        /// <summary>
         ///     Marks the the entity with the given primary key as Deleted such that it will be deleted from the database when
         ///     SaveChanges
         ///     is called. Note that the entity must exist in the context in some other state before this method

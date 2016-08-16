@@ -12,7 +12,7 @@ using QueryableExtensions = EntityFramework.Toolkit.Extensions.QueryableExtensio
 namespace EntityFramework.Toolkit
 {
     /// <summary>
-    /// Implementation of a generic repository.
+    ///     Implementation of a generic repository.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class GenericRepository<T> : IGenericRepository<T>
@@ -77,6 +77,11 @@ namespace EntityFramework.Toolkit
         {
             IEnumerable<T> query = this.DbSet.Where(predicate).AsEnumerable();
             return query;
+        }
+
+        public bool Any(Expression<Func<T, bool>> predicate)
+        {
+            return this.DbSet.Any(predicate);
         }
 
         /// <inheritdoc />

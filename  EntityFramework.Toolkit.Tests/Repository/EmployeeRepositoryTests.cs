@@ -108,6 +108,26 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldGetAnyTrueIfEmployeeExists_WithExpression()
+        {
+            // Arrange
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+
+            employeeRepository.AddRange(employees);
+            employeeRepository.Save();
+
+            employeeRepository = new EmployeeRepository(this.CreateContext());
+            var expectedId = employees[0].Id;
+
+            // Act
+            var hasAny = employeeRepository.Any(e => e.Id ==expectedId);
+
+            // Assert
+            hasAny.Should().BeTrue();
+        }
+
+        [Fact]
         public void ShouldGetAnyFalseIfEmployeeDoesNotExist()
         {
             // Arrange
