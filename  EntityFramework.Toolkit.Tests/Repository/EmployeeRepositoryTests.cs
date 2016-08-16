@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Core.Extensions;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
