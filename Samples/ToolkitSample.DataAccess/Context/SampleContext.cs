@@ -98,12 +98,22 @@ namespace ToolkitSample.DataAccess.Context
             throw new NotImplementedException();
         }
 
-        public void Edit<TEntity>(TEntity entity) where TEntity : class
+        public void DropDatabase()
         {
             throw new NotImplementedException();
         }
 
-        public void Delete<TEntity>(TEntity entity) where TEntity : class
+        TEntity IContext.Edit<TEntity>(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TEntity Edit<TEntity>(TEntity originalEntity, TEntity updateEntity) where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public TEntity Delete<TEntity>(TEntity entity) where TEntity : class
         {
             throw new NotImplementedException();
         }
@@ -111,13 +121,6 @@ namespace ToolkitSample.DataAccess.Context
         public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
         {
             throw new NotImplementedException();
-        }
-
-        public int SaveChanges()
-        {
-            this.OnSaveCalled(EventArgs.Empty);
-
-            return 1;
         }
 
         public Task<int> SaveChangesAsync()
@@ -136,6 +139,11 @@ namespace ToolkitSample.DataAccess.Context
         public DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return new FakeDbSet<TEntity>();
+        }
+
+        public void SetCurrentValues<TEntity>(TEntity databaseItem, TEntity detachedItem) where TEntity : class
+        {
+            throw new NotImplementedException();
         }
 
         ChangeSet IContext.SaveChanges()

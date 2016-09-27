@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using EntityFramework.Toolkit;
 using EntityFramework.Toolkit.Core;
@@ -15,8 +16,8 @@ namespace ToolkitSample.DataAccess.Context
         {
         }
 
-        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer)
-            : base(dbConnection, initializer)
+        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer, Action<string> log)
+            : base(dbConnection, initializer, log)
         {
             this.Database.Log = s => Debug.WriteLine(s);
         }
