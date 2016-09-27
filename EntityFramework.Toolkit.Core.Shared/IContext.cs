@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-#if !NET40
 
+#if !NET40
+using System.Threading.Tasks;
 #endif
 
 namespace EntityFramework.Toolkit.Core
 {
-    /// <summary>
-    /// <see cref="IContext"/> is the abstraction of a data context.
-    /// </summary>
     public interface IContext : IDisposable
     {
         /// <summary>
@@ -18,9 +15,23 @@ namespace EntityFramework.Toolkit.Core
         /// </summary>
         void ResetDatabase();
 
-        void Edit<TEntity>(TEntity entity) where TEntity : class;
+        /// <summary>
+        /// Drops the underlying database.
+        /// USE WITH CARE!
+        /// </summary>
+        void DropDatabase();
 
-        void Delete<TEntity>(TEntity entity) where TEntity : class;
+        /// <summary>
+        /// Updates the given entity.
+        /// </summary>
+        TEntity Edit<TEntity>(TEntity entity) where TEntity : class;
+
+        /// <summary>
+        /// Updates the given attached <paramref name="originalEntity"/> with the new entity <paramref name="updateEntity"/>.
+        /// </summary>
+        TEntity Edit<TEntity>(TEntity originalEntity, TEntity updateEntity) where TEntity : class;
+
+        TEntity Delete<TEntity>(TEntity entity) where TEntity : class;
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
             where TEntity : class

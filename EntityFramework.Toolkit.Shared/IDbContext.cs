@@ -8,6 +8,8 @@ namespace EntityFramework.Toolkit
     {
         string Name { get; }
 
-        DbSet<TEntity> Set<TEntity>() where TEntity : class; 
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+
+        void SetCurrentValues<TEntity>(TEntity databaseItem, TEntity detachedItem) where TEntity : class;
     }
 }
