@@ -17,7 +17,7 @@ namespace EntityFramework.Toolkit.Tests
     public class DbContextExtensionsTests : ContextTestBase<EmployeeContext>
     {
         public DbContextExtensionsTests()
-            : base(dbConnection: new EmployeeContextTestDbConnection())
+            : base(dbConnection: () => new EmployeeContextTestDbConnection())
         {
         }
 
@@ -25,7 +25,7 @@ namespace EntityFramework.Toolkit.Tests
         public void ShouldGetPrimaryKeyFor()
         {
             // Act
-            var primaryKeyProperty = this.Context.GetPrimaryKeyFor<Employee>();
+            var primaryKeyProperty = this.CreateContext().GetPrimaryKeyFor<Employee>();
 
             // Assert
             primaryKeyProperty.Should().NotBeNull();
@@ -41,7 +41,7 @@ namespace EntityFramework.Toolkit.Tests
             // Arrange
             using (var employeeContext = this.CreateContext())
             {
-                var employee1 = CreateEntity.Employee1;
+                var employee1 = Testdata.Employees.CreateEmployee1();
                 employeeContext.Set<Employee>().Add(employee1);
                 employeeContext.SaveChanges();
             }
@@ -49,7 +49,7 @@ namespace EntityFramework.Toolkit.Tests
             // Act
             using (var employeeContext = this.CreateContext())
             {
-                var employee2 = CreateEntity.Employee2;
+                var employee2 = Testdata.Employees.CreateEmployee2();
                 employee2.Id = 3;
                 employee2.FirstName += " Created";
                 var mergedEmployee = employeeContext.Merge(employee2);
@@ -69,9 +69,10 @@ namespace EntityFramework.Toolkit.Tests
         public void ShouldMergeEntities_WithUpdate()
         {
             // Arrange
+            Employee employee1;
             using (var employeeContext = this.CreateContext())
             {
-                var employee1 = CreateEntity.Employee1;
+                employee1 = Testdata.Employees.CreateEmployee1();
                 employeeContext.Set<Employee>().Add(employee1);
                 employeeContext.SaveChanges();
             }
@@ -79,9 +80,11 @@ namespace EntityFramework.Toolkit.Tests
             // Act
             using (var employeeContext = this.CreateContext())
             {
-                var employee1 = CreateEntity.Employee1;
-                employee1.FirstName += " Updated";
-                employeeContext.Merge(employee1);
+                var employee1Update = Testdata.Employees.CreateEmployee1();
+                employee1Update.Id = employee1.Id;
+                employee1Update.RowVersion = employee1.RowVersion;
+                employee1Update.FirstName += " Updated";
+                employeeContext.Merge(employee1Update);
                 employeeContext.SaveChanges();
             }
 

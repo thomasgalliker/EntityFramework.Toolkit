@@ -7,6 +7,8 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+
+using CrossPlatformLibrary.Extensions;
 #if !NET40
 using System.Threading.Tasks;
 #endif
@@ -23,23 +25,34 @@ namespace EntityFramework.Toolkit
         private readonly IDatabaseInitializer<TContext> databaseInitializer;
 
         /// <summary>
-        /// Empty constructor is used for 'update-database' command-line command.
+        ///     Empty constructor is used for 'update-database' command-line command.
         /// </summary>
         protected DbContextBase()
         {
-            this.Database.Log = message => Debug.WriteLine(message);
         }
 
         //protected DbContextBase(IDbConnection dbConnection) : this(dbConnection, null)
         //{
         //}
 
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer) : this()
+
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null) : this()
         {
+            if (log == null)
+            {
+                log = s => Debug.WriteLine(s);
+            }
+
+            this.Database.Log = message => log(message);
             this.Database.Connection.ConnectionString = dbConnection.ConnectionString;
             this.Configuration.LazyLoadingEnabled = dbConnection.LazyLoadingEnabled;
             this.Configuration.ProxyCreationEnabled = dbConnection.ProxyCreationEnabled;
-            this.Name = dbConnection.Name;
+            this.Name = dbConnection.Name ?? this.GetType().GetFormattedName();
+
+            this.Database.Log($"Initializing DbContext \"{this.Name}\" "+
+                              $"with ConnectionString = \"{dbConnection.ConnectionString}\" " + 
+                              $"and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
+
             this.databaseInitializer = databaseInitializer;
             Database.SetInitializer(databaseInitializer);
             this.ConcurrencyResolveStrategy = new RethrowConcurrencyResolveStrategy();
@@ -54,43 +67,75 @@ namespace EntityFramework.Toolkit
 
         public void ResetDatabase()
         {
-            this.Database.KillConnectionsToTheDatabase();
+            this.Database.Log("ResetDatabase");
 
-            // Set DropCreate initializer and force initialize
-            Database.SetInitializer(new DropCreateDatabaseAlways<TContext>());
-            this.Database.Initialize(force: true);
+            this.InternalResetDatabase();
+        }
 
-            // Restore original initializer
+        private void InternalResetDatabase()
+        {
+            this.InternalDropDatabase();
+
+            // Restore original initializer and initialize database
             Database.SetInitializer(this.databaseInitializer);
             this.Database.Initialize(force: true);
         }
 
-        public void Edit<TEntity>(TEntity entity) where TEntity : class
+        public void DropDatabase()
         {
-            // Most efficient update solution according to
-            // http://stackoverflow.com/questions/12585664/an-object-with-the-same-key-already-exists-in-the-objectstatemanager-the-object
+            this.Database.Log("DropDatabase");
 
-            var entry = this.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                var primaryKey = this.GetPrimaryKeyForEntity(entity);
-                var attachedEntity = this.Set<TEntity>().Local.SingleOrDefault(e => primaryKey.PropertyInfo.GetValue(e, null) == primaryKey.PropertyInfo.GetValue(entity, null));
-                if (attachedEntity != null)
-                {
-                    // If the item is already attached, update its values
-                    var attachedEntry = this.Entry(attachedEntity);
-                    attachedEntry.CurrentValues.SetValues(entity);
-                }
-                else
-                {
-                    entry.State = EntityState.Modified;
-                }
-            }
+            this.InternalDropDatabase();
         }
 
-        public void Delete<TEntity>(TEntity entity) where TEntity : class
+        private void InternalDropDatabase()
+        {
+            this.Database.KillConnectionsToTheDatabase();
+            this.Database.Delete();
+        }
+
+        public void SetCurrentValues<TEntity>(TEntity databaseItem, TEntity detachedItem) where TEntity : class
+        {
+            this.Entry(databaseItem).CurrentValues.SetValues(detachedItem);
+        }
+
+        public TEntity Edit<TEntity>(TEntity entity) where TEntity : class
+        {
+            if (entity == null)
+            {
+                throw new ArgumentException(nameof(entity));
+            }
+
+            this.Entry(entity).State = EntityState.Modified;
+            return entity;
+        }
+
+        public TEntity Edit<TEntity>(TEntity originalEntity, TEntity updateEntity) where TEntity : class
+        {
+            if (originalEntity == null)
+            {
+                throw new ArgumentException(nameof(originalEntity));
+            }
+
+            if (updateEntity == null)
+            {
+                throw new ArgumentException(nameof(updateEntity));
+            }
+
+            var attachedEntry = this.Entry(originalEntity);
+            if (attachedEntry.State == EntityState.Detached)
+            {
+                this.Set<TEntity>().Attach(originalEntity);
+            }
+
+            attachedEntry.CurrentValues.SetValues(updateEntity);
+            return originalEntity;
+        }
+
+        public TEntity Delete<TEntity>(TEntity entity) where TEntity : class
         {
             this.Entry(entity).State = EntityState.Deleted;
+            return entity;
         }
 
         public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)

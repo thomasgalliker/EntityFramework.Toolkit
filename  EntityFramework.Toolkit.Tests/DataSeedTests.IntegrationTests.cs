@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Testing;
@@ -18,7 +19,7 @@ namespace EntityFramework.Toolkit.Tests
     public class DataSeedTests_IntegrationTests : ContextTestBase<EmployeeContext>
     {
         public DataSeedTests_IntegrationTests()
-            : base(dbConnection: new EmployeeContextTestDbConnection(), initializeDatabase: false, databaseInitializer: null)
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(), databaseInitializer: null)
         {
         }
 
@@ -30,13 +31,12 @@ namespace EntityFramework.Toolkit.Tests
             var databaseInitializer = new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(dataSeed));
 
             // Act
-            this.InitializeDatabase(databaseInitializer);
+            var context = this.CreateContext(databaseInitializer);
 
             // Assert
-            var allDepartments = this.Context.Set<Department>().ToList();
+            var allDepartments = context.Set<Department>().ToList();
             allDepartments.Should().HaveCount(0);
         }
-
 
         [Fact]
         public void ShouldInitializeContextWithDepartmentsSeed()
@@ -46,10 +46,10 @@ namespace EntityFramework.Toolkit.Tests
             var databaseInitializer = new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(dataSeed));
 
             // Act
-            this.InitializeDatabase(databaseInitializer);
+            var context = this.CreateContext(databaseInitializer);
 
             // Assert
-            var allDepartments = this.Context.Set<Department>().ToList();
+            var allDepartments = context.Set<Department>().ToList();
             allDepartments.Should().HaveCount(2);
         }
 
@@ -57,14 +57,14 @@ namespace EntityFramework.Toolkit.Tests
         public void ShouldInitializeContextWithApplicationSettingSeed()
         {
             // Arrange
-            var dataSeed = new IDataSeed[] { new ApplicationSettingDataSeed(),  };
+            var dataSeed = new IDataSeed[] { new ApplicationSettingDataSeed(), };
             var databaseInitializer = new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(dataSeed));
 
             // Act
-            this.InitializeDatabase(databaseInitializer);
+            var context = this.CreateContext(databaseInitializer);
 
             // Assert
-            var applicationSetting = this.Context.Set<ApplicationSetting>().ToList();
+            var applicationSetting = context.Set<ApplicationSetting>().ToList();
             applicationSetting.Should().HaveCount(1);
         }
 
@@ -76,16 +76,23 @@ namespace EntityFramework.Toolkit.Tests
             var databaseInitializer = new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(dataSeed));
 
             // Act
-            this.InitializeDatabase(databaseInitializer);
+            List<Department> allDepartmentsFirst;
+            using (var context = this.CreateContext(databaseInitializer))
+            {
+                allDepartmentsFirst = context.Set<Department>().ToList();
+                allDepartmentsFirst.Should().HaveCount(2);
+            }
 
-            var allDepartments1 = this.Context.Set<Department>().ToList();
-            allDepartments1.Should().HaveCount(2);
-
-            this.InitializeDatabase(databaseInitializer);
+            List<Department> allDepartmentsSecond;
+            using (var context = this.CreateContext(databaseInitializer))
+            {
+                allDepartmentsSecond = context.Set<Department>().ToList();
+                allDepartmentsSecond.Should().HaveCount(2);
+            }
 
             // Assert
-            var allDepartments2 = this.Context.Set<Department>().ToList();
-            allDepartments2.Should().HaveCount(2);
+            allDepartmentsFirst.Should().HaveCount(2);
+            allDepartmentsSecond.Should().HaveCount(2);
         }
 
         [Fact]
@@ -96,16 +103,23 @@ namespace EntityFramework.Toolkit.Tests
             var databaseInitializer = new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(dataSeed));
 
             // Act
-            this.InitializeDatabase(databaseInitializer);
+            List<ApplicationSetting> allDepartmentsFirst;
+            using (var context = this.CreateContext(databaseInitializer))
+            {
+                allDepartmentsFirst = context.Set<ApplicationSetting>().ToList();
+                allDepartmentsFirst.Should().HaveCount(2);
+            }
 
-            var applicationSettings1 = this.Context.Set<ApplicationSetting>().ToList();
-            applicationSettings1.Should().HaveCount(1);
-
-            this.InitializeDatabase(databaseInitializer);
+            List<ApplicationSetting> allDepartmentsSecond;
+            using (var context = this.CreateContext(databaseInitializer))
+            {
+                allDepartmentsSecond = context.Set<ApplicationSetting>().ToList();
+                allDepartmentsSecond.Should().HaveCount(2);
+            }
 
             // Assert
-            var applicationSettings2 = this.Context.Set<ApplicationSetting>().ToList();
-            applicationSettings2.Should().HaveCount(1);
+            allDepartmentsFirst.Should().HaveCount(1);
+            allDepartmentsSecond.Should().HaveCount(1);
         }
     }
 }

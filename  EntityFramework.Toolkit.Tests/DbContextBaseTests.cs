@@ -18,7 +18,7 @@ namespace EntityFramework.Toolkit.Tests
     public class DbContextBaseTests : ContextTestBase<EmployeeContext>
     {
         public DbContextBaseTests()
-            : base(dbConnection: new EmployeeContextTestDbConnection())
+            : base(dbConnection: () => new EmployeeContextTestDbConnection())
         {
         }
 
@@ -26,7 +26,7 @@ namespace EntityFramework.Toolkit.Tests
         public async void ShouldSaveAsync()
         {
             // Arrange
-            var initialEmployee = CreateEntity.Employee1;
+            var initialEmployee = Testdata.Employees.CreateEmployee1();
             ChangeSet changeSet = null;
             // Act
             using (var employeeContext = this.CreateContext())
@@ -43,7 +43,7 @@ namespace EntityFramework.Toolkit.Tests
         public void ShouldRethrowConcurrencyUpdateExceptionAsDefault()
         {
             // Arrange
-            var initialEmployee = CreateEntity.Employee1;
+            var initialEmployee = Testdata.Employees.CreateEmployee1();
 
             string firstNameChange1 = initialEmployee.FirstName + " from employeeContext1";
             string firstNameChange2 = initialEmployee.FirstName + " from employeeContext2";
@@ -82,7 +82,7 @@ namespace EntityFramework.Toolkit.Tests
         {
             // Arrange
             IConcurrencyResolveStrategy concurrencyResolveStrategy = new DatabaseWinsConcurrencyResolveStrategy();
-            var initialEmployee = CreateEntity.Employee1;
+            var initialEmployee = Testdata.Employees.CreateEmployee1();
 
             string firstNameChange1 = initialEmployee.FirstName + " from employeeContext1";
             string firstNameChange2 = initialEmployee.FirstName + " from employeeContext2";
@@ -127,7 +127,7 @@ namespace EntityFramework.Toolkit.Tests
         {
             // Arrange
             IConcurrencyResolveStrategy concurrencyResolveStrategy = new ClientWinsConcurrencyResolveStrategy();
-            var initialEmployee = CreateEntity.Employee1;
+            var initialEmployee = Testdata.Employees.CreateEmployee1();
 
             string firstNameChange1 = initialEmployee.FirstName + " from employeeContext1";
             string firstNameChange2 = initialEmployee.FirstName + " from employeeContext2";

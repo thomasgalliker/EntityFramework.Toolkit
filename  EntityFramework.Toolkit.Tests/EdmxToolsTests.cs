@@ -13,7 +13,7 @@ namespace EntityFramework.Toolkit.Tests
         private readonly ITestOutputHelper testOutputHelper;
 
         public EdmxToolsTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: new EmployeeContextTestDbConnection())
+            : base(dbConnection: () => new EmployeeContextTestDbConnection())
         {
             this.testOutputHelper = testOutputHelper;
         }

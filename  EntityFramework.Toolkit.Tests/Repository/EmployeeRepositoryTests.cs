@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Core.Extensions;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
+using EntityFramework.Toolkit.Tests.Extensions;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;
@@ -23,14 +23,14 @@ using Xunit.Abstractions;
 namespace EntityFramework.Toolkit.Tests.Repository
 {
     /// <summary>
-    /// Repository tests using <see cref="EmployeeContextTestDbConnection"/> as database connection.
+    ///     Repository tests using <see cref="EmployeeContextTestDbConnection" /> as database connection.
     /// </summary>
     public class EmployeeRepositoryTests : ContextTestBase<EmployeeContext>
     {
         private readonly ITestOutputHelper testOutputHelper;
 
         public EmployeeRepositoryTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: new EmployeeContextTestDbConnection())
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(), log: testOutputHelper.WriteLine)
         {
             this.testOutputHelper = testOutputHelper;
         }
@@ -52,56 +52,71 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddEmployee()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employee = CreateEntity.Employee1;
+            var employee = Testdata.Employees.CreateEmployee1();
+            ChangeSet committedChangeSet;
 
             // Act
-            employeeRepository.Add(employee);
-            var committedChangeSet = employeeRepository.Save();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.Add(employee);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 1, numberOfModified: 0, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 1, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
 
-            var getEmployee = employeeRepository.Get()
-                .Include(d => d.Department)
-                .Single(e => e.FirstName == employee.FirstName);
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var returnedEmployee = employeeRepository.Get().Include(d => d.Department).SingleOrDefault(e => e.FirstName == employee.FirstName);
 
-            getEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
+                returnedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+            }
         }
 
         [Fact]
         public void ShouldAddRangeOfEmployees()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            ChangeSet committedChangeSet;
 
             // Act
-            employeeRepository.AddRange(employees);
-            var committedChangeSet = employeeRepository.Save();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 3, numberOfModified: 0, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 3, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(3);
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(3);
+            }
         }
 
         [Fact]
         public void ShouldGetAnyTrueIfEmployeeExists()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
 
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
             var expectedId = employees[0].Id;
 
             // Act
-            var hasAny = employeeRepository.Any(expectedId);
+            bool hasAny;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                hasAny = employeeRepository.Any(expectedId);
+            }
 
             // Assert
             hasAny.Should().BeTrue();
@@ -111,17 +126,22 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldGetAnyTrueIfEmployeeExists_WithExpression()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
 
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
             var expectedId = employees[0].Id;
 
             // Act
-            var hasAny = employeeRepository.Any(e => e.Id ==expectedId);
+            bool hasAny;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                hasAny = employeeRepository.Any(e => e.Id == expectedId);
+            }
 
             // Assert
             hasAny.Should().BeTrue();
@@ -144,266 +164,448 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldFindEmployeeById()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
 
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
             var expectedId = employees[0].Id;
 
             // Act
-            var findByIdResult = employeeRepository.FindById(expectedId);
+            Employee foundEmployee;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                foundEmployee = employeeRepository.FindById(expectedId);
+            }
 
             // Assert
-            findByIdResult.Should().NotBeNull();
-            findByIdResult.Id.Should().Be(expectedId);
+            foundEmployee.Should().NotBeNull();
+            foundEmployee.Id.Should().Be(expectedId);
         }
-        
+
         [Fact]
         public void ShouldFindByFirstName()
         {
             // Arrange
             string expectedFirstName = "Thomas";
 
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
 
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
-
-            employeeRepository = new EmployeeRepository(this.CreateContext());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            var findByResult = employeeRepository.FindBy(employee => employee.FirstName == expectedFirstName);
+
+            IEnumerable<Employee> foundEmployees;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                foundEmployees = employeeRepository.FindBy(employee => employee.FirstName == expectedFirstName).ToList();
+            }
 
             // Assert
-            findByResult.Should().HaveCount(1);
-            findByResult.ElementAt(0).FirstName.Should().Be(expectedFirstName);
+            foundEmployees.Should().HaveCount(1);
+            foundEmployees.ElementAt(0).FirstName.Should().Be(expectedFirstName);
         }
 
         [Fact]
-        public void ShouldRemoveEmployee()
+        public void ShouldRemoveEmployee_Attached()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2 };
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            var removedEmployee = employeeRepository.Remove(employees.First());
-            var committedChangeSet = employeeRepository.Save();
+            Employee removedEmployee;
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                removedEmployee = employeeRepository.Remove(employees.ElementAt(0));
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
 
             removedEmployee.Should().NotBeNull();
-            removedEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
+            removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+            }
+        }
+
+        [Fact]
+        public void ShouldRemoveEmployee_Detached()
+        {
+            // Arrange
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
+
+            // Act
+            Employee removedEmployee;
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var employeeToRemove = Testdata.Employees.CreateEmployee1();
+                employeeToRemove.Id = employees.ElementAt(0).Id;
+                employeeToRemove.RowVersion = employees.ElementAt(0).RowVersion;
+
+                removedEmployee = employeeRepository.Remove(employeeToRemove);
+                committedChangeSet = employeeRepository.Save();
+            }
+
+            // Assert
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
+
+            removedEmployee.Should().NotBeNull();
+            removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+            }
         }
 
         [Fact]
         public void ShouldRemoveAllEmployees()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            employeeRepository.RemoveAll();
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            IEnumerable<Employee> removedEmployees;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                removedEmployees = employeeRepository.RemoveAll().ToList();
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 3);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 3);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(0);
+            removedEmployees.Should().HaveCount(3);
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(0);
+            }
         }
 
         [Fact]
         public void ShouldRemoveAllEmployeesWithCondition()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            employeeRepository.RemoveAll(e => e.FirstName == "Thomas");
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.RemoveAll(e => e.FirstName == "Thomas");
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(2);
-            allEmployees.Single(e => e.FirstName == CreateEntity.Employee2.FirstName).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
-            allEmployees.Single(e => e.FirstName == CreateEntity.Employee3.FirstName).ShouldBeEquivalentTo(CreateEntity.Employee3, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(2);
+                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee2().FirstName)
+                    .ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee3().FirstName)
+                    .ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee3());
+            }
         }
 
         [Fact]
         public void ShouldRemoveRangeEmployees()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            employeeRepository.RemoveRange(new[] { CreateEntity.Employee1, CreateEntity.Employee3 });
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var employeeToRemove1 = new Employee();
+                employeeToRemove1.Id = employees.ElementAt(0).Id;
+                employeeToRemove1.RowVersion = employees.ElementAt(0).RowVersion;
+
+                var employeeToRemove3 = new Employee();
+                employeeToRemove3.Id = employees.ElementAt(2).Id;
+                employeeToRemove3.RowVersion = employees.ElementAt(2).RowVersion;
+
+                employeeRepository.RemoveRange(new[] { employeeToRemove1, employeeToRemove3 });
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 2);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 2);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEntity.Employee2, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+            }
         }
 
         [Fact]
         public void ShouldRemoveEmployeeById()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { CreateEntity.Employee1, CreateEntity.Employee2, CreateEntity.Employee3 };
-            employeeRepository.AddRange(employees);
-            employeeRepository.Save();
+            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(employees);
+                employeeRepository.Save();
+            }
 
             // Act
-            var removedEmployee = employeeRepository.RemoveById(employees[0].Id);
-            var committedChangeSet = employeeRepository.Save();
+            Employee removedEmployee;
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                removedEmployee = employeeRepository.RemoveById(employees[0].Id);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 0, numberOfDeleted: 1);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(2);
-            removedEmployee.ShouldBeEquivalentTo(CreateEntity.Employee1, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(2);
+                removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+            }
         }
 
         [Fact]
         public void ShouldAddOrUpdateExistingEmployee_UpdateIfExists()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employee1 = employeeRepository.Add(CreateEntity.Employee1);
-            employeeRepository.Save();
+            var originalEmployee = Testdata.Employees.CreateEmployee1();
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.Add(originalEmployee);
+                employeeRepository.Save();
+            }
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
-            var employee1Update = CreateEntity.Employee1;
-            employee1Update.FirstName = "Updated " + employee1Update.FirstName;
+            var updateEmployee = Testdata.Employees.CreateEmployee1();
+            updateEmployee.Id = originalEmployee.Id;
+            updateEmployee.RowVersion = originalEmployee.RowVersion;
+            updateEmployee.FirstName = "Updated " + updateEmployee.FirstName;
 
             // Act
-            employee1Update = employeeRepository.AddOrUpdate(employee1Update);
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                updateEmployee = employeeRepository.AddOrUpdate(updateEmployee);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 1, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 1, expectedNumberOfDeleted: 0);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).FirstName.Should().Contain("Updated");
+            }
         }
 
         [Fact]
         public void ShouldAddOrUpdateExistingEmployee_AddIfDoesNotExist()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employee1Update = CreateEntity.Employee1;
-            employee1Update.FirstName = "Updated " + employee1Update.FirstName;
+            var employee1Update = Testdata.Employees.CreateEmployee1();
+            employee1Update.FirstName = "Added " + employee1Update.FirstName;
 
             // Act
-            employee1Update = employeeRepository.AddOrUpdate(employee1Update);
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employee1Update = employeeRepository.AddOrUpdate(employee1Update);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 1, numberOfModified: 0, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 1, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
 
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(1);
-            allEmployees.ElementAt(0).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).FirstName.Should().Contain("Added");
+            }
         }
 
         [Fact]
         public void ShouldUpdateExistingEmployee()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
             var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
-            var employee1 = employeeRepository.Add(CreateEntity.Employee1);
-            employee1.Department = departmentHr;
-            var employee2 = employeeRepository.Add(CreateEntity.Employee2);
-            employee2.Department = departmentHr;
-            employeeRepository.Save();
 
-            var employee1Update = CreateEntity.Employee1;
-            employee1Update.FirstName = "Updated " + employee1Update.FirstName;
+            Employee employee1;
+            Employee employee2;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employee1 = employeeRepository.Add(Testdata.Employees.CreateEmployee1());
+                employee1.Department = departmentHr;
+
+                employee2 = employeeRepository.Add(Testdata.Employees.CreateEmployee2());
+                employee2.Department = departmentHr;
+
+                employeeRepository.Save();
+            }
+
+            var employeeUpdate = Testdata.Employees.CreateEmployee1();
+            employeeUpdate.Id = employee1.Id;
+            employeeUpdate.RowVersion = employee1.RowVersion;
+            employee2.DepartmentId = departmentHr.Id;
+            employeeUpdate.FirstName = "Updated " + employeeUpdate.FirstName;
 
             // Act
-            employeeRepository = new EmployeeRepository(this.CreateContext());
-            employeeRepository.Update(employee1Update);
-            var committedChangeSet = employeeRepository.Save();
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.Update(employeeUpdate);
+                committedChangeSet = employeeRepository.Save();
+            }
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 1, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 1, expectedNumberOfDeleted: 0);
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(2);
-            allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(employee1Update, options => options.IncludingAllDeclaredProperties().IgnoringCyclicReferences());
-            allEmployees.Single(e => e.Id == employee2.Id).ShouldBeEquivalentTo(employee2, options => options.IncludingAllDeclaredProperties().IgnoringCyclicReferences());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(2);
+
+                var expectedEmployeeUpdate = Testdata.Employees.CreateEmployee1();
+                expectedEmployeeUpdate.FirstName = "Updated " + expectedEmployeeUpdate.FirstName;
+
+                allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(expectedEmployeeUpdate);
+                allEmployees.Single(e => e.Id == employee2.Id).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+            }
         }
 
         [Fact]
         public void ShouldUpdateExistingEmployees()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
-            employees = employeeRepository.AddRange(employees).ToList();
-            employeeRepository.Save();
+            var originalEmployees = new List<Employee>();
+            var originalEmployee1 = Testdata.Employees.CreateEmployee1();
+            var originalEmployee2 = Testdata.Employees.CreateEmployee2();
+            var originalEmployee3 = Testdata.Employees.CreateEmployee3();
+            originalEmployees.Add(originalEmployee1);
+            originalEmployees.Add(originalEmployee2);
+            originalEmployees.Add(originalEmployee3);
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.AddRange(originalEmployees);
+                employeeRepository.Save();
+            }
+
             int n = 5000;
             var timespanOffset = new TimeSpan(0, 0, 0, 1);
+            var stopwatch = new Stopwatch();
+
+            var updatedEmployees = new List<Employee>();
+            var updatedEmployee1 = Testdata.Employees.CreateEmployee1();
+            updatedEmployee1.Id = originalEmployee1.Id;
+            updatedEmployee1.RowVersion = originalEmployee1.RowVersion;
+
+            var updatedEmployee2 = Testdata.Employees.CreateEmployee2();
+            updatedEmployee2.Id = originalEmployee2.Id;
+            updatedEmployee2.RowVersion = originalEmployee2.RowVersion;
+
+            var updatedEmployee3 = Testdata.Employees.CreateEmployee3();
+            updatedEmployee3.Id = originalEmployee3.Id;
+            updatedEmployee3.RowVersion = originalEmployee3.RowVersion;
+
+            updatedEmployees.Add(originalEmployee1);
+            updatedEmployees.Add(originalEmployee2);
+            updatedEmployees.Add(originalEmployee3);
 
             // Act
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            for (int i = 0; i < n; i++)
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
             {
-                foreach (var updateEmployee in employees)
+                stopwatch.Start();
+                for (int i = 0; i < n; i++)
                 {
-                    updateEmployee.Birthdate += timespanOffset;
-                    employeeRepository.Update(updateEmployee);
+                    foreach (var updateEmployee in updatedEmployees)
+                    {
+                        updateEmployee.Birthdate += timespanOffset;
+                        employeeRepository.Update(updateEmployee);
+                    }
                 }
+                committedChangeSet = employeeRepository.Save();
+                stopwatch.Stop();
             }
-            var committedChangeSet = employeeRepository.Save();
-            stopwatch.Stop();
+
             this.testOutputHelper.WriteLine($"Elapsed={stopwatch.ElapsedMilliseconds}ms");
 
             // Assert
-            AssertChangeSet(committedChangeSet, numberOfAdded: 0, numberOfModified: 3, numberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 3, expectedNumberOfDeleted: 0);
 
-            employeeRepository = new EmployeeRepository(this.CreateContext());
-            var allEmployees = employeeRepository.GetAll().ToList();
-            allEmployees.Should().HaveCount(3);
-            allEmployees.ElementAt(0).Birthdate.Should().Be(new DateTime(1986, 07, 11, 01, 23, 20));
-            allEmployees.ElementAt(1).Birthdate.Should().Be(new DateTime(1990, 01, 01, 01, 23, 20));
-            allEmployees.ElementAt(2).Birthdate.Should().Be(new DateTime(2000, 12, 31, 01, 23, 20));
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(3);
+                allEmployees.ElementAt(0).Birthdate.Should().Be(new DateTime(1986, 07, 11, 01, 23, 20));
+                allEmployees.ElementAt(1).Birthdate.Should().Be(new DateTime(1990, 01, 01, 01, 23, 20));
+                allEmployees.ElementAt(2).Birthdate.Should().Be(new DateTime(2000, 12, 31, 01, 23, 20));
 
-            stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000);
+                stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000);
+            }
         }
 
         [Fact]
@@ -424,13 +626,6 @@ namespace EntityFramework.Toolkit.Tests.Repository
             employeeRepository = new EmployeeRepository(this.CreateContext());
             var allEmployees = employeeRepository.GetAll().ToList();
             allEmployees.Should().HaveCount(0);
-        }
-
-        private static void AssertChangeSet(ChangeSet changeSet, int numberOfAdded, int numberOfModified, int numberOfDeleted)
-        {
-            changeSet.Changes.Where(c => c.State == ChangeState.Added).Should().HaveCount(numberOfAdded, $"Number of added should be {numberOfAdded}.");
-            changeSet.Changes.Where(c => c.State == ChangeState.Modified).Should().HaveCount(numberOfModified, $"Number of modified should be {numberOfModified}.");
-            changeSet.Changes.Where(c => c.State == ChangeState.Deleted).Should().HaveCount(numberOfDeleted, $"Number of deleted should be {numberOfDeleted}.");
         }
     }
 }
