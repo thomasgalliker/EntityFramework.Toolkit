@@ -11,7 +11,7 @@ using Xunit;
 
 namespace EntityFramework.Toolkit.Tests
 {
-    public class DataSeedTests_UnitTests
+    public class DataSeedUnitTests
     {
         [Fact]
         public void ShouldGetAllObjects()

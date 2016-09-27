@@ -17,9 +17,9 @@ using Xunit.Abstractions;
 
 namespace EntityFramework.Toolkit.Tests
 {
-    public class DataSeedTests_IntegrationTests : ContextTestBase<EmployeeContext>
+    public class DataSeedIntegrationTests : ContextTestBase<EmployeeContext>
     {
-        public DataSeedTests_IntegrationTests(ITestOutputHelper testOutputHelper)
+        public DataSeedIntegrationTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(), databaseInitializer: null, log: testOutputHelper.WriteLine)
         {
         }
