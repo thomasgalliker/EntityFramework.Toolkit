@@ -98,6 +98,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Extensions\AssertionExtensions.cs" />
+    <Compile Include="Extensions\ChangeSetExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensionsTests.cs" />
     <Compile Include="Modularity\DataAccessModuleTests.cs" />
     <Compile Include="DataSeedTests.IntegrationTests.cs" />
     <Compile Include="DbContextExtensionsTests.cs" />
