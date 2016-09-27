@@ -26,6 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExpressionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MappingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PrimaryKey.cs" />
