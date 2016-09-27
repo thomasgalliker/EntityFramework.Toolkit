@@ -111,13 +111,7 @@ namespace EntityFramework.Toolkit
         /// <inheritdoc />
         public virtual T Remove(T entity)
         {
-            return this.DbSet.Remove(entity);
-        }
-
-        /// <inheritdoc />
-        public virtual IEnumerable<T> RemoveRange(IEnumerable<T> entities)
-        {
-            return this.DbSet.RemoveRange(entities);
+            return this.context.Delete(entity);
         }
 
         /// <inheritdoc />
