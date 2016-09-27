@@ -13,13 +13,14 @@ using ToolkitSample.DataAccess.Seed;
 using ToolkitSample.Model;
 
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EntityFramework.Toolkit.Tests
 {
     public class DataSeedTests_IntegrationTests : ContextTestBase<EmployeeContext>
     {
-        public DataSeedTests_IntegrationTests()
-            : base(dbConnection: () => new EmployeeContextTestDbConnection(), databaseInitializer: null)
+        public DataSeedTests_IntegrationTests(ITestOutputHelper testOutputHelper)
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(), databaseInitializer: null, log: testOutputHelper.WriteLine)
         {
         }
 
@@ -80,14 +81,12 @@ namespace EntityFramework.Toolkit.Tests
             using (var context = this.CreateContext(databaseInitializer))
             {
                 allDepartmentsFirst = context.Set<Department>().ToList();
-                allDepartmentsFirst.Should().HaveCount(2);
             }
 
             List<Department> allDepartmentsSecond;
             using (var context = this.CreateContext(databaseInitializer))
             {
                 allDepartmentsSecond = context.Set<Department>().ToList();
-                allDepartmentsSecond.Should().HaveCount(2);
             }
 
             // Assert
@@ -107,14 +106,12 @@ namespace EntityFramework.Toolkit.Tests
             using (var context = this.CreateContext(databaseInitializer))
             {
                 allDepartmentsFirst = context.Set<ApplicationSetting>().ToList();
-                allDepartmentsFirst.Should().HaveCount(2);
             }
 
             List<ApplicationSetting> allDepartmentsSecond;
             using (var context = this.CreateContext(databaseInitializer))
             {
                 allDepartmentsSecond = context.Set<ApplicationSetting>().ToList();
-                allDepartmentsSecond.Should().HaveCount(2);
             }
 
             // Assert
