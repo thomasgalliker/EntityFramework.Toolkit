@@ -7,13 +7,13 @@ using EntityFramework.Toolkit.Core;
 namespace EntityFramework.Toolkit
 {
     /// <summary>
-    /// Provides a template for generic seed implementors.
+    ///     Provides a template for generic seed implementors.
     /// </summary>
     /// <typeparam name="TEntity">The entity type for which the implementor provides a seed.</typeparam>
     public abstract class DataSeedBase<TEntity> : IDataSeed
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataSeedBase{TEntity}"/> class.
+        ///     Initializes a new instance of the <see cref="DataSeedBase{TEntity}" /> class.
         /// </summary>
         protected DataSeedBase()
         {
@@ -47,7 +47,8 @@ namespace EntityFramework.Toolkit
         }
 
         /// <summary>
-        /// Source: http://stackoverflow.com/questions/26253321/convert-expressionfunct-tproperty-to-expressionfuncobject-object-and-v
+        ///     Source:
+        ///     http://stackoverflow.com/questions/26253321/convert-expressionfunct-tproperty-to-expressionfuncobject-object-and-v
         /// </summary>
         private class ExpressionReplacer : ExpressionVisitor
         {
@@ -63,12 +64,14 @@ namespace EntityFramework.Toolkit
             public override Expression Visit(Expression node)
             {
                 if (node == this.source)
+                {
                     return this.dest;
+                }
 
                 return base.Visit(node);
             }
         }
-  
+
         public object[] GetAllObjects()
         {
             return this.GetAll().Cast<object>().ToArray();

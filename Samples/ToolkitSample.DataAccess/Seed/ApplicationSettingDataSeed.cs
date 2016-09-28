@@ -21,7 +21,7 @@ namespace ToolkitSample.DataAccess.Seed
         {
             return new[]
             {
-                new ApplicationSetting {Path = "/../../TestForSeed"}
+                new ApplicationSetting { Path = "/../../TestForSeed" }
             };
         }
     }
