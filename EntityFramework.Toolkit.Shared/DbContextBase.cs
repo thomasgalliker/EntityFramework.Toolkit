@@ -22,8 +22,6 @@ namespace EntityFramework.Toolkit
 {
     public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
     {
-        private readonly IDatabaseInitializer<TContext> databaseInitializer;
-
         /// <summary>
         ///     Empty constructor is used for 'update-database' command-line command.
         /// </summary>
@@ -53,8 +51,8 @@ namespace EntityFramework.Toolkit
                               $"with ConnectionString = \"{dbConnection.ConnectionString}\" " + 
                               $"and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
 
-            this.databaseInitializer = databaseInitializer;
             Database.SetInitializer(databaseInitializer);
+            this.Database.Initialize(force: dbConnection.ForceInitialize);
             this.ConcurrencyResolveStrategy = new RethrowConcurrencyResolveStrategy();
         }
 
@@ -76,8 +74,6 @@ namespace EntityFramework.Toolkit
         {
             this.InternalDropDatabase();
 
-            // Restore original initializer and initialize database
-            Database.SetInitializer(this.databaseInitializer);
             this.Database.Initialize(force: true);
         }
 
@@ -92,11 +88,6 @@ namespace EntityFramework.Toolkit
         {
             this.Database.KillConnectionsToTheDatabase();
             this.Database.Delete();
-        }
-
-        public void SetCurrentValues<TEntity>(TEntity databaseItem, TEntity detachedItem) where TEntity : class
-        {
-            this.Entry(databaseItem).CurrentValues.SetValues(detachedItem);
         }
 
         public TEntity Edit<TEntity>(TEntity entity) where TEntity : class

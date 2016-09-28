@@ -7,7 +7,8 @@ namespace EntityFramework.Toolkit
     [DebuggerDisplay("Name={this.Name}, ConnectionString={this.ConnectionString}")]
     public class DbConnection : IDbConnection
     {
-        public DbConnection(string connectionString) : this(string.Empty, connectionString)
+        public DbConnection(string connectionString)
+            : this(name: string.Empty, connectionString: connectionString)
         {
         }
 
@@ -17,19 +18,17 @@ namespace EntityFramework.Toolkit
             this.ConnectionString = connectionString;
             this.LazyLoadingEnabled = true;
             this.ProxyCreationEnabled = true;
+            this.ForceInitialize = false;
         }
 
-        public virtual string Name { get; }
+        public string Name { get; }
 
         public string ConnectionString { get; }
 
-        public virtual bool LazyLoadingEnabled { get; set; }
+        public bool LazyLoadingEnabled { get; set; }
 
-        public virtual bool ProxyCreationEnabled { get; set; }
+        public bool ProxyCreationEnabled { get; set; }
 
-        public override string ToString()
-        {
-            return this.ConnectionString;
-        }
+        public bool ForceInitialize { get; }
     }
 }

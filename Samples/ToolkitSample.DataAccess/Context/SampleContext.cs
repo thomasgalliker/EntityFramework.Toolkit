@@ -141,11 +141,6 @@ namespace ToolkitSample.DataAccess.Context
             return new FakeDbSet<TEntity>();
         }
 
-        public void SetCurrentValues<TEntity>(TEntity databaseItem, TEntity detachedItem) where TEntity : class
-        {
-            throw new NotImplementedException();
-        }
-
         ChangeSet IContext.SaveChanges()
         {
             throw new NotImplementedException();
