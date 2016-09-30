@@ -90,8 +90,11 @@ namespace EntityFramework.Toolkit.Tests
         {
             // Arrange
             IUnitOfWork unitOfWork = new UnitOfWork();
+
             var contextMock = new Mock<IContext>();
-            contextMock.Setup(c => c.SaveChanges()).Returns(new ChangeSet(contextMock.GetType(), new List<IChange> { Change.CreateAddedChange(new object()) }));
+            var changeSet = new ChangeSet(contextMock.GetType(), new List<IChange> { Change.CreateAddedChange(new object()) });
+            contextMock.Setup(c => c.SaveChanges()).Returns(changeSet);
+
             unitOfWork.RegisterContext(contextMock.Object);
 
             // Act
@@ -110,13 +113,16 @@ namespace EntityFramework.Toolkit.Tests
                 using (IUnitOfWork innerUnitofWork = new UnitOfWork())
                 {
                     // Act
-                    var numberOfChanges = innerUnitofWork.Commit();
+                    var changeSets = innerUnitofWork.Commit();
 
                     // Assert
-                    numberOfChanges.Should().HaveCount(0);
+                    changeSets.Should().HaveCount(0);
                 }
                 outerUnitOfWork.Commit();
             }
         }
+
+        //TODO Write test to save + check summary of changes
+        //TODO Write test to saveasync + check summary of changes
     }
 }

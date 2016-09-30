@@ -21,13 +21,13 @@ namespace EntityFramework.Toolkit.Tests
         [Fact]
         public void WriteEdmxFileTest()
         {
-            EdmxTools.UpdateEdmx(this.Context, this.basePath + ".edmx");
+            EdmxTools.UpdateEdmx(this.CreateContext(), this.basePath + ".edmx");
         }
 
         [Fact]
         public void CreateDatabaseScriptTest()
         {
-            EdmxTools.CreateDatabaseScript(this.Context, this.basePath + ".sql");
+            EdmxTools.CreateDatabaseScript(this.CreateContext(), this.basePath + ".sql");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace EntityFramework.Toolkit.Tests
         }
 
         [Fact]
-        public async void ShouldSaveAsync()
+        public async void ShouldSaveChangesAsync()
         {
             // Arrange
             var initialEmployee = Testdata.Employees.CreateEmployee1();

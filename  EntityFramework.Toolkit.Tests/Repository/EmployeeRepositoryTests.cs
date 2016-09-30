@@ -39,7 +39,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldReturnEmptyGetAll()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext());
 
             // Act
             var allEmployees = employeeRepository.GetAll().ToList();
@@ -151,7 +151,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldGetAnyFalseIfEmployeeDoesNotExist()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext());
 
             // Act
             var hasAny = employeeRepository.Any(0);
@@ -612,7 +612,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldThrowUpdateConcurrencyExceptionWhenTryingToUpdateNonExistingEntity()
         {
             // Arrange
-            IEmployeeRepository employeeRepository = new EmployeeRepository(this.Context);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext());
             var employee1 = Testdata.Employees.CreateEmployee1();
             employee1.Id = 99;
 
