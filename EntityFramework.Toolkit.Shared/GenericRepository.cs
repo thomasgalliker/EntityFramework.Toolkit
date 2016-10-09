@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-
+#if !NET40
+using System.Threading.Tasks;
+#endif
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Extensions;
 
@@ -125,6 +127,14 @@ namespace EntityFramework.Toolkit
         {
             return this.context.SaveChanges();
         }
+
+#if !NET40
+        /// <inheritdoc />
+        public Task<ChangeSet> SaveAsync()
+        {
+            return this.context.SaveChangesAsync();
+        }
+#endif
 
         public void Dispose()
         {

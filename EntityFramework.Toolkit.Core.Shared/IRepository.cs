@@ -1,5 +1,9 @@
 ﻿using System;
 
+#if !NET40
+using System.Threading.Tasks;
+#endif
+
 namespace EntityFramework.Toolkit.Core
 {
     public interface IRepository : IDisposable
@@ -31,5 +35,9 @@ namespace EntityFramework.Toolkit.Core
         ///     to the database.
         /// </exception>
         ChangeSet Save();
+
+#if !NET40
+        Task<ChangeSet> SaveAsync();
+#endif
     }
 }

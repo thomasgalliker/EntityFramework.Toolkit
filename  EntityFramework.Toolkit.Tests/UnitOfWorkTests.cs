@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Exceptions;
 
@@ -120,6 +121,60 @@ namespace EntityFramework.Toolkit.Tests
                 }
                 outerUnitOfWork.Commit();
             }
+        }
+
+        [Fact]
+        public void ShouldDisposeAllRegisteredContexts()
+        {
+            // Arrange
+            var sampleContextMock = new Mock<ISampleContext>();
+
+            // Act
+            using (IUnitOfWork unitOfWork = new UnitOfWork())
+            {
+                unitOfWork.RegisterContext(sampleContextMock.Object);
+            }
+
+            // Assert
+            sampleContextMock.Verify(x => x.SaveChanges(), Times.Never);
+            sampleContextMock.Verify(x => x.Dispose(), Times.Once);
+        }
+
+        [Fact(Skip="TODO")]
+        public void ShouldThrowObjectDisposedExceptionOnCommitAfterDispose()
+        {
+            // Arrange
+            var sampleContextMock = new Mock<ISampleContext>();
+            IUnitOfWork unitOfWork = new UnitOfWork();
+            unitOfWork.RegisterContext(sampleContextMock.Object);
+            unitOfWork.Dispose();
+
+            // Act
+            Action action = () => unitOfWork.Commit();
+
+            // Assert
+            action.ShouldThrow<ObjectDisposedException>();
+            sampleContextMock.Verify(x => x.SaveChanges(), Times.Never);
+            sampleContextMock.Verify(x => x.Dispose(), Times.Once);
+        }
+
+        [Fact]
+        public async void ShouldCommitAsync()
+        {
+            // Arrange
+            var sampleContextMock = new Mock<ISampleContext>();
+
+            // Act
+            using (IUnitOfWork unitOfWork = new UnitOfWork())
+            {
+                unitOfWork.RegisterContext(sampleContextMock.Object);
+                await unitOfWork.CommitAsync();
+            }
+
+            // Assert
+            sampleContextMock.Verify(x => x.SaveChanges(), Times.Never);
+            sampleContextMock.Verify(x => x.SaveChangesAsync(), Times.Once);
+            sampleContextMock.Verify(x => x.Dispose(), Times.Once);
         }
 
         //TODO Write test to save + check summary of changes

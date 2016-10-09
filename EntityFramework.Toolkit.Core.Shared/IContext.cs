@@ -45,7 +45,12 @@ namespace EntityFramework.Toolkit.Core
         ChangeSet SaveChanges();
 
 #if !NET40
-        Task<int> SaveChangesAsync();
+        /// <summary>
+        /// Saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>The number of objects written to the underlying database.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown if the context has been disposed.</exception>
+        Task<ChangeSet> SaveChangesAsync();
 #endif
     }
 }

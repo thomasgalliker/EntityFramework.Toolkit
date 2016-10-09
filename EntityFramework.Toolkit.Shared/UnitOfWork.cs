@@ -59,7 +59,7 @@ namespace EntityFramework.Toolkit
             }
             catch (Exception ex)
             {
-                throw new UnitOfWorkException(string.Format("UnitOfWork in context '{0}' failed to commit.", lastContextType?.Name), ex);
+                throw new UnitOfWorkException($"UnitOfWork in context '{lastContextType?.Name}' failed to commit.", ex);
             }
 
             return changeSets;
@@ -67,9 +67,9 @@ namespace EntityFramework.Toolkit
 
 #if !NET40
         /// <inheritdoc />
-        public async Task<int> CommitAsync()
+        public async Task<ICollection<ChangeSet>> CommitAsync()
         {
-            int numberOfChanges = 0;
+            var changeSets = new Collection<ChangeSet>();
             Type lastContextType = null;
             try
             {
@@ -78,7 +78,8 @@ namespace EntityFramework.Toolkit
                     foreach (var context in this.contexts)
                     {
                         lastContextType = context.Key;
-                        numberOfChanges += await context.Value.SaveChangesAsync();
+                        var changeSet = await context.Value.SaveChangesAsync();
+                        changeSets.Add(changeSet);
                     }
 
                     transactionScope.Complete();
@@ -86,10 +87,10 @@ namespace EntityFramework.Toolkit
             }
             catch (Exception ex)
             {
-                throw new UnitOfWorkException(string.Format("UnitOfWork in context '{0}' failed to commit.", lastContextType?.Name), ex);
+                throw new UnitOfWorkException($"UnitOfWork in context '{lastContextType?.Name}' failed to commit.", ex);
             }
 
-            return numberOfChanges;
+            return changeSets;
         }
 #endif
 

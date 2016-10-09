@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -53,14 +54,6 @@ namespace ToolkitSample.DataAccess.Context
         public IDbSet<Model.Employee> Employees { get; private set; }
 
         public IDbSet<Department> Departments { get; private set; }
-
-        /// <summary>
-        /// Save all pending changes in this context
-        /// </summary>
-        public void Save()
-        {
-            this.OnSaveCalled(EventArgs.Empty);
-        }
 
         public void Dispose()
         {
@@ -123,11 +116,6 @@ namespace ToolkitSample.DataAccess.Context
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync()
-        {
-            return Task.Factory.StartNew(() => 99);
-        }
-
         public string Name
         {
             get
@@ -143,7 +131,16 @@ namespace ToolkitSample.DataAccess.Context
 
         ChangeSet IContext.SaveChanges()
         {
-            throw new NotImplementedException();
+            this.OnSaveCalled(EventArgs.Empty);
+
+            return new ChangeSet(typeof(SampleContext), new List<IChange>());
+        }
+
+        Task<ChangeSet> IContext.SaveChangesAsync()
+        {
+            this.OnSaveCalled(EventArgs.Empty);
+
+            return Task.Factory.StartNew(() => new ChangeSet(typeof(SampleContext), new List<IChange>()));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace EntityFramework.Toolkit.Core
         /// Saves pending changes to all registered contexts.
         /// </summary>
         /// <returns>The total number of objects committed.</returns>
-        Task<int> CommitAsync();
+        Task<ICollection<ChangeSet>> CommitAsync();
 #endif
     }
 }
