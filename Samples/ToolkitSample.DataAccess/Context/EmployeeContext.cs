@@ -25,8 +25,14 @@ namespace ToolkitSample.DataAccess.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             this.Database.KillConnectionsToTheDatabase();
+            
+            modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
+            modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
+            modelBuilder.Configurations.Add(new CountryEntityConfiguration());
+            modelBuilder.Configurations.Add(new ApplicationSettingEntityTypeConfiguration());
+
             //this.AutoConfigure(modelBuilder);
-            modelBuilder.Configurations.AddFromAssembly(this.GetType().Assembly);
+            //modelBuilder.Configurations.AddFromAssembly(this.GetType().Assembly);
         }
     }
 }

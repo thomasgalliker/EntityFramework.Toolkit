@@ -18,6 +18,7 @@ namespace ToolkitSample.DataAccess.Modularity
         {
             // Register all data seeds:
             builder.RegisterType<DepartmentDataSeed>().As<IDataSeed>().SingleInstance();
+            builder.RegisterType<CountryDataSeed>().As<IDataSeed>().SingleInstance();
 
             // Register an IDbConnection and an IDatabaseInitializer which are used to be injected into EmployeeContext
             builder.RegisterType<EmployeeContextDbConnection>().As<IDbConnection>().SingleInstance();

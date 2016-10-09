@@ -17,15 +17,19 @@ namespace ToolkitSample.DataAccess.Context
 
             this.Property(e => e.Birthdate).IsRequired();
 
+            this.HasOptional(e => e.Department)
+                .WithMany(d => d.Employees)
+                .HasForeignKey(e => e.DepartmentId);
+
+            this.HasOptional(t => t.Country)
+                .WithMany()
+                .HasForeignKey(d => d.CountryId);
+
             this.Property(e => e.RowVersion)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed)
                 .HasMaxLength(8)
                 .IsRowVersion()
                 .IsRequired();
-
-            this.HasOptional(e => e.Department)
-                .WithMany(d => d.Employees)
-                .HasForeignKey(e => e.DepartmentId);
         }
     }
 }

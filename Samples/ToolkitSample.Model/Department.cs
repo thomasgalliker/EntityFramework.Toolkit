@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace ToolkitSample.Model
 {
-    [DebuggerDisplay("Id={Id}, Name={Name}")]
+    [DebuggerDisplay("Department: Id={Id}, Name={Name}, Employees={this.Employees.Count}")]
     public class Department
     {
         public Department()

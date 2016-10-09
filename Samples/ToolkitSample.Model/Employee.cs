@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace ToolkitSample.Model
 {
-    [DebuggerDisplay("Id={Id}, FirstName={FirstName}, LastName={LastName}")]
+    [DebuggerDisplay("Employee: Id={Id}, FirstName={FirstName}, LastName={LastName}")]
     public class Employee
     {
         public int Id { get; set; }
@@ -17,6 +17,10 @@ namespace ToolkitSample.Model
         public int? DepartmentId { get; set; }
 
         public virtual Department Department { get; set; }
+
+        public string CountryId { get; set; }
+
+        public virtual Country Country { get; set; }
 
         public byte[] RowVersion { get; set; }
     }
