@@ -160,14 +160,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_2a03487b-3ec5-4669-a181-a11eafe52d9a, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_f7b244f2-26a2-4ed4-9261-db6d694ee5ea, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_dcfbde69-5e1b-458e-a1f3-65d73356f027, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_fb3ba00f-6347-49fc-bea9-96653967fdc6, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
         </EntityType>
         <EntityType Name="ApplicationSetting">
@@ -248,7 +248,7 @@
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </Options>
-    <Diagrams >
+    <Diagrams>
       <Diagram DiagramId="1a1683503ac8493497af80d1cc40fd7d" Name="Diagram1">
         <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Employee" Width="1.5" PointX="0.5" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Country" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />

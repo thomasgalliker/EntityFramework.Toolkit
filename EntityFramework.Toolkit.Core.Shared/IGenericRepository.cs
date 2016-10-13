@@ -16,7 +16,9 @@ namespace EntityFramework.Toolkit.Core
         ///     Returns a collection of all entities in the context, or that can be queried from the
         ///     database, of given type <typeparamref name="T" />.
         /// </summary>
-        /// <param name="includes">The lazy-loading includes.</param>
+        IQueryableIncluding<T> Get();
+
+        [Obsolete("Use GenericRepository.Get().Include(...) instead")]
         IQueryable<T> Get(params Expression<Func<T, object>>[] includes);
 
         /// <summary>

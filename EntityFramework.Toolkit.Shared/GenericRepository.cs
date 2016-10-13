@@ -49,6 +49,14 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
+        public IQueryableIncluding<T> Get()
+        {
+            IQueryable<T> query = this.DbSet;
+            return new QueryableIncluding<T>(query);
+        }
+
+        /// <inheritdoc />
+        [Obsolete("Use GenericRepository.Get().Include(...) instead")]
         public IQueryable<T> Get(params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = this.DbSet;

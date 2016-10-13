@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IDataSeed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDbConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IGenericRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IQueryableIncluding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUnitOfWork.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyChangeInfo.cs" />

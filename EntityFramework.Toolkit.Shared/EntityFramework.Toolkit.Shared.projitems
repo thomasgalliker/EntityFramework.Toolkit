@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GenericRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PrimaryKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QueryableIncluding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ConnectionStringGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ContextTestBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnitOfWork.cs" />
