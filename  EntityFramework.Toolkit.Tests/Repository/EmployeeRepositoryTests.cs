@@ -5,7 +5,6 @@ using System.Linq;
 
 using EntityFramework.Toolkit.Core.Extensions;
 using EntityFramework.Toolkit.Exceptions;
-using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Extensions;
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -67,7 +66,10 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
             using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
             {
-                var returnedEmployee = employeeRepository.Get().Include(d => d.Department).SingleOrDefault(e => e.FirstName == employee.FirstName);
+                var returnedEmployee = employeeRepository.Get()
+                    .Include(d => d.Department)
+                    .Include(d => d.Country)
+                    .SingleOrDefault(e => e.FirstName == employee.FirstName);
 
                 returnedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
             }
