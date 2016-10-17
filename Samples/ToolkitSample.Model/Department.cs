@@ -17,8 +17,10 @@ namespace ToolkitSample.Model
 
         public int? LeaderId { get; set; }
 
-        public virtual Employee Leader { get; set; }
+        public virtual Person Leader { get; set; }
 
         public virtual ICollection<Employee> Employees { get; set; }
+
+        public byte[] RowVersion { get; set; }
     }
 }

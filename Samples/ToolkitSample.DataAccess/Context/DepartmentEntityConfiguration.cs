@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 
 using EntityFramework.Toolkit.Extensions;
 
@@ -22,6 +23,13 @@ namespace ToolkitSample.DataAccess.Context
                 .HasForeignKey(d => d.LeaderId);
 
             this.HasOptional(d => d.Leader);
+
+            this.Property(e => e.RowVersion)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed)
+                .HasMaxLength(8)
+                .IsRowVersion()
+                .IsRequired();
+
         }
     }
 }
