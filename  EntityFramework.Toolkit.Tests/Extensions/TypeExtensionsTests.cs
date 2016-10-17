@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CrossPlatformLibrary.Extensions;
-
 using FluentAssertions;
 
 using Xunit;

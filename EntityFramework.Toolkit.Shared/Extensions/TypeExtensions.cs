@@ -1,10 +1,26 @@
 ﻿using System;
 using System.Linq;
 
-namespace CrossPlatformLibrary.Extensions
+namespace EntityFramework.Toolkit
 {
     internal static class TypeExtensions
     {
+        /// <summary>
+        ///     Safely casts the specified object to the type specified through <typeparamref name="TTo" />.
+        /// </summary>
+        /// <remarks>
+        ///     Has been introduced to allow casting objects without breaking the fluent API.
+        /// </remarks>
+        /// <typeparam name="TTo"></typeparam>
+        public static TTo As<TTo>(this object subject)
+        {
+            if (subject is TTo)
+            {
+                return (TTo)subject;
+            }
+            return default(TTo);
+        }
+
         internal static string GetFormattedName(this Type type)
         {
             if (type == null)
