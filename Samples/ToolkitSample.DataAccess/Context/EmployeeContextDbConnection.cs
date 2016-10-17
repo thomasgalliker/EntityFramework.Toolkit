@@ -14,6 +14,9 @@ namespace ToolkitSample.DataAccess.Context
                    connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EntityFramework.Toolkit.mdf; Integrated Security=True;")
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+
+            this.LazyLoadingEnabled = false;
+            this.ProxyCreationEnabled = false;
         }
     }
 }

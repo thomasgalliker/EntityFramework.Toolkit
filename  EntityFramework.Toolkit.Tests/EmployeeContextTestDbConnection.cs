@@ -14,6 +14,9 @@ namespace EntityFramework.Toolkit.Tests
                    connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.Tests.{0}.mdf; Integrated Security=True;".RandomizeDatabaseName())
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
+
+            this.LazyLoadingEnabled = false;
+            this.ProxyCreationEnabled = false;
         }
     }
 }
