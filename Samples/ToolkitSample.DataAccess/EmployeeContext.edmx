@@ -3,7 +3,7 @@
   <Runtime>
     <ConceptualModels>
       <Schema Namespace="ToolkitSample.DataAccess.Context" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.Model.Employee, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <EntityType Name="Person" customannotation:ClrType="ToolkitSample.Model.Person, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -11,11 +11,9 @@
           <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Birthdate" Type="DateTime" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" />
           <Property Name="CountryId" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="8" FixedLength="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Country" Relationship="Self.Employee_Country" FromRole="Employee_Country_Source" ToRole="Employee_Country_Target" />
-          <NavigationProperty Name="Department" Relationship="Self.Employee_Department" FromRole="Employee_Department_Source" ToRole="Employee_Department_Target" />
+          <NavigationProperty Name="Country" Relationship="Self.Person_Country" FromRole="Person_Country_Source" ToRole="Person_Country_Target" />
         </EntityType>
         <EntityType Name="Country" customannotation:ClrType="ToolkitSample.Model.Country, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
@@ -24,6 +22,11 @@
           <Property Name="Id" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityType Name="Employee" customannotation:ClrType="ToolkitSample.Model.Employee, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" BaseType="Self.Person">
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="EmployementDate" Type="DateTime" />
+          <NavigationProperty Name="Department" Relationship="Self.Employee_Department" FromRole="Employee_Department_Source" ToRole="Employee_Department_Target" />
+        </EntityType>
         <EntityType Name="Department" customannotation:ClrType="ToolkitSample.Model.Department, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
@@ -31,8 +34,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LeaderId" Type="Int32" />
+          <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="8" FixedLength="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Employees" Relationship="Self.Employee_Department" FromRole="Employee_Department_Target" ToRole="Employee_Department_Source" />
           <NavigationProperty Name="Leader" Relationship="Self.Department_Leader" FromRole="Department_Leader_Source" ToRole="Department_Leader_Target" />
+        </EntityType>
+        <EntityType Name="Student" customannotation:ClrType="ToolkitSample.Model.Student, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" BaseType="Self.Person">
+          <Property Name="EnrollmentDate" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationSetting" customannotation:ClrType="ToolkitSample.Model.ApplicationSetting, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
@@ -41,21 +48,21 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="Employee_Country">
-          <End Role="Employee_Country_Source" Type="Self.Employee" Multiplicity="*" />
-          <End Role="Employee_Country_Target" Type="Self.Country" Multiplicity="0..1" />
+        <Association Name="Person_Country">
+          <End Role="Person_Country_Source" Type="Self.Person" Multiplicity="*" />
+          <End Role="Person_Country_Target" Type="Self.Country" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Employee_Country_Target">
+            <Principal Role="Person_Country_Target">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Employee_Country_Source">
+            <Dependent Role="Person_Country_Source">
               <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Department_Leader">
           <End Role="Department_Leader_Source" Type="Self.Department" Multiplicity="*" />
-          <End Role="Department_Leader_Target" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Department_Leader_Target" Type="Self.Person" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Department_Leader_Target">
               <PropertyRef Name="Id" />
@@ -78,20 +85,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="EmployeeContext" customannotation:UseClrTypes="true">
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="People" EntityType="Self.Person" />
           <EntitySet Name="Countries" EntityType="Self.Country" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSetting" />
-          <AssociationSet Name="Employee_Country" Association="Self.Employee_Country">
-            <End Role="Employee_Country_Source" EntitySet="Employees" />
-            <End Role="Employee_Country_Target" EntitySet="Countries" />
+          <AssociationSet Name="Person_Country" Association="Self.Person_Country">
+            <End Role="Person_Country_Source" EntitySet="People" />
+            <End Role="Person_Country_Target" EntitySet="Countries" />
           </AssociationSet>
           <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
             <End Role="Department_Leader_Source" EntitySet="Departments" />
-            <End Role="Department_Leader_Target" EntitySet="Employees" />
+            <End Role="Department_Leader_Target" EntitySet="People" />
           </AssociationSet>
           <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
-            <End Role="Employee_Department_Source" EntitySet="Employees" />
+            <End Role="Employee_Department_Source" EntitySet="People" />
             <End Role="Employee_Department_Target" EntitySet="Departments" />
           </AssociationSet>
         </EntityContainer>
@@ -100,16 +107,28 @@
     <Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="EmployeeContext">
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Employee">
-              <MappingFragment StoreEntitySet="Employee">
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="IsTypeOf(ToolkitSample.DataAccess.Context.Person)">
+              <MappingFragment StoreEntitySet="Person">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="EmployementDate" ColumnName="EmployementDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EnrollmentDate" ColumnName="EnrollmentDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -127,6 +146,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="LeaderId" ColumnName="LeaderId" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -143,7 +163,7 @@
     </Mappings>
     <StorageModels>
       <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Employee">
+        <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -151,7 +171,6 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Birthdate" Type="datetime" Nullable="false" />
-          <Property Name="DepartmentId" Type="int" customannotation:Index="{ Name: IX_DepartmentId, Order: 0 }" Nullable="true" />
           <Property Name="CountryId" Type="nvarchar" customannotation:Index="{ Name: IX_CountryId, Order: 0 }" MaxLength="3" Nullable="true" />
           <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -160,15 +179,16 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_f7b244f2-26a2-4ed4-9261-db6d694ee5ea, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_5b2917a3-f625-4e82-bb4f-ecf2b632de9b, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_fb3ba00f-6347-49fc-bea9-96653967fdc6, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_1b88854e-d96a-4e47-9c92-3faa641e53a4, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
+          <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationSetting">
           <Key>
@@ -177,27 +197,54 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Path" Type="nvarchar" MaxLength="255" Nullable="true" />
         </EntityType>
-        <Association Name="Employee_Country">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" customannotation:Index="{ Name: IX_DepartmentId, Order: 0 }" Nullable="true" />
+          <Property Name="EmployementDate" Type="datetime" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" customannotation:Index="{ Name: IX_Id, Order: 0 }" Nullable="false" />
+          <Property Name="EnrollmentDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="Person_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Country">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Employee">
+            <Dependent Role="Person">
               <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Department_Leader">
-          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="Department" Type="Self.Department" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Employee">
+            <Principal Role="Person">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Department">
               <PropertyRef Name="LeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Employee_TypeConstraint_From_Person_To_Employee">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -213,22 +260,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Student_TypeConstraint_From_Person_To_Student">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CodeFirstDatabase">
-          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employees" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" Table="Person" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" Table="Countries" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" Table="Departments" />
           <EntitySet Name="ApplicationSetting" EntityType="Self.ApplicationSetting" Schema="dbo" Table="ApplicationSettings" />
-          <AssociationSet Name="Employee_Country" Association="Self.Employee_Country">
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employee" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" Table="Student" />
+          <AssociationSet Name="Person_Country" Association="Self.Person_Country">
             <End Role="Country" EntitySet="Country" />
-            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Person" EntitySet="Person" />
           </AssociationSet>
           <AssociationSet Name="Department_Leader" Association="Self.Department_Leader">
-            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Person" EntitySet="Person" />
             <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="Employee_TypeConstraint_From_Person_To_Employee" Association="Self.Employee_TypeConstraint_From_Person_To_Employee">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="Employee_Department" Association="Self.Employee_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="Student_TypeConstraint_From_Person_To_Student" Association="Self.Student_TypeConstraint_From_Person_To_Student">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Student" EntitySet="Student" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -257,6 +326,9 @@
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Employee_Country" ManuallyRouted="false" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Department_Leader" ManuallyRouted="false" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Employee_Department" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Person" Width="1.5" PointX="0" PointY="0" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Student" Width="1.5" PointX="1.5" PointY="0" IsExpanded="true" />
+        <AssociationConnector Association="ToolkitSample.DataAccess.Context.Person_Country" ManuallyRouted="false" />
       </Diagram>
     </Diagrams>
   </Designer>

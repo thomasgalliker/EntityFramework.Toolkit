@@ -12,18 +12,31 @@ create table [dbo].[Departments] (
     [Id] [int] not null identity,
     [Name] [nvarchar](255) not null,
     [LeaderId] [int] null,
+    [RowVersion] [rowversion] not null,
     primary key ([Id])
 );
-create table [dbo].[Employees] (
+create table [dbo].[Employee] (
+    [Id] [int] not null,
+    [DepartmentId] [int] null,
+    [EmployementDate] [datetime] null,
+    primary key ([Id])
+);
+create table [dbo].[Person] (
     [Id] [int] not null identity,
     [LastName] [nvarchar](255) not null,
     [FirstName] [nvarchar](255) not null,
     [Birthdate] [datetime] not null,
-    [DepartmentId] [int] null,
     [CountryId] [nvarchar](3) null,
     [RowVersion] [rowversion] not null,
     primary key ([Id])
 );
-alter table [dbo].[Departments] add constraint [Department_Leader] foreign key ([LeaderId]) references [dbo].[Employees]([Id]);
-alter table [dbo].[Employees] add constraint [Employee_Country] foreign key ([CountryId]) references [dbo].[Countries]([Id]);
-alter table [dbo].[Employees] add constraint [Employee_Department] foreign key ([DepartmentId]) references [dbo].[Departments]([Id]);
+create table [dbo].[Student] (
+    [Id] [int] not null,
+    [EnrollmentDate] [datetime] not null,
+    primary key ([Id])
+);
+alter table [dbo].[Departments] add constraint [Department_Leader] foreign key ([LeaderId]) references [dbo].[Person]([Id]);
+alter table [dbo].[Employee] add constraint [Employee_Department] foreign key ([DepartmentId]) references [dbo].[Departments]([Id]);
+alter table [dbo].[Employee] add constraint [Employee_TypeConstraint_From_Person_To_Employee] foreign key ([Id]) references [dbo].[Person]([Id]);
+alter table [dbo].[Person] add constraint [Person_Country] foreign key ([CountryId]) references [dbo].[Countries]([Id]);
+alter table [dbo].[Student] add constraint [Student_TypeConstraint_From_Person_To_Student] foreign key ([Id]) references [dbo].[Person]([Id]);

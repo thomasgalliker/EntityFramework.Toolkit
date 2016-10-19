@@ -71,10 +71,12 @@
     <Compile Include="Context\DepartmentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeContext.cs" />
     <Compile Include="Context\EmployeeContextDbConnection.cs" />
+    <Compile Include="Context\StudentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeEntityConfiguration.cs" />
     <Compile Include="Context\IEmployeeContext.cs" />
     <Compile Include="Context\ISampleContext.cs" />
     <Compile Include="Context\ISampleContextTwo.cs" />
+    <Compile Include="Context\PersonEntityConfiguration.cs" />
     <Compile Include="Context\SampleContext.cs" />
     <Compile Include="EmployeeContext.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -85,6 +87,8 @@
     <Compile Include="Migrations\EmployeeContextMigrationConfiguration.cs" />
     <Compile Include="Modularity\DataAccessModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DepartmentRepository.cs" />
+    <Compile Include="Repository\PersonRepository.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
     <Compile Include="Seed\CountryDataSeed.cs" />
     <Compile Include="Seed\ApplicationSettingDataSeed.cs" />

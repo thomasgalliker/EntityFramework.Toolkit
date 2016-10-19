@@ -8,7 +8,7 @@ using ToolkitSample.DataAccess.Context;
 
 namespace ToolkitSample.DataAccess.Migrations
 {
-    internal sealed class EmployeeContextMigrationConfiguration : DbMigrationsConfiguration<EmployeeContext>
+    internal class EmployeeContextMigrationConfiguration : DbMigrationsConfiguration<EmployeeContext>
     {
         private readonly IEnumerable<IDataSeed> dataSeeds;
 

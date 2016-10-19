@@ -5,6 +5,8 @@ using EntityFramework.Toolkit;
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Extensions;
 
+using ToolkitSample.Model;
+
 namespace ToolkitSample.DataAccess.Context
 {
     public class EmployeeContext : DbContextBase<EmployeeContext>, IEmployeeContext
@@ -26,7 +28,9 @@ namespace ToolkitSample.DataAccess.Context
         {
             this.Database.KillConnectionsToTheDatabase();
             
+            modelBuilder.Configurations.Add(new PersonEntityConfiguration<Person>());
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
+            modelBuilder.Configurations.Add(new StudentEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
             modelBuilder.Configurations.Add(new CountryEntityConfiguration());
             modelBuilder.Configurations.Add(new ApplicationSettingEntityTypeConfiguration());
