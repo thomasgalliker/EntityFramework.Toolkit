@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IDepartmentRepository.cs" />
     <Compile Include="Repository\IEmployeeRepository.cs" />
+    <Compile Include="Repository\IPersonRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToolkitSample.Model\ToolkitSample.Model.csproj">
