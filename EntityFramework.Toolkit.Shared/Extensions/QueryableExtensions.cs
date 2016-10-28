@@ -9,6 +9,18 @@ namespace EntityFramework.Toolkit.Extensions
 {
     public static class QueryableExtensions
     {
+        public static IQueryable<T> OfType<T>(this IQueryable<T> queryable, Type type)
+        {
+            // TODO Check if type is subclass of T
+
+            var ofTypeQueryable = (IQueryable<T>)ReflectionHelper.InvokeGenericMethod(
+                          null,
+                          () => Queryable.OfType<object>(null),
+                          type,
+                          new object[] { queryable });
+            
+            return ofTypeQueryable;
+        }
         /// <summary>
         ///     Includes navigation properties.
         /// </summary>

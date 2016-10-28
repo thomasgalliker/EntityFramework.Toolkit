@@ -52,7 +52,7 @@ namespace EntityFramework.Toolkit
         public IQueryableIncluding<T> Get()
         {
             IQueryable<T> query = this.DbSet;
-            return new QueryableIncluding<T>(query);
+            return new QueryableIncluding<T>(query, (DbContext)this.context);
         }
 
         /// <inheritdoc />

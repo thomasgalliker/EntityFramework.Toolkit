@@ -9,5 +9,9 @@ namespace EntityFramework.Toolkit.Core
         IQueryableIncluding<T> Include(string includePath);
 
         IQueryableIncluding<T> Include(Expression<Func<T, object>> includExpression);
+
+        IQueryableIncluding<T> IncludeAllRelated();
+
+        IQueryableIncluding<T> IncludeAllRelatedDerived();
     }
 }
