@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
-using CrossPlatformLibrary.Extensions;
 #if !NET40
 using System.Threading.Tasks;
 #endif
@@ -22,19 +21,19 @@ namespace EntityFramework.Toolkit
 {
     public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
     {
+        private static readonly IList<TContext> InitializerLock = new List<TContext>();
+
+        private readonly string contextName;
+
         /// <summary>
         ///     Empty constructor is used for 'update-database' command-line command.
         /// </summary>
         protected DbContextBase()
         {
+            //TryInitializeDatabase(this, null);
         }
 
-        //protected DbContextBase(IDbConnection dbConnection) : this(dbConnection, null)
-        //{
-        //}
-
-
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null) : this()
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null)
         {
             if (log == null)
             {
@@ -47,16 +46,30 @@ namespace EntityFramework.Toolkit
             this.Configuration.ProxyCreationEnabled = dbConnection.ProxyCreationEnabled;
             this.Name = dbConnection.Name ?? this.GetType().GetFormattedName();
 
-            this.Database.Log($"Initializing DbContext \"{this.Name}\" "+
-                              $"with ConnectionString = \"{dbConnection.ConnectionString}\" " + 
-                              $"and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
+            this.contextName = typeof(TContext).GetFormattedName();
+            this.Database.Log($"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
 
-            Database.SetInitializer(databaseInitializer);
-            this.Database.Initialize(force: dbConnection.ForceInitialize);
+            TryInitializeDatabase(this, databaseInitializer);
+
             this.ConcurrencyResolveStrategy = new RethrowConcurrencyResolveStrategy();
         }
 
         public string Name { get; private set; }
+
+        private static void TryInitializeDatabase(DbContext dbContext, IDatabaseInitializer<TContext> databaseInitializer)
+        {
+            try
+            {
+                lock (InitializerLock)
+                {
+                    Database.SetInitializer(databaseInitializer);
+                    dbContext.Database.Initialize(force: false);
+                }
+            }
+            catch
+            {
+            }
+        }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {
@@ -65,7 +78,7 @@ namespace EntityFramework.Toolkit
 
         public void ResetDatabase()
         {
-            this.Database.Log("ResetDatabase");
+            this.Database.Log($"ResetDatabase of DbContext '{this.contextName}' with ConnectionString = \"{this.Database.Connection.ConnectionString}\"");
 
             this.InternalResetDatabase();
         }
@@ -79,7 +92,7 @@ namespace EntityFramework.Toolkit
 
         public void DropDatabase()
         {
-            this.Database.Log("DropDatabase");
+            this.Database.Log($"DropDatabase of DbContext '{this.contextName}' with ConnectionString = \"{this.Database.Connection.ConnectionString}\"");
 
             this.InternalDropDatabase();
         }
