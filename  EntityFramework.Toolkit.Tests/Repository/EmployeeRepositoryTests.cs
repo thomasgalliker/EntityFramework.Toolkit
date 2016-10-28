@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-
 using EntityFramework.Toolkit.Core.Extensions;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Testing;
@@ -10,7 +10,6 @@ using EntityFramework.Toolkit.Tests.Extensions;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;
-
 using ToolkitSample.DataAccess.Context;
 using ToolkitSample.DataAccess.Contracts.Repository;
 using ToolkitSample.DataAccess.Repository;
@@ -29,7 +28,9 @@ namespace EntityFramework.Toolkit.Tests.Repository
         private readonly ITestOutputHelper testOutputHelper;
 
         public EmployeeRepositoryTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: () => new EmployeeContextTestDbConnection(), log: testOutputHelper.WriteLine)
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(),
+                  initializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
+                  log: testOutputHelper.WriteLine)
         {
             this.testOutputHelper = testOutputHelper;
         }
@@ -52,6 +53,9 @@ namespace EntityFramework.Toolkit.Tests.Repository
         {
             // Arrange
             var employee = Testdata.Employees.CreateEmployee1();
+            employee.Department = Testdata.Departments.CreateDepartmentHumanResources();
+            employee.Country = Testdata.Countries.CreateCountrySwitzerland();
+
             ChangeSet committedChangeSet;
 
             // Act
@@ -62,14 +66,11 @@ namespace EntityFramework.Toolkit.Tests.Repository
             }
 
             // Assert
-            committedChangeSet.Assert(expectedNumberOfAdded: 1, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 3, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
 
             using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
             {
-                var returnedEmployee = employeeRepository.Get()
-                    .Include(d => d.Department)
-                    .Include(d => d.Country)
-                    .SingleOrDefault(e => e.FirstName == employee.FirstName);
+                var returnedEmployee = employeeRepository.Get().SingleOrDefault(e => e.FirstName == employee.FirstName);
 
                 returnedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
             }
@@ -79,7 +80,12 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddRangeOfEmployees()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee>
+            {
+                Testdata.Employees.CreateEmployee1(),
+                Testdata.Employees.CreateEmployee2(),
+                Testdata.Employees.CreateEmployee3()
+            };
             ChangeSet committedChangeSet;
 
             // Act
@@ -103,7 +109,12 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldGetAnyTrueIfEmployeeExists()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee>
+            {
+                Testdata.Employees.CreateEmployee1(),
+                Testdata.Employees.CreateEmployee2(),
+                Testdata.Employees.CreateEmployee3()
+            };
 
             using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
             {
@@ -349,10 +360,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(2);
-                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee2().FirstName)
-                    .ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
-                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee3().FirstName)
-                    .ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee3());
+                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee2().FirstName).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee3().FirstName).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee3());
             }
         }
 
@@ -468,6 +477,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             // Arrange
             var employee1Update = Testdata.Employees.CreateEmployee1();
             employee1Update.FirstName = "Added " + employee1Update.FirstName;
+            employee1Update.Country = Testdata.Countries.CreateCountrySwitzerland();
 
             // Act
             ChangeSet committedChangeSet;
@@ -478,12 +488,13 @@ namespace EntityFramework.Toolkit.Tests.Repository
             }
 
             // Assert
-            committedChangeSet.Assert(expectedNumberOfAdded: 1, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
+            committedChangeSet.Assert(expectedNumberOfAdded: 2, expectedNumberOfModified: 0, expectedNumberOfDeleted: 0);
 
             using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(1);
+                allEmployees.ElementAt(0).Id.Should().Be(employee1Update.Id);
                 allEmployees.ElementAt(0).FirstName.Should().Contain("Added");
             }
         }
@@ -493,6 +504,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         {
             // Arrange
             var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
+            var countryCH = Testdata.Countries.CreateCountrySwitzerland();
 
             Employee employee1;
             Employee employee2;
@@ -500,9 +512,11 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 employee1 = employeeRepository.Add(Testdata.Employees.CreateEmployee1());
                 employee1.Department = departmentHr;
+                employee1.Country = countryCH;
 
                 employee2 = employeeRepository.Add(Testdata.Employees.CreateEmployee2());
                 employee2.Department = departmentHr;
+                employee2.Country = countryCH;
 
                 employeeRepository.Save();
             }
@@ -510,7 +524,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
             var employeeUpdate = Testdata.Employees.CreateEmployee1();
             employeeUpdate.Id = employee1.Id;
             employeeUpdate.RowVersion = employee1.RowVersion;
-            employee2.DepartmentId = departmentHr.Id;
+            employeeUpdate.DepartmentId = departmentHr.Id;
+            employeeUpdate.CountryId = countryCH.Id;
             employeeUpdate.FirstName = "Updated " + employeeUpdate.FirstName;
 
             // Act
@@ -541,10 +556,18 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldUpdateExistingEmployees()
         {
             // Arrange
+            var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
+
             var originalEmployees = new List<Employee>();
             var originalEmployee1 = Testdata.Employees.CreateEmployee1();
+            originalEmployee1.Department = departmentHr;
+
             var originalEmployee2 = Testdata.Employees.CreateEmployee2();
+            originalEmployee2.Department = departmentHr;
+
             var originalEmployee3 = Testdata.Employees.CreateEmployee3();
+            originalEmployee3.Department = departmentHr;
+
             originalEmployees.Add(originalEmployee1);
             originalEmployees.Add(originalEmployee2);
             originalEmployees.Add(originalEmployee3);
@@ -606,7 +629,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 allEmployees.ElementAt(1).Birthdate.Should().Be(new DateTime(1990, 01, 01, 01, 23, 20));
                 allEmployees.ElementAt(2).Birthdate.Should().Be(new DateTime(2000, 12, 31, 01, 23, 20));
 
-                stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000);
+                stopwatch.ElapsedMilliseconds.Should().BeLessThan(1500);
             }
         }
 

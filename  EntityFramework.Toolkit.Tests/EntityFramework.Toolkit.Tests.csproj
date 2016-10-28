@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EntityFramework.Toolkit.Tests</RootNamespace>
     <AssemblyName>EntityFramework.Toolkit.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -88,6 +88,10 @@
       <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="xunit.parallel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.parallel.1.0.0-pre5\lib\net45\xunit.parallel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -108,7 +112,9 @@
     <Compile Include="EmployeeContextTestDbConnection.cs" />
     <Compile Include="DataSeedTests.UnitTests.cs" />
     <Compile Include="DbContextBaseTests.cs" />
-    <Compile Include="Stubs\Create.cs" />
+    <Compile Include="Properties\xunit.assembly.config.cs" />
+    <Compile Include="Repository\PersonRepositoryTests.cs" />
+    <Compile Include="Stubs\Testdata.cs" />
     <Compile Include="Repository\EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWorkTests.cs" />

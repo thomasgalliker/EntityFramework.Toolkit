@@ -20,7 +20,9 @@ namespace EntityFramework.Toolkit.Tests
     public class DataSeedIntegrationTests : ContextTestBase<EmployeeContext>
     {
         public DataSeedIntegrationTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: () => new EmployeeContextTestDbConnection(), databaseInitializer: null, log: testOutputHelper.WriteLine)
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(), 
+                  databaseInitializer: null, 
+                  log: testOutputHelper.WriteLine)
         {
         }
 
