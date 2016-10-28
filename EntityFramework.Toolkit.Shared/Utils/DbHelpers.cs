@@ -48,6 +48,13 @@ namespace EntityFramework.Toolkit.Utils
                         path = parameterExpression.Member.Name;
                         return true;
                     }
+
+                    string path2;
+                    if (TryParsePath(methodCallExpression, out path2) && path2 != null)
+                    {
+                        path = path2;
+                        return true;
+                    }
                 }
                 return false;
             }
