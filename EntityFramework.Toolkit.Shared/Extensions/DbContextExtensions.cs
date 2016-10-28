@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
@@ -214,10 +215,9 @@ namespace EntityFramework.Toolkit.Extensions
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            var objectContext = ((IObjectContextAdapter)context).ObjectContext;
-            var objectSet = objectContext.CreateObjectSet<T>();
-            var elementType = objectSet.EntitySet.ElementType;
+            var elementType = GetElementType(context, typeof(T));
             var navigationProperties = elementType.NavigationProperties;
+
             //the references
             var references = from navigationProperty in navigationProperties
                              let end = navigationProperty.ToEndMember
@@ -307,11 +307,9 @@ namespace EntityFramework.Toolkit.Extensions
             }
 
             //find the primary key
-            var objectContext = ((IObjectContextAdapter)context).ObjectContext;
-            //this will error if it's not a mapped entity
-            var objectSet = objectContext.CreateObjectSet<TEntity>();
-            var elementType = objectSet.EntitySet.ElementType;
+            var elementType = context.GetElementType(typeof(TEntity));
             var primaryKey = elementType.KeyMembers.First();
+
             //look it up on the entity
             var propertyInfo = typeof(TEntity).GetProperty(primaryKey.Name);
             return propertyInfo == null ? null : new PrimaryKey(propertyInfo, null);
@@ -372,6 +370,44 @@ namespace EntityFramework.Toolkit.Extensions
                 dynamic entityConfiguration = Activator.CreateInstance(entityConfigurationType);
                 modelBuilder.Configurations.Add(entityConfiguration);
             }
+        }
+
+        private static EntityType GetElementType(this DbContext context, Type entityType)
+        {
+            var type = ObjectContext.GetObjectType(entityType);
+            var objectContext = ((IObjectContextAdapter)context).ObjectContext;
+
+            EntityType elementType;
+            if (objectContext.MetadataWorkspace.TryGetItem(type.FullName, DataSpace.OSpace, out elementType))
+            {
+                return elementType;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns all navigation properties of the given <paramref name="entityType"/>.
+        /// </summary>
+        /// <param name="context">The context in which the <paramref name="entityType"/> lives.</param>
+        /// <param name="entityType">The entity type for which this method returns the navigation properties.</param>
+        /// <returns>A list of navigation properties.</returns>
+        public static List<PropertyInfo> GetNavigationProperties(this DbContext context, Type entityType)
+        {
+            var elementType = context.GetElementType(entityType);
+            return elementType.NavigationProperties
+                .Select(navigationProperty => entityType.GetProperty(navigationProperty.Name))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Returns all navigation properties of the given <typeparamref name="TEntityType"/>.
+        /// </summary>
+        /// <param name="context">The context in which the <typeparamref name="TEntityType"/> lives.</param>
+        /// <returns>A list of navigation properties.</returns>
+        public static List<PropertyInfo> GetNavigationProperties<TEntityType>(this DbContext context) where TEntityType : class
+        {
+            var entityType = typeof(TEntityType);
+            return context.GetNavigationProperties(entityType);
         }
     }
 }

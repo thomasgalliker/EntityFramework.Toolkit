@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 
 using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
@@ -11,18 +13,35 @@ using ToolkitSample.DataAccess.Context;
 using ToolkitSample.Model;
 
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EntityFramework.Toolkit.Tests
 {
     public class DbContextExtensionsTests : ContextTestBase<EmployeeContext>
     {
-        public DbContextExtensionsTests()
-            : base(dbConnection: () => new EmployeeContextTestDbConnection())
+        public DbContextExtensionsTests(ITestOutputHelper testOutputHelper)
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(), 
+                   log: testOutputHelper.WriteLine)
         {
         }
 
         [Fact]
-        public void ShouldGetPrimaryKeyFor()
+        public void ShouldGetPrimaryKeyOfBaseEntity()
+        {
+            // Act
+            var primaryKeyProperty = this.CreateContext().GetPrimaryKeyFor<Person>();
+
+            // Assert
+            primaryKeyProperty.Should().NotBeNull();
+            primaryKeyProperty.PropertyInfo.Should().NotBeNull();
+            primaryKeyProperty.PropertyInfo.Should().BeReadable();
+            primaryKeyProperty.PropertyInfo.Should().BeWritable();
+            primaryKeyProperty.PropertyInfo.Name.Should().Be("Id");
+            primaryKeyProperty.Value.Should().BeNull();
+        }
+
+        [Fact]
+        public void ShouldGetPrimaryKeyOfDerivedEntity()
         {
             // Act
             var primaryKeyProperty = this.CreateContext().GetPrimaryKeyFor<Employee>();
@@ -33,6 +52,33 @@ namespace EntityFramework.Toolkit.Tests
             primaryKeyProperty.PropertyInfo.Should().BeReadable();
             primaryKeyProperty.PropertyInfo.Should().BeWritable();
             primaryKeyProperty.PropertyInfo.Name.Should().Be("Id");
+            primaryKeyProperty.Value.Should().BeNull();
+        }
+
+        [Fact]
+        public void ShouldGetPrimaryKeyForEntityOfBaseEntity()
+        {
+            // Act
+            int expectedPrimaryKeyValue = 99;
+            var primaryKeyProperty = this.CreateContext().GetPrimaryKeyForEntity(new Person { Id = expectedPrimaryKeyValue });
+
+            // Assert
+            primaryKeyProperty.Should().NotBeNull();
+            primaryKeyProperty.PropertyInfo.Name.Should().Be("Id");
+            primaryKeyProperty.Value.Should().Be(expectedPrimaryKeyValue);
+        }
+
+        [Fact]
+        public void ShouldGetPrimaryKeyForEntityOfDerivedEntity()
+        {
+            // Act
+            int expectedPrimaryKeyValue = 99;
+            var primaryKeyProperty = this.CreateContext().GetPrimaryKeyForEntity(new Employee { Id = expectedPrimaryKeyValue });
+
+            // Assert
+            primaryKeyProperty.Should().NotBeNull();
+            primaryKeyProperty.PropertyInfo.Name.Should().Be("Id");
+            primaryKeyProperty.Value.Should().Be(expectedPrimaryKeyValue);
         }
 
         [Fact]
@@ -95,6 +141,41 @@ namespace EntityFramework.Toolkit.Tests
                 all.Should().HaveCount(1);
                 all.ElementAt(0).FirstName.Should().Contain("Updated");
             }
+        }
+
+        [Fact]
+        public void ShouldGetNavigationPropertiesFromBaseClass()
+        {
+            // Arrange
+            List<PropertyInfo> navigationProperties;
+
+            // Act
+            using (var employeeContext = this.CreateContext())
+            {
+                navigationProperties = employeeContext.GetNavigationProperties<Person>();
+            }
+
+            // Assert
+            navigationProperties.Should().HaveCount(1);
+            navigationProperties.Should().ContainSingle(p => p.Name == "Country");
+        }
+
+        [Fact]
+        public void ShouldGetNavigationPropertiesFromInheritedClass()
+        {
+            // Arrange
+            List<PropertyInfo> navigationProperties;
+
+            // Act
+            using (var employeeContext = this.CreateContext())
+            {
+                navigationProperties = employeeContext.GetNavigationProperties(typeof(Employee));
+            }
+
+            // Assert
+            navigationProperties.Should().HaveCount(2);
+            navigationProperties.Should().ContainSingle(p => p.Name == "Country");
+            navigationProperties.Should().ContainSingle(p => p.Name == "Department");
         }
     }
 }
