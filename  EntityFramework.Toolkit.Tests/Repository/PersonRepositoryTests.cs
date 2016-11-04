@@ -159,7 +159,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
             IEnumerable<Person> returnedPersons;
             using (IPersonRepository personRepository = new PersonRepository(this.CreateContext()))
             {
-                returnedPersons = personRepository.Get().Include(p => p.As<Employee>().Department).ToList();
+                returnedPersons = personRepository.Get().OfType<Employee>().Include(p => p.Department).ToList()
+                    .Union(personRepository.GetAll().ToList());
             }
 
             // Assert
