@@ -39,23 +39,23 @@ namespace EntityFramework.Toolkit.Utils
                         return true;
                     }
                 }
-                if (methodCallExpression.Method.Name == "As" &&
-                    methodCallExpression.Arguments.Count == 1)
-                {
-                    var parameterExpression = methodCallExpression.Arguments[0] as MemberExpression;
-                    if (parameterExpression != null)
-                    {
-                        path = parameterExpression.Member.Name;
-                        return true;
-                    }
+                //if (methodCallExpression.Method.Name == "As" &&
+                //    methodCallExpression.Arguments.Count == 1)
+                //{
+                //    var asType = methodCallExpression.Type;
+                //    if (asType != null)
+                //    {
+                //        path = asType.Name;
+                //        return true;
+                //    }
 
-                    string path2;
-                    if (TryParsePath(methodCallExpression, out path2) && path2 != null)
-                    {
-                        path = path2;
-                        return true;
-                    }
-                }
+                //    string path2;
+                //    if (TryParsePath(methodCallExpression, out path2) && path2 != null)
+                //    {
+                //        path = path2;
+                //        return true;
+                //    }
+                //}
                 return false;
             }
             return true;
