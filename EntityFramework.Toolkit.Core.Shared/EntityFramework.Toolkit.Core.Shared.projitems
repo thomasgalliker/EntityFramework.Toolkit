@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReadOnlyRepositoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericRepositoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IContext.cs" />
@@ -19,7 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)IDbConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IGenericRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IQueryableIncluding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IReadOnlyRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IWritableRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IUnitOfWork.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PropertyChangeInfo.cs" />
   </ItemGroup>
