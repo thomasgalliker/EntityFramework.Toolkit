@@ -179,14 +179,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_014b1c20-197e-462c-ba65-8f6e843051ed, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_2d67b124-c5c6-4839-8879-3be89d0b9fda, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_5e31bb95-331f-4acf-b81c-a5c525fd9fb2, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_05d91057-458e-4815-97c0-a0bfa8442acf, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
           <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -319,16 +319,18 @@
     </Options>
     <Diagrams>
       <Diagram DiagramId="1a1683503ac8493497af80d1cc40fd7d" Name="Diagram1">
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Employee" Width="1.5" PointX="0.5" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Country" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Department" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.ApplicationSetting" Width="1.5" PointX="0.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Employee" Width="1.5" PointX="8.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Country" Width="1.5" PointX="4" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Department" Width="1.5" PointX="6.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.ApplicationSetting" Width="1.5" PointX="2.125" PointY="2.875" IsExpanded="true" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Employee_Country" ManuallyRouted="false" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Department_Leader" ManuallyRouted="false" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Employee_Department" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Person" Width="1.5" PointX="0" PointY="0" IsExpanded="true" />
-        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Student" Width="1.5" PointX="1.5" PointY="0" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Person" Width="1.5" PointX="6.375" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Student" Width="1.5" PointX="4" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="ToolkitSample.DataAccess.Context.Person_Country" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="ToolkitSample.DataAccess.Context.Employee" />
+        <InheritanceConnector EntityType="ToolkitSample.DataAccess.Context.Student" />
       </Diagram>
     </Diagrams>
   </Designer>

@@ -89,7 +89,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.parallel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.parallel.1.0.0-pre5\lib\net45\xunit.parallel.dll</HintPath>
+      <HintPath>..\packages\xunit.parallel.1.0.0-pre8\lib\net45\xunit.parallel.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -113,6 +113,7 @@
     <Compile Include="DataSeedTests.UnitTests.cs" />
     <Compile Include="DbContextBaseTests.cs" />
     <Compile Include="Properties\xunit.assembly.config.cs" />
+    <Compile Include="Repository\EmployeeReadOnlyRepositoryTests.cs" />
     <Compile Include="Repository\PersonRepositoryTests.cs" />
     <Compile Include="Stubs\Testdata.cs" />
     <Compile Include="Repository\EmployeeRepositoryTests.cs" />

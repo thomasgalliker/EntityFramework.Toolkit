@@ -8,26 +8,6 @@ namespace EntityFramework.Toolkit.Core.Extensions
     public static class GenericRepositoryExtensions
     {
         /// <summary>
-        ///     Indicates whether an entity with the given primary key value exists.
-        /// </summary>
-        /// <param name="ids">The primary keys of the entity to be found.</param>
-        /// <returns>true, if an entity with given primary key exists; otherwise, false.</returns>
-        public static bool Any<T>(this IGenericRepository<T> repository, params object[] ids)
-        {
-            return repository.FindById(ids) != null;
-        }
-
-        /// <summary>
-        ///     Indicates whether an entity which matches the given predicate exists.
-        /// </summary>
-        /// <param name="predicate">The predicate to filter the entity.</param>
-        /// <returns>true, if an entity exists for given predicate; otherwise, false.</returns>
-        public static bool Any<T>(this IGenericRepository<T> repository, Expression<Func<T, bool>> predicate)
-        {
-            return repository.Get().Any(predicate);
-        }
-
-        /// <summary>
         ///     Marks the the entity with the given primary key as Deleted such that it will be deleted from the database when
         ///     SaveChanges is called. Note that the entity must exist in the context in some other state before this method
         ///     is called.
