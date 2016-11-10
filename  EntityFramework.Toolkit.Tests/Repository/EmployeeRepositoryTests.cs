@@ -495,7 +495,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 allEmployees.ElementAt(1).Birthdate.Should().Be(new DateTime(1990, 01, 01, 01, 23, 20));
                 allEmployees.ElementAt(2).Birthdate.Should().Be(new DateTime(2000, 12, 31, 01, 23, 20));
 
-                stopwatch.ElapsedMilliseconds.Should().BeLessThan(1500);
+                stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000);
             }
         }
 
