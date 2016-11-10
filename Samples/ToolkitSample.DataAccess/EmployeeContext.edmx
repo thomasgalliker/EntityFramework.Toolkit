@@ -179,14 +179,14 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="3" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_2d67b124-c5c6-4839-8879-3be89d0b9fda, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_d7dc0b76-2b0a-47a3-8b36-99c1048ff4a6, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_05d91057-458e-4815-97c0-a0bfa8442acf, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: IX_d405d734-2b64-495c-831f-5eed7a4ae64a, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
           <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
