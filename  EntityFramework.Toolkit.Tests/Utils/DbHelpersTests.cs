@@ -8,8 +8,6 @@ using EntityFramework.Toolkit.Utils;
 
 using FluentAssertions;
 
-using ToolkitSample.Model;
-
 using Xunit;
 
 namespace EntityFramework.Toolkit.Tests.Utils
@@ -59,36 +57,6 @@ namespace EntityFramework.Toolkit.Tests.Utils
             // Assert
             isParsed.Should().BeTrue();
             path.Should().Be("CollectionProperty.Key");
-        }
-
-        [Fact]
-        public void ShouldParseCastAsMemberExpression()
-        {
-            // Arrange
-            Expression<Func<Product, object>> expr = p => p.BaseProperty.As<DerivedClass>().ObjectProperty;
-            string path;
-
-            // Act
-            var isParsed = DbHelpers.TryParsePath(expr.Body, out path);
-
-            // Assert
-            isParsed.Should().BeTrue();
-            path.Should().Be("BaseProperty.ObjectProperty");
-        }
-
-        [Fact]
-        public void ShouldParseCastAsMethodExpression()
-        {
-            // Arrange
-            Expression<Func<Person, object>> expr = p => p.As<Employee>().Department;
-            string path;
-
-            // Act
-            var isParsed = DbHelpers.TryParsePath(expr.Body, out path);
-
-            // Assert
-            isParsed.Should().BeTrue();
-            path.Should().Be("Department");
         }
     }
 
