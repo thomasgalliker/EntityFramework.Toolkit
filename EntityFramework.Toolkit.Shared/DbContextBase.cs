@@ -263,9 +263,10 @@ namespace EntityFramework.Toolkit
                 IList<PropertyChangeInfo> changes = new List<PropertyChangeInfo>();
                 foreach (var propertyName in dbEntityEntry.CurrentValues.PropertyNames)
                 {
-                    if (dbEntityEntry.Property(propertyName).IsModified)
+                    var property = dbEntityEntry.Property(propertyName);
+                    if (property.IsModified)
                     {
-                        changes.Add(new PropertyChangeInfo(propertyName, dbEntityEntry.Property(propertyName).CurrentValue));
+                        changes.Add(new PropertyChangeInfo(propertyName, property.CurrentValue));
                     }
                 }
                 updateChanges.Add(Change.CreateUpdateChange(dbEntityEntry.Entity, changes));
