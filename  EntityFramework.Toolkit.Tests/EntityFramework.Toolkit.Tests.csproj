@@ -118,7 +118,8 @@
     <Compile Include="Stubs\Testdata.cs" />
     <Compile Include="Repository\EmployeeRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitOfWorkTests.cs" />
+    <Compile Include="UnitOfWork.IntegrationTests.cs" />
+    <Compile Include="UnitOfWork.UnitTests.cs" />
     <Compile Include="Utils\DbHelpersTests.cs" />
   </ItemGroup>
   <ItemGroup>
