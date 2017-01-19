@@ -101,6 +101,12 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
+        public virtual TDerived Add<TDerived>(TDerived entity) where TDerived : class, T
+        {
+            return this.context.Set<TDerived>().Add(entity);
+        }
+
+        /// <inheritdoc />
         public virtual IEnumerable<T> AddRange(IEnumerable<T> entity)
         {
             return this.DbSet.AddRange(entity);

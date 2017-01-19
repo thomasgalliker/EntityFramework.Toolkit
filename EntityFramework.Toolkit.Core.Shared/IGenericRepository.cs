@@ -24,6 +24,8 @@ namespace EntityFramework.Toolkit.Core
         /// </remarks>
         T Add(T entity);
 
+        TDerived Add<TDerived>(TDerived entity) where TDerived : class, T;
+
         IEnumerable<T> AddRange(IEnumerable<T> entity);
 
         /// <summary>
