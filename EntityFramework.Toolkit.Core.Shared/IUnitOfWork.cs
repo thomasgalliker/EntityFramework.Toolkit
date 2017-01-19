@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 #if !NET40
-
+using System.Threading.Tasks;
 #endif
 
 namespace EntityFramework.Toolkit.Core
