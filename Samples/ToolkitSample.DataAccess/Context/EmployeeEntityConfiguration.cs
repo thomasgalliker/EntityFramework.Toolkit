@@ -1,4 +1,5 @@
-﻿using ToolkitSample.Model;
+﻿
+using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Context
 {
@@ -11,6 +12,11 @@ namespace ToolkitSample.DataAccess.Context
             this.HasOptional(e => e.Department)
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DepartmentId);
+
+            this.Property(e => e.PropertyA);
+            this.Property(e => e.PropertyB);
+
+            //this.Unique(e => e.PropertyA, e => e.PropertyB);
 
             this.ToTable(nameof(Employee));
         }

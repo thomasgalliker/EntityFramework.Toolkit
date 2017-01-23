@@ -43,12 +43,8 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.Toolkit, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.Toolkit.1.0.4-pre9\lib\net45\EntityFramework.Toolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="EntityFramework.Toolkit.Core, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.Toolkit.Core.1.0.4-pre9\lib\net45\EntityFramework.Toolkit.Core.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.Toolkit.Core.1.0.4-pre92\lib\net45\EntityFramework.Toolkit.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -71,6 +67,7 @@
     <Compile Include="Context\DepartmentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeContext.cs" />
     <Compile Include="Context\EmployeeContextDbConnection.cs" />
+    <Compile Include="Context\RoomConfiguration.cs" />
     <Compile Include="Context\StudentEntityConfiguration.cs" />
     <Compile Include="Context\EmployeeEntityConfiguration.cs" />
     <Compile Include="Context\IEmployeeContext.cs" />
@@ -109,6 +106,10 @@
     <Content Include="EmployeeContext.sql" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.Net45\EntityFramework.Toolkit.Net45.csproj">
+      <Project>{e3c977bf-ffc7-4fae-bfca-b20ffb7a3a96}</Project>
+      <Name>EntityFramework.Toolkit.Net45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj">
       <Project>{8b9396bc-1312-409a-bc0e-6888443c06b9}</Project>
       <Name>ToolkitSample.DataAccess.Contracts</Name>
@@ -117,6 +118,9 @@
       <Project>{f73b662b-33eb-4d15-9da7-2798645aafaa}</Project>
       <Name>ToolkitSample.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

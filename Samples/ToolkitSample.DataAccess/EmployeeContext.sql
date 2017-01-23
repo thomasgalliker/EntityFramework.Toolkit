@@ -19,6 +19,8 @@ create table [dbo].[Employee] (
     [Id] [int] not null,
     [DepartmentId] [int] null,
     [EmployementDate] [datetime] null,
+    [PropertyA] [nvarchar](max) null,
+    [PropertyB] [nvarchar](max) null,
     primary key ([Id])
 );
 create table [dbo].[Person] (
@@ -28,6 +30,13 @@ create table [dbo].[Person] (
     [Birthdate] [datetime] not null,
     [CountryId] [nvarchar](3) null,
     [RowVersion] [rowversion] not null,
+    primary key ([Id])
+);
+create table [dbo].[Room] (
+    [Id] [int] not null identity,
+    [Level] [int] not null,
+    [Sector] [nvarchar](900) null,
+    [Description] [nvarchar](255) null,
     primary key ([Id])
 );
 create table [dbo].[Student] (

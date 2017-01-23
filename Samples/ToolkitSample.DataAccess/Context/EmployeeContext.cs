@@ -32,6 +32,7 @@ namespace ToolkitSample.DataAccess.Context
             modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
             modelBuilder.Configurations.Add(new StudentEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
+            modelBuilder.Configurations.Add(new RoomConfiguration());
             modelBuilder.Configurations.Add(new CountryEntityConfiguration());
             modelBuilder.Configurations.Add(new ApplicationSettingEntityTypeConfiguration());
 
