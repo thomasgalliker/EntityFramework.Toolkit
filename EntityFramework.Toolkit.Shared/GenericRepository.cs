@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 #endif
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Extensions;
+using EntityFramework.Toolkit.Utils;
 
 using QueryableExtensions = EntityFramework.Toolkit.Extensions.QueryableExtensions;
 
@@ -119,10 +120,31 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public virtual void Update(T entity)
+        public virtual T Update(T entity)
         {
-            this.context.Edit(entity);
+            return this.context.Edit(entity);
         }
+
+        /// <inheritdoc />
+        public virtual T UpdateProperties<TValue>(T entity, params Expression<Func<T, TValue>>[] propertyExpressions)
+        {
+            this.context.UndoChanges(entity);
+
+            var propertyNames = propertyExpressions.Select(pe => pe.GetPropertyInfo().Name).ToArray();
+            this.context.ModifyProperties(entity, propertyNames);
+
+            return entity;
+        }
+
+        /// <inheritdoc />
+        public virtual T UpdateProperty<TValue>(T entity, Expression<Func<T, TValue>> propertyExpression, TValue value)
+        {
+            entity = this.UpdateProperties(entity, propertyExpression);
+
+            entity.SetPropertyValue(propertyExpression.GetPropertyInfo().Name, value);
+            return entity;
+        }
+
 
         /// <inheritdoc />
         public virtual T Remove(T entity)
@@ -131,7 +153,9 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
+        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) 
+            where TEntity : class 
+            where TProperty : class
         {
             this.context.LoadReferenced(entity, navigationProperty);
         }

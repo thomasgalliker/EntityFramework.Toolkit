@@ -61,6 +61,11 @@ namespace EntityFramework.Toolkit.Utils
             return sourceObject.GetType().GetProperty(propertyName).GetValue(sourceObject, null);
         }
 
+        internal static void SetPropertyValue(this object sourceObject, string propertyName, object value)
+        {
+            sourceObject.GetType().GetProperty(propertyName).SetValue(sourceObject, value);
+        }
+
         internal static string GetMemberName<T>(Expression<Func<T, object>> expression)
         {
             if (expression == null)

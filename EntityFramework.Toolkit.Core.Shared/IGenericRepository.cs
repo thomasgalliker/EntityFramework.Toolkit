@@ -40,7 +40,17 @@ namespace EntityFramework.Toolkit.Core
         ///     Updates the given entity. This method checks if an entity exists before it tries to perform the update activity.
         /// </summary>
         /// <param name="entity">The entity to be updated in the database context.</param>
-        void Update(T entity);
+        T Update(T entity);
+
+        /// <summary>
+        /// Update given properties in <paramref name="propertyExpressions"/> of given <paramref name="entity"/>.
+        /// </summary>
+        T UpdateProperties<TValue>(T entity, params Expression<Func<T, TValue>>[] propertyExpressions);
+
+        /// <summary>
+        /// Update given property in <paramref name="propertyExpression"/> of given <paramref name="entity"/> with <paramref name="value"/>.
+        /// </summary>
+        T UpdateProperty<TValue>(T entity, Expression<Func<T, TValue>> propertyExpression, TValue value);
 
         /// <summary>
         ///     Marks the given entity as Deleted such that it will be deleted from the database when SaveChanges

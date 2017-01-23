@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.4-pre94</version>
+    <version>1.0.4-pre95</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -16,6 +16,7 @@
     </tags>
     <releaseNotes>
       1.0.4-pre
+      - Add extension method 'UpdateProperty' and 'UpdateProperties' to selectively update entity properties
       - Add extension method 'Unique' to mark multiple properties as composite unique index
       - Add query method Any as extension method
       - Add RemoveById as extension method

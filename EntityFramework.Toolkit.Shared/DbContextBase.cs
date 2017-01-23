@@ -142,6 +142,21 @@ namespace EntityFramework.Toolkit
             return entity;
         }
 
+        public void UndoChanges<TEntity>(TEntity entity) where TEntity : class
+        {
+            this.Entry(entity).State = EntityState.Unchanged;
+        }
+
+        public void ModifyProperties<TEntity>(TEntity entity, params string[] propertyNames) where TEntity : class
+        {
+            var entry = this.Entry(entity);
+
+            foreach (var propertyName in propertyNames)
+            {
+                entry.Property(propertyName).IsModified = true;
+            }
+        }
+
         public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
             where TEntity : class
             where TProperty : class

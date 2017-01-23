@@ -366,6 +366,58 @@ namespace EntityFramework.Toolkit.Tests.Repository
         }
 
         [Fact]
+        public void ShouldUpdatePropertyOfExistingEmployee()
+        {
+            // Arrange
+            var expectedFirstName = "Updated FirstName";
+            var expectedLastName = "Updated LastName";
+            var expectedEmployementDate = new DateTime(2000, 1, 1);
+
+            var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
+            var countryCH = Testdata.Countries.CreateCountrySwitzerland();
+
+            Employee employee1;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employee1 = employeeRepository.Add(Testdata.Employees.CreateEmployee1());
+                employee1.Department = departmentHr;
+                employee1.Country = countryCH;
+
+                employeeRepository.Save();
+            }
+
+            employee1.FirstName = expectedFirstName;
+            employee1.LastName = expectedLastName;
+
+            // Act
+            ChangeSet committedChangeSet;
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                employeeRepository.UpdateProperty(employee1, e => e.EmployementDate, expectedEmployementDate);
+                employeeRepository.UpdateProperties(employee1, e => e.FirstName, e => e.LastName);
+                committedChangeSet = employeeRepository.Save();
+            }
+
+            // Assert
+            committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 1, expectedNumberOfDeleted: 0);
+            var changedProperties = committedChangeSet.Changes.Single().ChangedProperties.ToList();
+            changedProperties.Should().ContainSingle(p => p.PropertyName == "FirstName" && (string)p.CurrentValue == expectedFirstName);
+            changedProperties.Should().ContainSingle(p => p.PropertyName == "LastName" && (string)p.CurrentValue == expectedLastName);
+
+            using (IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext()))
+            {
+                var allEmployees = employeeRepository.GetAll().ToList();
+                allEmployees.Should().HaveCount(1);
+
+                var expectedEmployeeUpdate = Testdata.Employees.CreateEmployee1();
+                expectedEmployeeUpdate.FirstName = expectedFirstName;
+                expectedEmployeeUpdate.LastName = expectedLastName;
+
+                allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(expectedEmployeeUpdate);
+            }
+        }
+
+        [Fact]
         public void ShouldUpdateExistingEmployee()
         {
             // Arrange
