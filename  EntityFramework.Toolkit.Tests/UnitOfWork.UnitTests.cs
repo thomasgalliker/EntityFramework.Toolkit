@@ -68,7 +68,7 @@ namespace EntityFramework.Toolkit.Tests
 
             // Assert
             var ex = action.ShouldThrow<UnitOfWorkException>();
-            ex.Which.Message.Should().Contain("UnitOfWork in context 'ObjectProxy_1' failed to commit.");
+            ex.Which.Message.Should().Contain("failed to commit.");
             ex.WithInnerException<InvalidOperationException>();
             ex.Which.InnerException.Message.Should().Contain("SampleContextTwo failed to SaveChanges.");
 
