@@ -28,7 +28,8 @@ namespace EntityFramework.Toolkit
         /// <summary>
         ///     Initializes a new instance of the <see cref="GenericRepository{T}" /> class.
         /// </summary>
-        protected GenericRepository(IDbContext context)
+        // ReSharper disable once PublicConstructorInAbstractClass
+        public GenericRepository(IDbContext context)
         {
             if (context == null)
             {
