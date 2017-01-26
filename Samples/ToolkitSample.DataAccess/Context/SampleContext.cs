@@ -111,6 +111,16 @@ namespace ToolkitSample.DataAccess.Context
             throw new NotImplementedException();
         }
 
+        public void UndoChanges<TEntity>(TEntity entity) where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ModifyProperties<TEntity>(TEntity entity, params string[] propertyNames) where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
         public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
         {
             throw new NotImplementedException();

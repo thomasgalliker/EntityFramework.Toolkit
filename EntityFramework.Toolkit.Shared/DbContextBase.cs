@@ -31,6 +31,11 @@ namespace EntityFramework.Toolkit
         protected DbContextBase()
         {
             //TryInitializeDatabase(this, null);
+            this.contextName = typeof(TContext).GetFormattedName();
+        }
+
+        protected DbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
         }
 
         protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null)
@@ -46,7 +51,6 @@ namespace EntityFramework.Toolkit
             this.Configuration.ProxyCreationEnabled = dbConnection.ProxyCreationEnabled;
             this.Name = dbConnection.Name ?? this.GetType().GetFormattedName();
 
-            this.contextName = typeof(TContext).GetFormattedName();
             this.Database.Log($"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
 
             TryInitializeDatabase(this, databaseInitializer);
