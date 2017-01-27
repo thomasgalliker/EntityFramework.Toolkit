@@ -18,7 +18,7 @@ namespace EntityFramework.Toolkit
     ///     Implementation of a generic repository.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class GenericRepository<T> : IGenericRepository<T>
+    public class GenericRepository<T> : IGenericRepository<T>
         where T : class
     {
         protected readonly DbSet<T> DbSet;
