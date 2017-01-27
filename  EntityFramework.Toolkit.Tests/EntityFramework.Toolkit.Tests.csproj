@@ -117,7 +117,7 @@
     <Compile Include="Repository\EmployeeReadOnlyRepositoryTests.cs" />
     <Compile Include="Repository\PersonRepositoryTests.cs" />
     <Compile Include="Stubs\Testdata.cs" />
-    <Compile Include="Repository\EmployeeRepositoryTests.cs" />
+    <Compile Include="Repository\GenericRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.IntegrationTests.cs" />
     <Compile Include="UnitOfWork.UnitTests.cs" />
