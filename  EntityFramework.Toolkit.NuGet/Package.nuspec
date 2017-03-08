@@ -49,7 +49,7 @@
       - EDMX tools to generate *.edmx file from EntityFramework context
 
     </releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <copyright>Copyright 2017</copyright>
     <language>en-US</language>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Transactions" targetFramework="net40, net45" />
