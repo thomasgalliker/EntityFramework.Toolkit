@@ -253,6 +253,11 @@ namespace EntityFramework.Toolkit
                 string errorMessage = validationException.GetFormattedErrorMessage();
                 throw new DbEntityValidationException(errorMessage, validationException);
             }
+            catch (DbUpdateException dbUpdateException)
+            {
+                string errorMessage = dbUpdateException.GetFormattedErrorMessage();
+                throw new DbUpdateException(errorMessage, dbUpdateException);
+            }
         }
 #endif
 
