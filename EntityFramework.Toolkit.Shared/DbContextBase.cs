@@ -36,9 +36,11 @@ namespace EntityFramework.Toolkit
 
         protected DbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
         {
+            this.contextName = typeof(TContext).GetFormattedName();
         }
 
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null)
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null) 
+            : this()
         {
             if (log == null)
             {
