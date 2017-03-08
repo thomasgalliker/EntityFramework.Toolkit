@@ -22,7 +22,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AssemblyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DatabaseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbContextExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbEntityEntryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbEntityValidationExceptionFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbUpdateExceptionFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExpressionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MappingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryableExtensions.cs" />

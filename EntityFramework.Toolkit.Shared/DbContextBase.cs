@@ -183,15 +183,15 @@ namespace EntityFramework.Toolkit
                 string errorMessage = validationException.GetFormattedErrorMessage();
                 throw new DbEntityValidationException(errorMessage, validationException);
             }
-            catch (DbUpdateConcurrencyException concurrencyException)
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
                 // Get the current entity values and the values in the database 
                 // as instances of the entity type 
-                var entry = concurrencyException.Entries.Single();
+                var entry = dbUpdateConcurrencyException.Entries.Single();
                 var databaseValues = entry.GetDatabaseValues();
                 if (databaseValues == null)
                 {
-                    throw new UpdateConcurrencyException("Failed to update an entity which which has previsouly been deleted.", concurrencyException);
+                    throw new UpdateConcurrencyException("Failed to update an entity which which has previsouly been deleted.", dbUpdateConcurrencyException);
                 }
 
                 var databaseValuesAsObject = databaseValues.ToObject();
@@ -226,18 +226,10 @@ namespace EntityFramework.Toolkit
 
                 ////throw;
             }
-            catch (DbUpdateException updateException)
+            catch (DbUpdateException dbUpdateException)
             {
-                //often in innerException
-                if (updateException.InnerException != null)
-                    Debug.WriteLine(updateException.InnerException.Message);
-                //which exceptions does it relate to
-                foreach (var entry in updateException.Entries)
-                {
-                    Debug.WriteLine(entry.Entity);
-                }
-
-                throw;
+                string errorMessage = dbUpdateException.GetFormattedErrorMessage();
+                throw new DbUpdateException(errorMessage, dbUpdateException);
             }
         }
 
