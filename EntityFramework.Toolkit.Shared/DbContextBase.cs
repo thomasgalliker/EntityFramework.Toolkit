@@ -8,18 +8,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
-#if !NET40
-using System.Threading.Tasks;
-#endif
-
 using EntityFramework.Toolkit.Concurrency;
 using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Extensions;
+#if !NET40
+using System.Threading.Tasks;
+#endif
 
 namespace EntityFramework.Toolkit
 {
-    public abstract class DbContextBase<TContext> : DbContext, IDbContext where TContext : DbContext
+    public abstract class DbContextBase<TContext> : DbContext, IDbContext
+        where TContext : DbContext
     {
         private static readonly IList<TContext> InitializerLock = new List<TContext>();
 
@@ -34,12 +34,13 @@ namespace EntityFramework.Toolkit
             this.contextName = typeof(TContext).GetFormattedName();
         }
 
-        protected DbContextBase(string nameOrConnectionString) : base(nameOrConnectionString)
+        protected DbContextBase(string nameOrConnectionString)
+            : base(nameOrConnectionString)
         {
             this.contextName = typeof(TContext).GetFormattedName();
         }
 
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null) 
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null)
             : this()
         {
             if (log == null)
@@ -53,7 +54,8 @@ namespace EntityFramework.Toolkit
             this.Configuration.ProxyCreationEnabled = dbConnection.ProxyCreationEnabled;
             this.Name = dbConnection.Name ?? this.GetType().GetFormattedName();
 
-            this.Database.Log($"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
+            this.Database.Log(
+                $"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
 
             TryInitializeDatabase(this, databaseInitializer);
 
@@ -163,9 +165,7 @@ namespace EntityFramework.Toolkit
             }
         }
 
-        public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
-            where TEntity : class
-            where TProperty : class
+        public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
         {
             this.Entry(entity).Reference(navigationProperty).Load();
         }
@@ -177,8 +177,6 @@ namespace EntityFramework.Toolkit
             try
             {
                 base.SaveChanges();
-
-                return changeSet;
             }
             catch (DbEntityValidationException validationException)
             {
@@ -187,88 +185,89 @@ namespace EntityFramework.Toolkit
             }
             catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
-                // Get the current entity values and the values in the database 
-                // as instances of the entity type 
-                var entry = dbUpdateConcurrencyException.Entries.Single();
-                var databaseValues = entry.GetDatabaseValues();
-                if (databaseValues == null)
-                {
-                    throw new UpdateConcurrencyException("Failed to update an entity which which has previsouly been deleted.", dbUpdateConcurrencyException);
-                }
-
-                var databaseValuesAsObject = databaseValues.ToObject();
-                var conflictingEntity = entry.Entity;
-
-                // Have the user choose what the resolved values should be 
-                var resolvedValuesAsObject = this.ConcurrencyResolveStrategy.ResolveConcurrencyException(conflictingEntity, databaseValuesAsObject);
-                if (resolvedValuesAsObject == null || this.ConcurrencyResolveStrategy is RethrowConcurrencyResolveStrategy)
-                {
-                    if (this.ConcurrencyResolveStrategy is RethrowConcurrencyResolveStrategy)
-                    {
-                        throw;
-                    }
-                }
-
-                // Update the original values with the database values and 
-                // the current values with whatever the user choose. 
-                entry.OriginalValues.SetValues(databaseValues);
-                entry.CurrentValues.SetValues(resolvedValuesAsObject);
+                this.HandleDbUpdateConcurrencyException(dbUpdateConcurrencyException);
 
                 //TODO: Handle number of max retries
-
                 return ((IContext)this).SaveChanges();
-
-                //////assume just one
-                ////var dbEntityEntry = concurrencyException.Entries.First();
-                //////store wins
-                ////dbEntityEntry.Reload();
-                //////OR client wins
-                ////var dbPropertyValues = dbEntityEntry.GetDatabaseValues();
-                ////dbEntityEntry.OriginalValues.SetValues(dbPropertyValues); //orig = db
-
-                ////throw;
             }
             catch (DbUpdateException dbUpdateException)
             {
                 string errorMessage = dbUpdateException.GetFormattedErrorMessage();
                 throw new DbUpdateException(errorMessage, dbUpdateException);
             }
+
+            return changeSet;
         }
 
         public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; }
 
 #if !NET40
-        //TODO: Refactoer Async method too
         public new async Task<ChangeSet> SaveChangesAsync()
         {
             var changeSet = this.GetChangeSet();
             try
             {
                 await base.SaveChangesAsync();
-
-                return changeSet;
             }
             catch (DbEntityValidationException validationException)
             {
                 string errorMessage = validationException.GetFormattedErrorMessage();
                 throw new DbEntityValidationException(errorMessage, validationException);
             }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                this.HandleDbUpdateConcurrencyException(dbUpdateConcurrencyException);
+
+                //TODO: Handle number of max retries
+                return await ((IContext)this).SaveChangesAsync();
+            }
             catch (DbUpdateException dbUpdateException)
             {
                 string errorMessage = dbUpdateException.GetFormattedErrorMessage();
                 throw new DbUpdateException(errorMessage, dbUpdateException);
             }
+
+            return changeSet;
         }
 #endif
+
+        private void HandleDbUpdateConcurrencyException(DbUpdateConcurrencyException dbUpdateConcurrencyException)
+        {
+            // Get the current entity values and the values in the database 
+            // as instances of the entity type 
+            var entry = dbUpdateConcurrencyException.Entries.Single();
+            var databaseValues = entry.GetDatabaseValues();
+            if (databaseValues == null)
+            {
+                throw new UpdateConcurrencyException("Failed to update an entity which which has previsouly been deleted.", dbUpdateConcurrencyException);
+            }
+
+            var databaseValuesAsObject = databaseValues.ToObject();
+            var conflictingEntity = entry.Entity;
+
+            // Have the user choose what the resolved values should be 
+            var resolvedValuesAsObject = this.ConcurrencyResolveStrategy.ResolveConcurrencyException(conflictingEntity, databaseValuesAsObject);
+            if (resolvedValuesAsObject == null || this.ConcurrencyResolveStrategy is RethrowConcurrencyResolveStrategy)
+            {
+                if (this.ConcurrencyResolveStrategy is RethrowConcurrencyResolveStrategy)
+                {
+                    throw dbUpdateConcurrencyException;
+                }
+            }
+
+            // Update the original values with the database values and 
+            // the current values with whatever the user choose. 
+            entry.OriginalValues.SetValues(databaseValues);
+            entry.CurrentValues.SetValues(resolvedValuesAsObject);
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-
         /// <summary>
-        /// Determins the changes that are transfered to the persistence layer.
+        ///     Determins the changes that are transfered to the persistence layer.
         /// </summary>
         /// <returns>ChangeSet.</returns>
         private ChangeSet GetChangeSet()
