@@ -22,6 +22,7 @@ namespace ToolkitSample.DataAccess.Context
             : base(dbConnection, initializer, log)
         {
             this.Database.Log = s => Debug.WriteLine(s);
+            this.AuditingEnabled = true;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

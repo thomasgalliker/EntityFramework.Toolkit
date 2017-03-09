@@ -62,6 +62,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 var returnedEmployee = employeeRepository.Get().SingleOrDefault(e => e.FirstName == employee.FirstName);
 
                 returnedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+                returnedEmployee.CreatedDate.Should().BeAfter(DateTime.MinValue);
+                returnedEmployee.UpdatedDate.Should().BeNull();
             }
         }
 
@@ -467,8 +469,13 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 var expectedEmployeeUpdate = Testdata.Employees.CreateEmployee1();
                 expectedEmployeeUpdate.FirstName = "Updated " + expectedEmployeeUpdate.FirstName;
 
-                allEmployees.Single(e => e.Id == employee1.Id).ShouldBeEquivalentTo(expectedEmployeeUpdate);
-                allEmployees.Single(e => e.Id == employee2.Id).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                var returnedEmployee1 = allEmployees.Single(e => e.Id == employee1.Id);
+                returnedEmployee1.ShouldBeEquivalentTo(expectedEmployeeUpdate);
+                returnedEmployee1.UpdatedDate.Should().BeAfter(DateTime.MinValue);
+
+                var returnedEmployee2 = allEmployees.Single(e => e.Id == employee2.Id);
+                returnedEmployee2.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                returnedEmployee2.UpdatedDate.Should().BeNull();
             }
         }
 

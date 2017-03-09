@@ -45,6 +45,8 @@ namespace EntityFramework.Toolkit.Core
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class;
 
+        bool AuditingEnabled { get; set; }
+
         /// <summary>
         ///     Saves all changes made in this context to the underlying database.
         /// </summary>

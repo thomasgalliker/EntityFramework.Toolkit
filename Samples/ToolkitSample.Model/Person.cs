@@ -1,10 +1,12 @@
 using System;
 using System.Diagnostics;
 
+using EntityFramework.Toolkit.Core.Auditing;
+
 namespace ToolkitSample.Model
 {
     [DebuggerDisplay("Person: Id={Id}, FirstName={FirstName}, LastName={LastName}")]
-    public class Person
+    public class Person : ICreatedDate, IUpdatedDate
     {
         public int Id { get; set; }
 
@@ -19,5 +21,9 @@ namespace ToolkitSample.Model
         public virtual Country Country { get; set; }
 
         public byte[] RowVersion { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
     }
 }

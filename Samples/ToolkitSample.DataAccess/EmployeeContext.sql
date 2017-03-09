@@ -30,6 +30,8 @@ create table [dbo].[Person] (
     [Birthdate] [datetime] not null,
     [CountryId] [nvarchar](3) null,
     [RowVersion] [rowversion] not null,
+    [CreatedDate] [datetime] not null,
+    [UpdatedDate] [datetime] null,
     primary key ([Id])
 );
 create table [dbo].[Room] (

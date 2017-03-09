@@ -14,6 +14,8 @@ namespace EntityFramework.Toolkit.Tests.Extensions
                                                                              .Excluding(e => e.Department)
                                                                              .Excluding(e => e.DepartmentId)
                                                                              .Excluding(e => e.CountryId)
+                                                                             .Excluding(e => e.CreatedDate)
+                                                                             .Excluding(e => e.UpdatedDate)
                                                                              .Excluding(e => e.RowVersion));
         }
 

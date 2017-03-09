@@ -152,5 +152,7 @@ namespace ToolkitSample.DataAccess.Context
 
             return Task.Factory.StartNew(() => new ChangeSet(typeof(SampleContext), new List<IChange>()));
         }
+
+        public bool AuditingEnabled { get; set; }
     }
 }

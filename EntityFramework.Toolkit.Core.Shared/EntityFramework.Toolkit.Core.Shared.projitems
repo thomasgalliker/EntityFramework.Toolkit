@@ -9,6 +9,8 @@
     <Import_RootNamespace>EntityFramework.Toolkit.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\ICreatedDate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\IUpdatedDate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeState.cs" />

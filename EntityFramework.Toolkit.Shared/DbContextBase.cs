@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 
 using EntityFramework.Toolkit.Concurrency;
 using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Core.Auditing;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Extensions;
 #if !NET40
@@ -172,8 +173,8 @@ namespace EntityFramework.Toolkit
 
         public new ChangeSet SaveChanges()
         {
+            this.HandleAuditing();
             var changeSet = this.GetChangeSet();
-
             try
             {
                 base.SaveChanges();
@@ -204,6 +205,7 @@ namespace EntityFramework.Toolkit
 #if !NET40
         public new async Task<ChangeSet> SaveChangesAsync()
         {
+            this.HandleAuditing();
             var changeSet = this.GetChangeSet();
             try
             {
@@ -259,6 +261,47 @@ namespace EntityFramework.Toolkit
             // the current values with whatever the user choose. 
             entry.OriginalValues.SetValues(databaseValues);
             entry.CurrentValues.SetValues(resolvedValuesAsObject);
+        }
+
+        public bool AuditingEnabled { get; set; }
+
+        private void HandleAuditing()
+        {
+            if (this.AuditingEnabled)
+            {
+                this.AuditChanges();
+            }
+        }
+
+        private void AuditChanges()
+        {
+            // Use the same datetime for all updates in this transaction, retrieved from server when first used.
+            DateTime? dateTimeNow = null;
+
+            // Process any auditable objects.
+            foreach (var entry in this.ChangeTracker.Entries())
+            {
+                if (dateTimeNow.HasValue == false)
+                {
+                    dateTimeNow = this.Database.SqlQuery<DateTime>("SELECT GETDATE()").Single();
+                }
+
+                var creatableEntity = entry.Entity as ICreatedDate;
+                if (entry.State == EntityState.Added && creatableEntity != null)
+                {
+                    creatableEntity.CreatedDate = dateTimeNow.Value;
+                }
+
+                var updateableEntity = entry.Entity as IUpdatedDate;
+                if (entry.State == EntityState.Modified && updateableEntity != null)
+                {
+                    if (creatableEntity != null)
+                    {
+                        entry.Property<ICreatedDate>(x => x.CreatedDate).IsModified = false;
+                    }
+                    updateableEntity.UpdatedDate = dateTimeNow.Value;
+                }
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

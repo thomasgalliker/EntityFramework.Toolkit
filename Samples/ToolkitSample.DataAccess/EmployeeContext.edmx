@@ -13,6 +13,8 @@
           <Property Name="Birthdate" Type="DateTime" Nullable="false" />
           <Property Name="CountryId" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="RowVersion" Type="Binary" ConcurrencyMode="Fixed" MaxLength="8" FixedLength="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="DateTime" />
           <NavigationProperty Name="Country" Relationship="Self.Person_Country" FromRole="Person_Country_Source" ToRole="Person_Country_Target" />
         </EntityType>
         <EntityType Name="Country" customannotation:ClrType="ToolkitSample.Model.Country, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -128,6 +130,8 @@
                 <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
             <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Employee">
@@ -197,6 +201,8 @@
           <Property Name="Birthdate" Type="datetime" Nullable="false" />
           <Property Name="CountryId" Type="nvarchar" customannotation:Index="{ Name: IX_CountryId, Order: 0 }" MaxLength="3" Nullable="true" />
           <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="true" />
         </EntityType>
         <EntityType Name="Country">
           <Key>

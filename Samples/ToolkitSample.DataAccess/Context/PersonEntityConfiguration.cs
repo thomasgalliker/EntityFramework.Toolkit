@@ -16,6 +16,9 @@ namespace ToolkitSample.DataAccess.Context
             this.Property(e => e.FirstName).IsRequired().HasMaxLength(255);
 
             this.Property(e => e.Birthdate).IsRequired();
+
+            this.Property(e => e.CreatedDate).IsRequired();
+            this.Property(e => e.UpdatedDate).IsOptional();
             
             this.HasOptional(t => t.Country)
                 .WithMany()
