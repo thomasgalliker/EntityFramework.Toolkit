@@ -171,7 +171,7 @@ namespace EntityFramework.Toolkit
             this.Entry(entity).Reference(navigationProperty).Load();
         }
 
-        public new ChangeSet SaveChanges()
+        public new virtual ChangeSet SaveChanges()
         {
             this.HandleAuditing();
             var changeSet = this.GetChangeSet();
@@ -203,7 +203,7 @@ namespace EntityFramework.Toolkit
         public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; }
 
 #if !NET40
-        public new async Task<ChangeSet> SaveChangesAsync()
+        public new virtual async Task<ChangeSet> SaveChangesAsync()
         {
             this.HandleAuditing();
             var changeSet = this.GetChangeSet();
