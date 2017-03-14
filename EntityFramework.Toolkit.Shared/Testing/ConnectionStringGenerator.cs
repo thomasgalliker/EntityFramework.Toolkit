@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 namespace EntityFramework.Toolkit.Testing
 {
@@ -7,17 +8,43 @@ namespace EntityFramework.Toolkit.Testing
         /// <summary>
         /// Adds a random number to the given <param name="connectionString">connectionString</param> parameter.
         /// </summary>
-        public static string RandomizeDatabaseName(this string connectionString)
+        public static string RandomizeDatabaseName(this string connectionString, int randomTokenLength = 5)
         {
-            if (!connectionString.Contains("{0}"))
+            var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+
+            var randomToken = GetRandomToken(randomTokenLength);
+            if (!string.IsNullOrEmpty(connectionStringBuilder.InitialCatalog))
             {
-                throw new InvalidOperationException("ConnectionString does not contain a placeholder for randomization!");
+                connectionStringBuilder.InitialCatalog += randomToken;
+            }
+            else if (!string.IsNullOrEmpty(connectionStringBuilder.AttachDBFilename))
+            {
+                var dbFileExtension = ".mdf";
+                var randomAttachDbFilename = connectionStringBuilder.AttachDBFilename
+                    .Replace(dbFileExtension, "_" + randomToken + dbFileExtension);
+
+                connectionStringBuilder.AttachDBFilename = randomAttachDbFilename;
+                connectionStringBuilder.InitialCatalog = randomAttachDbFilename
+                    .Replace("|DataDirectory|\\", "");
             }
 
-            string randomString = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 5);
-            string randomizedConnectionString = string.Format(connectionString, randomString);
+            string randomizedConnectionString = connectionStringBuilder.ToString();
             return randomizedConnectionString;
         }
-    }
 
+        /// <summary>
+        /// Generates a random upper-invariant string of <paramref name="randomTokenLength"/>.
+        /// </summary>
+        /// <param name="randomTokenLength"></param>
+        /// <returns></returns>
+        private static string GetRandomToken(int randomTokenLength)
+        {
+            string randomString = Guid.NewGuid().ToString()
+                .Replace("-", "")
+                .Substring(0, randomTokenLength)
+                .ToUpperInvariant();
+
+            return randomString;
+        }
+    }
 }

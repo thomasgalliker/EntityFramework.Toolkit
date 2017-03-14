@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)QueryableIncluding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ConnectionStringGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Testing\ContextTestBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Testing\RandomizedDbConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnitOfWork.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DbHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\ReflectionHelper.cs" />
