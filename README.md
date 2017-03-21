@@ -26,8 +26,6 @@ The UnitOfWork (UOW) pattern is by definition a way to commit a set of defined w
 
 #### Generic Data Seed with IDataSeed
 Providing databases with predefined data is an essential feature. IDataSeed is the interface which abstracts the data seed of one particular entity type. Use the abstract base class ```DataSeedBase<T>``` to have the least possible effort to provide a data seed. ```DataSeedBase<T>``` allows you to define an AddOrUpdateExpression which is evaluated in order to check whether a certain entity of type T is already in the database or if it needs to be added. 
-mode and configuration of MSDTC is beyond this documentation.
-Further reading: http://martinfowler.com/eaaCatalog/unitOfWork.html 
 
 ### EntityFramework.Toolkit and IoC
 EntityFramework.Toolkit is ready to be used with an IoC framework. You may intend to create a data access module which contains your EF context, the repositories, the entity type configurations, etc. On top of that, you want to promote the CRUD-style repositories to whoever want to consume your data access layer. So, simply create a seperate data access abstraction assembly which contains an interface definition for your repositories. Have a look at the ToolkitSample provided in this project. This sample project adds modularity using the well-known Autofac IoC framework. Have a look at the module configuration ```DataAccessModule``` to get an impression of how to set-up the dependencies.
