@@ -24,7 +24,7 @@ namespace EntityFramework.Toolkit
     {
         private static readonly IList<TContext> InitializerLock = new List<TContext>();
 
-        private readonly string contextName;
+        private readonly string contextName = typeof(TContext).GetFormattedName();
 
         /// <summary>
         ///     Empty constructor is used for 'update-database' command-line command.
@@ -32,24 +32,28 @@ namespace EntityFramework.Toolkit
         protected DbContextBase()
         {
             //TryInitializeDatabase(this, null);
-            this.contextName = typeof(TContext).GetFormattedName();
         }
 
         protected DbContextBase(string nameOrConnectionString)
             : base(nameOrConnectionString)
         {
-            this.contextName = typeof(TContext).GetFormattedName();
+            this.EnsureLog();
+            this.Name = this.contextName;
+
+            this.Database.Log(
+                $"Initializing DbContext '{this.contextName}' with NameOrConnectionString = \"{nameOrConnectionString}\"");
         }
 
-        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log = null)
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
+            : this(dbConnection, databaseInitializer, log: null)
+        {
+        }
+
+        protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log)
             : this()
         {
-            if (log == null)
-            {
-                log = s => Debug.WriteLine(s);
-            }
+            this.EnsureLog(log);
 
-            this.Database.Log = message => log(message);
             this.Database.Connection.ConnectionString = dbConnection.ConnectionString;
             this.Configuration.LazyLoadingEnabled = dbConnection.LazyLoadingEnabled;
             this.Configuration.ProxyCreationEnabled = dbConnection.ProxyCreationEnabled;
@@ -59,10 +63,19 @@ namespace EntityFramework.Toolkit
                 $"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
 
             TryInitializeDatabase(this, databaseInitializer);
-
-            this.ConcurrencyResolveStrategy = new RethrowConcurrencyResolveStrategy();
         }
 
+        private void EnsureLog(Action<string> log = null)
+        {
+            if (log == null)
+            {
+                log = s => Debug.WriteLine(s);
+            }
+
+            this.Database.Log = message => log(message);
+        }
+
+        ///<inheritdoc/>
         public string Name { get; private set; }
 
         private static void TryInitializeDatabase(DbContext dbContext, IDatabaseInitializer<TContext> databaseInitializer)
@@ -80,11 +93,13 @@ namespace EntityFramework.Toolkit
             }
         }
 
+        ///<inheritdoc/>
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }
 
+        ///<inheritdoc/>
         public void ResetDatabase()
         {
             this.Database.Log($"ResetDatabase of DbContext '{this.contextName}' with ConnectionString = \"{this.Database.Connection.ConnectionString}\"");
@@ -99,6 +114,7 @@ namespace EntityFramework.Toolkit
             this.Database.Initialize(force: true);
         }
 
+        ///<inheritdoc/>
         public void DropDatabase()
         {
             this.Database.Log($"DropDatabase of DbContext '{this.contextName}' with ConnectionString = \"{this.Database.Connection.ConnectionString}\"");
@@ -112,6 +128,7 @@ namespace EntityFramework.Toolkit
             this.Database.Delete();
         }
 
+        ///<inheritdoc/>
         public TEntity Edit<TEntity>(TEntity entity) where TEntity : class
         {
             if (entity == null)
@@ -123,6 +140,7 @@ namespace EntityFramework.Toolkit
             return entity;
         }
 
+        ///<inheritdoc/>
         public TEntity Edit<TEntity>(TEntity originalEntity, TEntity updateEntity) where TEntity : class
         {
             if (originalEntity == null)
@@ -145,17 +163,20 @@ namespace EntityFramework.Toolkit
             return originalEntity;
         }
 
+        ///<inheritdoc/>
         public TEntity Delete<TEntity>(TEntity entity) where TEntity : class
         {
             this.Entry(entity).State = EntityState.Deleted;
             return entity;
         }
 
+        ///<inheritdoc/>
         public void UndoChanges<TEntity>(TEntity entity) where TEntity : class
         {
             this.Entry(entity).State = EntityState.Unchanged;
         }
 
+        ///<inheritdoc/>
         public void ModifyProperties<TEntity>(TEntity entity, params string[] propertyNames) where TEntity : class
         {
             var entry = this.Entry(entity);
@@ -166,11 +187,13 @@ namespace EntityFramework.Toolkit
             }
         }
 
+        ///<inheritdoc/>
         public void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class
         {
             this.Entry(entity).Reference(navigationProperty).Load();
         }
 
+        ///<inheritdoc/>
         public new virtual ChangeSet SaveChanges()
         {
             this.HandleAuditing();
@@ -200,9 +223,11 @@ namespace EntityFramework.Toolkit
             return changeSet;
         }
 
-        public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; }
+        ///<inheritdoc/>
+        public IConcurrencyResolveStrategy ConcurrencyResolveStrategy { get; set; } = new RethrowConcurrencyResolveStrategy();
 
 #if !NET40
+        ///<inheritdoc/>
         public new virtual async Task<ChangeSet> SaveChangesAsync()
         {
             this.HandleAuditing();
@@ -263,6 +288,7 @@ namespace EntityFramework.Toolkit
             entry.CurrentValues.SetValues(resolvedValuesAsObject);
         }
 
+        ///<inheritdoc/>
         public bool AuditingEnabled { get; set; }
 
         private void HandleAuditing()
@@ -304,6 +330,7 @@ namespace EntityFramework.Toolkit
             }
         }
 
+        ///<inheritdoc/>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -340,6 +367,22 @@ namespace EntityFramework.Toolkit
             result.AddRange(updateChanges);
 
             return new ChangeSet(typeof(TContext), result);
+        }
+
+        ///<inheritdoc/>
+        public bool IsDisposed { get; private set; }
+
+        ///<inheritdoc/>:
+        protected override void Dispose(bool disposing)
+        {
+            if (this.IsDisposed)
+            {
+                return;
+            }
+
+            base.Dispose(disposing);
+
+            this.IsDisposed = true;
         }
 
         /// <summary>
