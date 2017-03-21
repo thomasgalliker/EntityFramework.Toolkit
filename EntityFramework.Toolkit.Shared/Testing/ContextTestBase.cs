@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 using EntityFramework.Toolkit.Core;
 
 namespace EntityFramework.Toolkit.Testing
 {
-    public abstract class ContextTestBase<TContext> : IDisposable where TContext : DbContextBase<TContext>
+    public abstract class ContextTestBase<TContext> : IDisposable
+        where TContext : DbContextBase<TContext>
     {
         private readonly ICollection<TContext> contextInstances = new List<TContext>();
         private readonly IDbConnection dbConnection;
@@ -29,7 +29,7 @@ namespace EntityFramework.Toolkit.Testing
         protected bool DeleteDatabaseOnDispose { get; set; }
 
         protected ContextTestBase(Func<IDbConnection> dbConnection, bool deleteDatabaseOnDispose, Action<string> log = null)
-               : this(dbConnection: dbConnection, databaseInitializer: null, log: log, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
+            : this(dbConnection: dbConnection, databaseInitializer: null, log: log, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
         {
         }
 
@@ -137,9 +137,10 @@ namespace EntityFramework.Toolkit.Testing
             {
                 var sb = new StringBuilder();
                 var definedParameters = string.Join(", ", argTypes.Select(p => p.GetFormattedName()));
-                sb.AppendLine(definedParameters.Length == 0
-                    ? $"{contextType.Name} does not have a constructor with no parameters."
-                    : $"{contextType.Name} does not have a constructor with parameter{(definedParameters.Length > 1 ? "s" : "")} ({definedParameters}).");
+                sb.AppendLine(
+                    definedParameters.Length == 0
+                        ? $"{contextType.Name} does not have a constructor with no parameters."
+                        : $"{contextType.Name} does not have a constructor with parameter{(definedParameters.Length > 1 ? "s" : "")} ({definedParameters}).");
 
                 var constructors = contextType.GetConstructors();
                 if (constructors.Any())

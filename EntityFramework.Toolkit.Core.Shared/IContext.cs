@@ -45,6 +45,9 @@ namespace EntityFramework.Toolkit.Core
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class;
 
+        /// <summary>
+        /// Specifies if the auditing feature is enabled.
+        /// </summary>
         bool AuditingEnabled { get; set; }
 
         /// <summary>
