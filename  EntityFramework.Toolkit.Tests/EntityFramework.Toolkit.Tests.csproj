@@ -121,6 +121,7 @@
     <Compile Include="Stubs\Testdata.cs" />
     <Compile Include="Repository\GenericRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Testing\ConnectionStringGeneratorTests.cs" />
     <Compile Include="UnitOfWork.IntegrationTests.cs" />
     <Compile Include="UnitOfWork.UnitTests.cs" />
     <Compile Include="Utils\DbHelpersTests.cs" />

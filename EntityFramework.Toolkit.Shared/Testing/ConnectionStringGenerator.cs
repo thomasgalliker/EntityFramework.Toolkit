@@ -39,6 +39,11 @@ namespace EntityFramework.Toolkit.Testing
         /// <returns></returns>
         private static string GetRandomToken(int randomTokenLength)
         {
+            if (randomTokenLength > 32)
+            {
+                throw new ArgumentException($"{nameof(randomTokenLength)} must not be greater than 32", nameof(randomTokenLength));
+            }
+
             string randomString = Guid.NewGuid().ToString()
                 .Replace("-", "")
                 .Substring(0, randomTokenLength)
