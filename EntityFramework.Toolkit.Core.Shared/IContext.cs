@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
-#if !NET40
 using System.Threading.Tasks;
+#if !NET40
 
 #endif
 
-namespace EntityFramework.Toolkit.Core
+namespace EntityFramework.Toolkit
 {
     public interface IContext : IDisposable
     {
@@ -44,11 +44,6 @@ namespace EntityFramework.Toolkit.Core
         void ModifyProperties<TEntity>(TEntity entity, params string[] propertyNames) where TEntity : class;
 
         void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) where TEntity : class where TProperty : class;
-
-        /// <summary>
-        /// Specifies if the auditing feature is enabled.
-        /// </summary>
-        bool AuditingEnabled { get; set; }
 
         /// <summary>
         ///     Saves all changes made in this context to the underlying database.

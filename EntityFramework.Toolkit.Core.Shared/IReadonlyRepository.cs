@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace EntityFramework.Toolkit.Core
+namespace EntityFramework.Toolkit
 {
     public interface IReadOnlyRepository<T> : IRepository
     {

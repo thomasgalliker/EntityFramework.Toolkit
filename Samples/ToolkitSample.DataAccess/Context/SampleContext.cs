@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EntityFramework.Toolkit;
-using EntityFramework.Toolkit.Core;
+
 using ToolkitSample.DataAccess.Stubs;
 using ToolkitSample.Model;
 
@@ -146,12 +146,28 @@ namespace ToolkitSample.DataAccess.Context
             return new ChangeSet(typeof(SampleContext), new List<IChange>());
         }
 
+        public ChangeSet SaveChanges(string username)
+        {
+            this.OnSaveCalled(EventArgs.Empty);
+
+            return new ChangeSet(typeof(SampleContext), new List<IChange>());
+        }
+
+#if !NET40
         Task<ChangeSet> IContext.SaveChangesAsync()
         {
             this.OnSaveCalled(EventArgs.Empty);
 
             return Task.Factory.StartNew(() => new ChangeSet(typeof(SampleContext), new List<IChange>()));
         }
+
+        public Task<ChangeSet> SaveChangesAsync(string username)
+        {
+            this.OnSaveCalled(EventArgs.Empty);
+
+            return Task.Factory.StartNew(() => new ChangeSet(typeof(SampleContext), new List<IChange>()));
+        }
+#endif
 
         public bool AuditingEnabled { get; set; }
     }

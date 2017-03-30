@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Text;
 
-using EntityFramework.Toolkit.Core;
-
 using FluentAssertions.Execution;
 
 namespace EntityFramework.Toolkit.Tests.Extensions

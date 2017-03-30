@@ -11,7 +11,7 @@ namespace EntityFramework.Toolkit.Tests
     {
         public EmployeeContextTestDbConnection()
             : base(name: "EntityFramework.Toolkit.Tests",
-                   connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.Tests.{0}.mdf; Integrated Security=True;".RandomizeDatabaseName())
+                   connectionString: @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.Tests.mdf; Integrated Security=True;".RandomizeDatabaseName())
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetCurrentDirectory());
 

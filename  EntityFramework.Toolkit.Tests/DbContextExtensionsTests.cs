@@ -20,7 +20,8 @@ namespace EntityFramework.Toolkit.Tests
     public class DbContextExtensionsTests : ContextTestBase<EmployeeContext>
     {
         public DbContextExtensionsTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: () => new EmployeeContextTestDbConnection(), 
+            : base(dbConnection: () => new EmployeeContextTestDbConnection(),
+                  databaseInitializer: new DropCreateDatabaseAlways<EmployeeContext>(),
                    log: testOutputHelper.WriteLine)
         {
         }

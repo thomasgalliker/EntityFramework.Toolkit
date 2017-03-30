@@ -45,6 +45,20 @@
         <EntityType Name="Student" customannotation:ClrType="ToolkitSample.Model.Student, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" BaseType="Self.Person">
           <Property Name="EnrollmentDate" Type="DateTime" Nullable="false" />
         </EntityType>
+        <EntityType Name="EmployeeAudit" customannotation:ClrType="ToolkitSample.Model.Auditing.EmployeeAudit, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="AuditId" />
+          </Key>
+          <Property Name="AuditId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Updated" Type="DateTime" />
+          <Property Name="UpdateUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Audited" Type="DateTime" Nullable="false" />
+          <Property Name="AuditUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AuditType" Type="Self.AuditEntityState" Nullable="false" />
+        </EntityType>
         <EntityType Name="Room" customannotation:ClrType="ToolkitSample.Model.Room, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
             <PropertyRef Name="Id" />
@@ -61,6 +75,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EnumType Name="AuditEntityState" IsFlags="true" customannotation:ClrType="EntityFramework.Toolkit.Auditing.AuditEntityState, EntityFramework.Toolkit.Core, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Added" Value="4" />
+          <Member Name="Deleted" Value="8" />
+          <Member Name="Modified" Value="16" />
+        </EnumType>
         <Association Name="Person_Country">
           <End Role="Person_Country_Source" Type="Self.Person" Multiplicity="*" />
           <End Role="Person_Country_Target" Type="Self.Country" Multiplicity="0..1" />
@@ -101,6 +120,7 @@
           <EntitySet Name="People" EntityType="Self.Person" />
           <EntitySet Name="Countries" EntityType="Self.Country" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="EmployeeAudits" EntityType="Self.EmployeeAudit" />
           <EntitySet Name="Rooms" EntityType="Self.Room" />
           <EntitySet Name="ApplicationSettings" EntityType="Self.ApplicationSetting" />
           <AssociationSet Name="Person_Country" Association="Self.Person_Country">
@@ -168,6 +188,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeAudits">
+            <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.EmployeeAudit">
+              <MappingFragment StoreEntitySet="EmployeeAudit">
+                <ScalarProperty Name="AuditId" ColumnName="AuditId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="Audited" ColumnName="Audited" />
+                <ScalarProperty Name="AuditUser" ColumnName="AuditUser" />
+                <ScalarProperty Name="AuditType" ColumnName="AuditType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="ToolkitSample.DataAccess.Context.Room">
               <MappingFragment StoreEntitySet="Room">
@@ -219,6 +254,20 @@
           <Property Name="Name" Type="nvarchar" customannotation:Index="{ Name: UQ_Default, Order: 0, IsUnique: True }" MaxLength="255" Nullable="false" />
           <Property Name="LeaderId" Type="int" customannotation:Index="{ Name: IX_LeaderId, Order: 0 }" Nullable="true" />
           <Property Name="RowVersion" Type="rowversion" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeAudit">
+          <Key>
+            <PropertyRef Name="AuditId" />
+          </Key>
+          <Property Name="AuditId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="true" />
+          <Property Name="UpdateUser" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Audited" Type="datetime" Nullable="false" />
+          <Property Name="AuditUser" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="AuditType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -317,6 +366,7 @@
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" Table="Person" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" Table="Countries" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" Table="Departments" />
+          <EntitySet Name="EmployeeAudit" EntityType="Self.EmployeeAudit" Schema="dbo" Table="EmployeeAudit" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" Table="Room" />
           <EntitySet Name="ApplicationSetting" EntityType="Self.ApplicationSetting" Schema="dbo" Table="ApplicationSettings" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" Table="Employee" />
@@ -374,6 +424,7 @@
         <InheritanceConnector EntityType="ToolkitSample.DataAccess.Context.Employee" />
         <InheritanceConnector EntityType="ToolkitSample.DataAccess.Context.Student" />
         <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.Room" Width="1.5" PointX="0" PointY="0" IsExpanded="true" />
+        <EntityTypeShape EntityType="ToolkitSample.DataAccess.Context.EmployeeAudit" Width="1.5" PointX="0" PointY="0" IsExpanded="true" />
       </Diagram>
     </Diagrams>
   </Designer>

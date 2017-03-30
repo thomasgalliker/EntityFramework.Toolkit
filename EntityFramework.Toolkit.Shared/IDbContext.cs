@@ -1,7 +1,5 @@
 ﻿using System.Data.Entity;
 
-using EntityFramework.Toolkit.Core;
-
 namespace EntityFramework.Toolkit
 {
     public interface IDbContext : IContext

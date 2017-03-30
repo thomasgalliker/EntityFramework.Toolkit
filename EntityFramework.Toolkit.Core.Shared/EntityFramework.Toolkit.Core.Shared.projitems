@@ -9,6 +9,9 @@
     <Import_RootNamespace>EntityFramework.Toolkit.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditEntityState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\IAuditEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Auditing\ICreatedDate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Auditing\IUpdatedDate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
@@ -16,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ChangeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReadOnlyRepositoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericRepositoryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAuditContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDataSeed.cs" />

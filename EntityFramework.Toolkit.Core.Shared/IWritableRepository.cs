@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 #endif
 
-namespace EntityFramework.Toolkit.Core
+namespace EntityFramework.Toolkit
 {
     public interface IWritableRepository : IRepository
     {

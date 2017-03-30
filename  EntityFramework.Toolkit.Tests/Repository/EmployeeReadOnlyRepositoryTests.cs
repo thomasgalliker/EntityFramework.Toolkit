@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-
-using EntityFramework.Toolkit.Core;
-using EntityFramework.Toolkit.Core.Extensions;
+using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
@@ -22,7 +20,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
     {
         public EmployeeReadOnlyRepositoryTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  initializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
+                  databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
                   log: testOutputHelper.WriteLine)
         {
         }

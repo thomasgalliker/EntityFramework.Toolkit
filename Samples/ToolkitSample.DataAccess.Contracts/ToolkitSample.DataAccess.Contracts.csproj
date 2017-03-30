@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework.Toolkit.Core, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.Toolkit.Core.1.0.4-pre999\lib\net45\EntityFramework.Toolkit.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +48,10 @@
     <Compile Include="Repository\IPersonRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.Core.Net45\EntityFramework.Toolkit.Core.Net45.csproj">
+      <Project>{0ea8395e-21be-4042-ac70-f6b21ef845af}</Project>
+      <Name>EntityFramework.Toolkit.Core.Net45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToolkitSample.Model\ToolkitSample.Model.csproj">
       <Project>{f73b662b-33eb-4d15-9da7-2798645aafaa}</Project>
       <Name>ToolkitSample.Model</Name>

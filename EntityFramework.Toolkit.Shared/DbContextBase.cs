@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
@@ -9,8 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 using EntityFramework.Toolkit.Concurrency;
-using EntityFramework.Toolkit.Core;
-using EntityFramework.Toolkit.Core.Auditing;
+
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Extensions;
 #if !NET40
@@ -35,13 +35,20 @@ namespace EntityFramework.Toolkit
             //TryInitializeDatabase(this, null);
         }
 
-        protected DbContextBase(string nameOrConnectionString)
+        protected DbContextBase(string nameOrConnectionString, IDatabaseInitializer<TContext> databaseInitializer)
+            : this(nameOrConnectionString, databaseInitializer, log: null)
+        {
+        }
+
+        protected DbContextBase(string nameOrConnectionString, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log)
             : base(nameOrConnectionString)
         {
-            this.EnsureLog();
+            this.EnsureLog(log);
             this.Name = this.contextName;
 
-            this.Database.Log($"Initializing DbContext '{this.contextName}' with NameOrConnectionString = \"{nameOrConnectionString}\"");
+            this.Database.Log($"Initializing DbContext '{this.contextName}' with NameOrConnectionString = \"{nameOrConnectionString}\" and IDatabaseInitializer =\"{databaseInitializer?.GetType().GetFormattedName()}\"");
+
+            TryInitializeDatabase(this, databaseInitializer);
         }
 
         protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
@@ -60,7 +67,7 @@ namespace EntityFramework.Toolkit
             this.Name = dbConnection.Name ?? this.GetType().GetFormattedName();
 
             this.Database.Log(
-                $"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer.GetType().GetFormattedName()}\"");
+                $"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer?.GetType().GetFormattedName()}\"");
 
             TryInitializeDatabase(this, databaseInitializer);
         }
@@ -196,7 +203,6 @@ namespace EntityFramework.Toolkit
         /// <inheritdoc />
         public new virtual ChangeSet SaveChanges()
         {
-            this.HandleAuditing();
             var changeSet = this.GetChangeSet();
             try
             {
@@ -230,7 +236,6 @@ namespace EntityFramework.Toolkit
         /// <inheritdoc />
         public new virtual async Task<ChangeSet> SaveChangesAsync()
         {
-            this.HandleAuditing();
             var changeSet = this.GetChangeSet();
             try
             {
@@ -289,48 +294,6 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public bool AuditingEnabled { get; set; }
-
-        private void HandleAuditing()
-        {
-            if (this.AuditingEnabled)
-            {
-                this.AuditChanges();
-            }
-        }
-
-        private void AuditChanges()
-        {
-            // Use the same datetime for all updates in this transaction, retrieved from server when first used.
-            DateTime? dateTimeNow = null;
-
-            // Process any auditable objects.
-            foreach (var entry in this.ChangeTracker.Entries())
-            {
-                if (dateTimeNow.HasValue == false)
-                {
-                    dateTimeNow = this.Database.SqlQuery<DateTime>("SELECT GETDATE()").Single();
-                }
-
-                var creatableEntity = entry.Entity as ICreatedDate;
-                if (entry.State == EntityState.Added && creatableEntity != null)
-                {
-                    creatableEntity.CreatedDate = dateTimeNow.Value;
-                }
-
-                var updateableEntity = entry.Entity as IUpdatedDate;
-                if (entry.State == EntityState.Modified && updateableEntity != null)
-                {
-                    if (creatableEntity != null)
-                    {
-                        entry.Property<ICreatedDate>(x => x.CreatedDate).IsModified = false;
-                    }
-                    updateableEntity.UpdatedDate = dateTimeNow.Value;
-                }
-            }
-        }
-
-        /// <inheritdoc />
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
@@ -343,7 +306,7 @@ namespace EntityFramework.Toolkit
         private ChangeSet GetChangeSet()
         {
             var updatedEntries = this.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Entity != null);
-            IList<IChange> updateChanges = new List<IChange>();
+            var updateChanges = new List<IChange>();
 
             foreach (var dbEntityEntry in updatedEntries)
             {
@@ -362,11 +325,11 @@ namespace EntityFramework.Toolkit
             var addChanges = this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added && e.Entity != null).Select(e => Change.CreateAddedChange(e.Entity));
             var deleteChanges = this.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted && e.Entity != null).Select(n => Change.CreateDeleteChange(n.Entity));
 
-            List<IChange> result = new List<IChange>(addChanges);
-            result.AddRange(deleteChanges);
-            result.AddRange(updateChanges);
+            var allChanges = new List<IChange>(addChanges);
+            allChanges.AddRange(deleteChanges);
+            allChanges.AddRange(updateChanges);
 
-            return new ChangeSet(typeof(TContext), result);
+            return new ChangeSet(typeof(TContext), allChanges);
         }
 
         /// <inheritdoc />

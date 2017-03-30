@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace EntityFramework.Toolkit.Core.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class GenericRepositoryExtensions
     {

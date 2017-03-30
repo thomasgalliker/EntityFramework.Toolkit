@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 
-using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit;
 using EntityFramework.Toolkit.Extensions;
 
 using ToolkitSample.DataAccess.Context;

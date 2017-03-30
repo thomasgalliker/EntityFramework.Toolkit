@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 
-using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Exceptions;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -23,18 +22,17 @@ namespace EntityFramework.Toolkit.Tests
     {
         public UnitOfWorkIntegrationTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  databaseInitializer: null,
-                  log: testOutputHelper.WriteLine)
+                   log: testOutputHelper.WriteLine)
         {
         }
 
         [Fact]
-        public void ShouldFailToCommitMultipleContexts2()
+        public void ShouldFailToCommitMultipleContexts()
         {
             // Arrange
             IUnitOfWork unitOfWork = new UnitOfWork();
 
-            var context1 = this.CreateContext(new DropCreateDatabaseAlways<EmployeeContext>());
+            var context1 = this.CreateContext(databaseInitializer: new DropCreateDatabaseAlways<EmployeeContext>());
             var context2 = new Mock<ISampleContextTwo>();
             context2.Setup(m => m.SaveChanges()).Throws(new InvalidOperationException("SampleContextTwo failed to SaveChanges."));
 

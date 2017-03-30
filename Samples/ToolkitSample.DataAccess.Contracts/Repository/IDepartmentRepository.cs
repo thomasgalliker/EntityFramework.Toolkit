@@ -1,4 +1,6 @@
-﻿using EntityFramework.Toolkit.Core;
+﻿
+
+using EntityFramework.Toolkit;
 
 using ToolkitSample.Model;
 

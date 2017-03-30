@@ -1,36 +1,51 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Diagnostics;
+
 using EntityFramework.Toolkit;
-using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Auditing;
+
 using EntityFramework.Toolkit.Extensions;
 
 using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Context
 {
-    public class EmployeeContext : DbContextBase<EmployeeContext>, IEmployeeContext
+    public class EmployeeContext : AuditDbContextBase<EmployeeContext>, IEmployeeContext
     {
+        private static readonly AuditDbContextConfiguration AuditDbContextConfiguration = new AuditDbContextConfiguration(auditEnabled: true);
+
         /// <summary>
-        /// Empty constructor is used for code-first database migrations.
+        ///     Empty constructor is used for 'update-database' command-line command.
         /// </summary>
         public EmployeeContext()
         {
         }
 
-        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer, Action<string> log)
-            : base(dbConnection, initializer, log)
+        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer)
+          : base(dbConnection, initializer, null)
         {
-            this.Database.Log = s => Debug.WriteLine(s);
-            this.AuditingEnabled = true;
+            this.ConfigureAuditing(AuditDbContextConfiguration);
+        }
+
+        public EmployeeContext(IDbConnection dbConnection, Action<string> log)
+           : base(dbConnection, null, log)
+        {
+            this.ConfigureAuditing(AuditDbContextConfiguration);
+        }
+
+        public EmployeeContext(IDbConnection dbConnection, IDatabaseInitializer<EmployeeContext> initializer, Action<string> log = null)
+           : base(dbConnection, initializer, log)
+        {
+            this.ConfigureAuditing(AuditDbContextConfiguration);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             this.Database.KillConnectionsToTheDatabase();
-            
+
             modelBuilder.Configurations.Add(new PersonEntityConfiguration<Person>());
-            modelBuilder.Configurations.Add(new EmployeeEntityConfiguration());
+            modelBuilder.Configurations.Add(new EmployeeEntityTypeConfiguration());
+            modelBuilder.Configurations.Add(new EmployeeAuditEntityTypeConfiguration());
             modelBuilder.Configurations.Add(new StudentEntityConfiguration());
             modelBuilder.Configurations.Add(new DepartmentEntityConfiguration());
             modelBuilder.Configurations.Add(new RoomConfiguration());

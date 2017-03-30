@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace EntityFramework.Toolkit.Core
+namespace EntityFramework.Toolkit
 {
     public interface IDataSeed
     {

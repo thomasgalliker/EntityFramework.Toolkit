@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFramework.Toolkit.Core
+namespace EntityFramework.Toolkit
 {
     public interface IRepository : IDisposable
     {

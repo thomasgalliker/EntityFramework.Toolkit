@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Threading.Tasks;
 
 using EntityFramework.Toolkit.Concurrency;
+
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
@@ -23,6 +23,7 @@ namespace EntityFramework.Toolkit.Tests
         {
         }
 
+#if !NET40
         [Fact]
         public async void ShouldSaveChangesAsync()
         {
@@ -39,37 +40,11 @@ namespace EntityFramework.Toolkit.Tests
 
             // Assert
             changeSet.Should().NotBeNull();
+            changeSet.Changes.Should().HaveCount(1);
+            changeSet.Changes.Where(c => c.State == ChangeState.Added).Should().HaveCount(1);
         }
-
-
-        [Fact]
-        public async void ShouldAuditCreatedAndUpdatedDate()
-        {
-            // Arrange
-            var initialEmployee = Testdata.Employees.CreateEmployee1();
-
-            // Act
-            using (var employeeContext = this.CreateContext())
-            {
-                employeeContext.AuditingEnabled = true;
-                employeeContext.Set<Employee>().Add(initialEmployee);
-                employeeContext.SaveChanges();
-
-                await Task.Delay(1000);
-
-                initialEmployee.FirstName = "Updated " + initialEmployee.FirstName;
-                employeeContext.SaveChanges();
-            }
-
-            // Assert
-            using (var employeeContext = this.CreateContext())
-            {
-                var allEmployees = employeeContext.Set<Employee>().ToList();
-                allEmployees.Where(e => e.CreatedDate > DateTime.MinValue).Should().HaveCount(1);
-                allEmployees.Where(e => e.UpdatedDate > e.CreatedDate).Should().HaveCount(1);
-            }
-        }
-
+#endif
+        
         [Fact]
         public void ShouldRethrowConcurrencyUpdateExceptionAsDefault()
         {

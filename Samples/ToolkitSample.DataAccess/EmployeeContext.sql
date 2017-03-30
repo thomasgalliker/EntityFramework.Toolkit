@@ -23,6 +23,18 @@ create table [dbo].[Employee] (
     [PropertyB] [nvarchar](max) null,
     primary key ([Id])
 );
+create table [dbo].[EmployeeAudit] (
+    [AuditId] [int] not null identity,
+    [Id] [int] not null,
+    [FirstName] [nvarchar](max) not null,
+    [LastName] [nvarchar](max) not null,
+    [Updated] [datetime] null,
+    [UpdateUser] [nvarchar](max) null,
+    [Audited] [datetime] not null,
+    [AuditUser] [nvarchar](max) null,
+    [AuditType] [int] not null,
+    primary key ([AuditId])
+);
 create table [dbo].[Person] (
     [Id] [int] not null identity,
     [LastName] [nvarchar](255) not null,

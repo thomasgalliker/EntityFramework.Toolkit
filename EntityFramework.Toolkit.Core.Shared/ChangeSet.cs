@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EntityFramework.Toolkit
 {
+    [DebuggerDisplay("ChangeSet: Context='{this.Context.Name}', Changes={this.Changes.Count()}", Type = "Change")]
     public class ChangeSet
     {
         public static readonly ChangeSet Empty = new ChangeSet(null, new List<IChange>());

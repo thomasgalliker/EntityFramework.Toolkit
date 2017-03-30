@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-
-using EntityFramework.Toolkit.Core;
-using EntityFramework.Toolkit.Core.Extensions;
 using EntityFramework.Toolkit.Exceptions;
+using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Extensions;
 using EntityFramework.Toolkit.Tests.Stubs;
@@ -20,6 +18,8 @@ using ToolkitSample.Model;
 using Xunit;
 using Xunit.Abstractions;
 
+using static EntityFramework.Toolkit.Tests.Stubs.Testdata.Employees;
+
 namespace EntityFramework.Toolkit.Tests.Repository
 {
     /// <summary>
@@ -31,7 +31,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
 
         public GenericRepositoryTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  initializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
+                  databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
                   log: testOutputHelper.WriteLine)
         {
             this.testOutputHelper = testOutputHelper;
@@ -41,7 +41,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddEmployee()
         {
             // Arrange
-            var employee = Testdata.Employees.CreateEmployee1();
+            var employee = CreateEmployee1();
             employee.Department = Testdata.Departments.CreateDepartmentHumanResources();
             employee.Country = Testdata.Countries.CreateCountrySwitzerland();
 
@@ -61,7 +61,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 var returnedEmployee = employeeRepository.Get().SingleOrDefault(e => e.FirstName == employee.FirstName);
 
-                returnedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+                returnedEmployee.ShouldBeEquivalentTo(CreateEmployee1());
                 returnedEmployee.CreatedDate.Should().BeAfter(DateTime.MinValue);
                 returnedEmployee.UpdatedDate.Should().BeNull();
             }
@@ -73,9 +73,9 @@ namespace EntityFramework.Toolkit.Tests.Repository
             // Arrange
             var employees = new List<Employee>
             {
-                Testdata.Employees.CreateEmployee1(),
-                Testdata.Employees.CreateEmployee2(),
-                Testdata.Employees.CreateEmployee3()
+                CreateEmployee1(),
+                CreateEmployee2(),
+                CreateEmployee3()
             };
             ChangeSet committedChangeSet;
 
@@ -100,7 +100,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveEmployee_Attached()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -121,13 +121,13 @@ namespace EntityFramework.Toolkit.Tests.Repository
             committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
 
             removedEmployee.Should().NotBeNull();
-            removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+            removedEmployee.ShouldBeEquivalentTo(CreateEmployee1());
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(1);
-                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEmployee2());
             }
         }
 
@@ -135,7 +135,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveEmployee_Detached()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -148,7 +148,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             ChangeSet committedChangeSet;
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
-                var employeeToRemove = Testdata.Employees.CreateEmployee1();
+                var employeeToRemove = CreateEmployee1();
                 employeeToRemove.Id = employees.ElementAt(0).Id;
                 employeeToRemove.RowVersion = employees.ElementAt(0).RowVersion;
 
@@ -160,13 +160,13 @@ namespace EntityFramework.Toolkit.Tests.Repository
             committedChangeSet.Assert(expectedNumberOfAdded: 0, expectedNumberOfModified: 0, expectedNumberOfDeleted: 1);
 
             removedEmployee.Should().NotBeNull();
-            removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+            removedEmployee.ShouldBeEquivalentTo(CreateEmployee1());
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(1);
-                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEmployee2());
             }
         }
 
@@ -174,7 +174,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveAllEmployees()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2(), CreateEmployee3() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -207,7 +207,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveAllEmployeesWithCondition()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2(), CreateEmployee3() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -230,8 +230,8 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(2);
-                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee2().FirstName).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
-                allEmployees.Single(e => e.FirstName == Testdata.Employees.CreateEmployee3().FirstName).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee3());
+                allEmployees.Single(e => e.FirstName == CreateEmployee2().FirstName).ShouldBeEquivalentTo(CreateEmployee2());
+                allEmployees.Single(e => e.FirstName == CreateEmployee3().FirstName).ShouldBeEquivalentTo(CreateEmployee3());
             }
         }
 
@@ -239,7 +239,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveRangeEmployees()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2(), CreateEmployee3() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -270,7 +270,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(1);
-                allEmployees.ElementAt(0).ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                allEmployees.ElementAt(0).ShouldBeEquivalentTo(CreateEmployee2());
             }
         }
 
@@ -278,7 +278,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldRemoveEmployeeById()
         {
             // Arrange
-            var employees = new List<Employee> { Testdata.Employees.CreateEmployee1(), Testdata.Employees.CreateEmployee2(), Testdata.Employees.CreateEmployee3() };
+            var employees = new List<Employee> { CreateEmployee1(), CreateEmployee2(), CreateEmployee3() };
 
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
@@ -302,7 +302,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             {
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(2);
-                removedEmployee.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee1());
+                removedEmployee.ShouldBeEquivalentTo(CreateEmployee1());
             }
         }
 
@@ -310,14 +310,14 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddOrUpdateExistingEmployee_UpdateIfExists()
         {
             // Arrange
-            var originalEmployee = Testdata.Employees.CreateEmployee1();
+            var originalEmployee = CreateEmployee1();
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
                 employeeRepository.Add(originalEmployee);
                 employeeRepository.Save();
             }
 
-            var updateEmployee = Testdata.Employees.CreateEmployee1();
+            var updateEmployee = CreateEmployee1();
             updateEmployee.Id = originalEmployee.Id;
             updateEmployee.RowVersion = originalEmployee.RowVersion;
             updateEmployee.FirstName = "Updated " + updateEmployee.FirstName;
@@ -345,7 +345,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         public void ShouldAddOrUpdateExistingEmployee_AddIfDoesNotExist()
         {
             // Arrange
-            var employee1Update = Testdata.Employees.CreateEmployee1();
+            var employee1Update = CreateEmployee1();
             employee1Update.FirstName = "Added " + employee1Update.FirstName;
             employee1Update.Country = Testdata.Countries.CreateCountrySwitzerland();
 
@@ -383,7 +383,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             Employee employee1;
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
-                employee1 = employeeRepository.Add(Testdata.Employees.CreateEmployee1());
+                employee1 = employeeRepository.Add(CreateEmployee1());
                 employee1.Department = departmentHr;
                 employee1.Country = countryCH;
 
@@ -413,7 +413,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(1);
 
-                var expectedEmployeeUpdate = Testdata.Employees.CreateEmployee1();
+                var expectedEmployeeUpdate = CreateEmployee1();
                 expectedEmployeeUpdate.FirstName = expectedFirstName;
                 expectedEmployeeUpdate.LastName = expectedLastName;
 
@@ -432,18 +432,18 @@ namespace EntityFramework.Toolkit.Tests.Repository
             Employee employee2;
             using (IGenericRepository<Employee> employeeRepository = new GenericRepository<Employee>(this.CreateContext()))
             {
-                employee1 = employeeRepository.Add(Testdata.Employees.CreateEmployee1());
+                employee1 = employeeRepository.Add(CreateEmployee1());
                 employee1.Department = departmentHr;
                 employee1.Country = countryCH;
 
-                employee2 = employeeRepository.Add(Testdata.Employees.CreateEmployee2());
+                employee2 = employeeRepository.Add(CreateEmployee2());
                 employee2.Department = departmentHr;
                 employee2.Country = countryCH;
 
                 employeeRepository.Save();
             }
 
-            var employeeUpdate = Testdata.Employees.CreateEmployee1();
+            var employeeUpdate = CreateEmployee1();
             employeeUpdate.Id = employee1.Id;
             employeeUpdate.RowVersion = employee1.RowVersion;
             employeeUpdate.DepartmentId = departmentHr.Id;
@@ -466,7 +466,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 var allEmployees = employeeRepository.GetAll().ToList();
                 allEmployees.Should().HaveCount(2);
 
-                var expectedEmployeeUpdate = Testdata.Employees.CreateEmployee1();
+                var expectedEmployeeUpdate = CreateEmployee1();
                 expectedEmployeeUpdate.FirstName = "Updated " + expectedEmployeeUpdate.FirstName;
 
                 var returnedEmployee1 = allEmployees.Single(e => e.Id == employee1.Id);
@@ -474,7 +474,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 returnedEmployee1.UpdatedDate.Should().BeAfter(DateTime.MinValue);
 
                 var returnedEmployee2 = allEmployees.Single(e => e.Id == employee2.Id);
-                returnedEmployee2.ShouldBeEquivalentTo(Testdata.Employees.CreateEmployee2());
+                returnedEmployee2.ShouldBeEquivalentTo(CreateEmployee2());
                 returnedEmployee2.UpdatedDate.Should().BeNull();
             }
         }
@@ -486,13 +486,13 @@ namespace EntityFramework.Toolkit.Tests.Repository
             var departmentHr = Testdata.Departments.CreateDepartmentHumanResources();
 
             var originalEmployees = new List<Employee>();
-            var originalEmployee1 = Testdata.Employees.CreateEmployee1();
+            var originalEmployee1 = CreateEmployee1();
             originalEmployee1.Department = departmentHr;
 
-            var originalEmployee2 = Testdata.Employees.CreateEmployee2();
+            var originalEmployee2 = CreateEmployee2();
             originalEmployee2.Department = departmentHr;
 
-            var originalEmployee3 = Testdata.Employees.CreateEmployee3();
+            var originalEmployee3 = CreateEmployee3();
             originalEmployee3.Department = departmentHr;
 
             originalEmployees.Add(originalEmployee1);
@@ -510,15 +510,15 @@ namespace EntityFramework.Toolkit.Tests.Repository
             var stopwatch = new Stopwatch();
 
             var updatedEmployees = new List<Employee>();
-            var updatedEmployee1 = Testdata.Employees.CreateEmployee1();
+            var updatedEmployee1 = CreateEmployee1();
             updatedEmployee1.Id = originalEmployee1.Id;
             updatedEmployee1.RowVersion = originalEmployee1.RowVersion;
 
-            var updatedEmployee2 = Testdata.Employees.CreateEmployee2();
+            var updatedEmployee2 = CreateEmployee2();
             updatedEmployee2.Id = originalEmployee2.Id;
             updatedEmployee2.RowVersion = originalEmployee2.RowVersion;
 
-            var updatedEmployee3 = Testdata.Employees.CreateEmployee3();
+            var updatedEmployee3 = CreateEmployee3();
             updatedEmployee3.Id = originalEmployee3.Id;
             updatedEmployee3.RowVersion = originalEmployee3.RowVersion;
 
@@ -556,7 +556,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
                 allEmployees.ElementAt(1).Birthdate.Should().Be(new DateTime(1990, 01, 01, 01, 23, 20));
                 allEmployees.ElementAt(2).Birthdate.Should().Be(new DateTime(2000, 12, 31, 01, 23, 20));
 
-                stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000);
+                stopwatch.ElapsedMilliseconds.Should().BeLessThan(2500);
             }
         }
 
@@ -565,7 +565,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
         {
             // Arrange
             IEmployeeRepository employeeRepository = new EmployeeRepository(this.CreateContext());
-            var employee1 = Testdata.Employees.CreateEmployee1();
+            var employee1 = CreateEmployee1();
             employee1.Id = 99;
 
             // Act

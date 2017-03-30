@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 using Autofac;
 
-using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit;
 
 using ToolkitSample.DataAccess.Context;
 using ToolkitSample.DataAccess.Contracts.Repository;

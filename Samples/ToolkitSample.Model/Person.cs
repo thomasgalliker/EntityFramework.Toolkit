@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-using EntityFramework.Toolkit.Core.Auditing;
+using EntityFramework.Toolkit.Auditing;
 
 namespace ToolkitSample.Model
 {

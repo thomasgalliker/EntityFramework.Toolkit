@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFramework.Toolkit.Core.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     public interface IUpdatedDate
     {

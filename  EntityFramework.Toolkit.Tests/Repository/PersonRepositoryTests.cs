@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 
-using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
@@ -26,7 +25,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
     {
         public PersonRepositoryTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  initializer: new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(new List<IDataSeed> { new CountryDataSeed() })),
+                  databaseInitializer: new EmployeeContextDatabaseInitializer(new EmployeeContextMigrationConfiguration(new List<IDataSeed> { new CountryDataSeed() })),
                   log: testOutputHelper.WriteLine)
         {
         }

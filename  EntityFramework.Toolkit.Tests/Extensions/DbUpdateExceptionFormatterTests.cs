@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
-using EntityFramework.Toolkit.Core;
 using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
@@ -25,7 +24,7 @@ namespace EntityFramework.Toolkit.Tests.Extensions
 
         public DbUpdateExceptionFormatterTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  initializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
+                  databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
                   log: testOutputHelper.WriteLine)
         {
             this.testOutputHelper = testOutputHelper;

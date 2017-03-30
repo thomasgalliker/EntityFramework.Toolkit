@@ -21,7 +21,7 @@ namespace EntityFramework.Toolkit.Tests
     {
         public IndexTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(), 
-                  initializer: new CreateDatabaseIfNotExists<EmployeeContext>(), 
+                  databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(), 
                   log: testOutputHelper.WriteLine)
         {
         }

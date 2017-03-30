@@ -9,10 +9,20 @@
     <Import_RootNamespace>EntityFramework.Toolkit</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditDbContextBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditDbContextConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditDbContextConfigurationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditEntityTypeConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\AuditTypeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\ConfigFile\AuditConfigurationSection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\ConfigFile\EntityElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\ConfigFile\EntityElementCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Auditing\Extensions\AuditEntityStateExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\ClientWinsConcurrencyResolveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\DatabaseWinsConcurrencyResolveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\IConcurrencyResolveStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Concurrency\RethrowConcurrencyResolveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConstructorInfoAndParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSeedBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbConnection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DbContextBase.cs" />

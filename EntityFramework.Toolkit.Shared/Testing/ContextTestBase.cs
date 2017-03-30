@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 
-using EntityFramework.Toolkit.Core;
+
 
 namespace EntityFramework.Toolkit.Testing
 {
@@ -17,24 +16,33 @@ namespace EntityFramework.Toolkit.Testing
         private readonly string dbConnectionString;
         private bool disposed;
 
-        [Obsolete("Use CreateContext instead.")]
-        protected TContext Context
+        protected ContextTestBase(Func<IDbConnection> dbConnection)
+            : this(dbConnection: dbConnection, databaseInitializer: null, log: null)
         {
-            get
-            {
-                return this.CreateContext();
-            }
         }
 
-        protected bool DeleteDatabaseOnDispose { get; set; }
+        protected ContextTestBase(Func<IDbConnection> dbConnection, bool deleteDatabaseOnDispose)
+            : this(dbConnection: dbConnection, databaseInitializer: null, log: null, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
+        {
+        }
 
-        protected ContextTestBase(Func<IDbConnection> dbConnection, bool deleteDatabaseOnDispose, Action<string> log = null)
+        protected ContextTestBase(Func<IDbConnection> dbConnection, Action<string> log)
+            : this(dbConnection: dbConnection, databaseInitializer: null, log: log, deleteDatabaseOnDispose: true)
+        {
+        }
+
+        protected ContextTestBase(Func<IDbConnection> dbConnection, Action<string> log, bool deleteDatabaseOnDispose)
             : this(dbConnection: dbConnection, databaseInitializer: null, log: log, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
         {
         }
 
-        protected ContextTestBase(Func<IDbConnection> dbConnection, IDatabaseInitializer<TContext> initializer, Action<string> log = null)
-            : this(dbConnection: dbConnection, databaseInitializer: initializer, log: log)
+        protected ContextTestBase(Func<IDbConnection> dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
+            : this(dbConnection: dbConnection, databaseInitializer: databaseInitializer, log: null)
+        {
+        }
+
+        protected ContextTestBase(Func<IDbConnection> dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log)
+            : this(dbConnection: dbConnection, databaseInitializer: databaseInitializer, log: log, deleteDatabaseOnDispose: true)
         {
         }
 
@@ -48,23 +56,60 @@ namespace EntityFramework.Toolkit.Testing
         ///     database. (Default is <see cref="DropCreateDatabaseAlways{TContext}" />).
         /// </param>
         /// <param name="deleteDatabaseOnDispose">Determines if the database needs to be deleted on dispose. (Default is true).</param>
-        protected ContextTestBase(Func<IDbConnection> dbConnection, Action<string> log = null, IDatabaseInitializer<TContext> databaseInitializer = null, bool deleteDatabaseOnDispose = true)
+        protected ContextTestBase(Func<IDbConnection> dbConnection, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log, bool deleteDatabaseOnDispose)
         {
             this.dbConnection = dbConnection();
             this.Log = log;
             this.DeleteDatabaseOnDispose = deleteDatabaseOnDispose;
-            this.databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
+            this.databaseInitializer = databaseInitializer;
         }
 
-        protected ContextTestBase(Func<string> dbConnectionString, Action<string> log = null, IDatabaseInitializer<TContext> databaseInitializer = null, bool deleteDatabaseOnDispose = true)
+        protected ContextTestBase(Func<string> dbConnectionString)
+            : this(dbConnectionString: dbConnectionString, databaseInitializer: null)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, bool deleteDatabaseOnDispose)
+            : this(dbConnectionString: dbConnectionString, databaseInitializer: null, log: null, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, Action<string> log)
+            : this(dbConnectionString: dbConnectionString, databaseInitializer: null, log: log, deleteDatabaseOnDispose: true)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, Action<string> log, bool deleteDatabaseOnDispose)
+            : this(dbConnectionString: dbConnectionString, databaseInitializer: null, log: log, deleteDatabaseOnDispose: deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, IDatabaseInitializer<TContext> databaseInitializer)
+            : this(dbConnectionString: dbConnectionString, databaseInitializer: databaseInitializer, log: null, deleteDatabaseOnDispose: true)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log, bool deleteDatabaseOnDispose)
         {
             this.dbConnectionString = dbConnectionString();
             this.Log = log;
             this.DeleteDatabaseOnDispose = deleteDatabaseOnDispose;
-            this.databaseInitializer = databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
+            this.databaseInitializer = databaseInitializer;
         }
 
         public Action<string> Log { get; set; }
+
+
+        [Obsolete("Use CreateContext instead.")]
+        protected TContext Context
+        {
+            get
+            {
+                return this.CreateContext();
+            }
+        }
+
+        protected bool DeleteDatabaseOnDispose { get; set; }
 
         /// <summary>
         ///     Returns the default database initializer (given by ctor) if <paramref name="databaseInitializer" /> is null.
@@ -73,7 +118,7 @@ namespace EntityFramework.Toolkit.Testing
         {
             if (databaseInitializer == null)
             {
-                databaseInitializer = this.databaseInitializer;
+                databaseInitializer = this.databaseInitializer ?? new DropCreateDatabaseAlways<TContext>();
             }
 
             return databaseInitializer;
@@ -89,6 +134,11 @@ namespace EntityFramework.Toolkit.Testing
                 dbConnection = this.dbConnection;
             }
 
+            if (dbConnection == null && string.IsNullOrEmpty(this.dbConnectionString))
+            {
+                throw new InvalidOperationException("Either dbConnection or nameOrConnectionString must be defined.");
+            }
+
             if (dbConnection == null)
             {
                 dbConnection = new DbConnection(this.dbConnectionString);
@@ -99,25 +149,34 @@ namespace EntityFramework.Toolkit.Testing
 
         protected TContext CreateContext()
         {
-            return this.CreateContext(this.dbConnection, this.databaseInitializer);
+            return this.CreateContext(this.databaseInitializer);
         }
 
         protected TContext CreateContext(IDatabaseInitializer<TContext> databaseInitializer = null)
         {
-            return this.CreateContext(this.dbConnection, databaseInitializer);
-        }
-
-        protected TContext CreateContext(IDbConnection dbConnection = null, IDatabaseInitializer<TContext> databaseInitializer = null)
-        {
-            databaseInitializer = this.EnsureDatabaseInitializer(databaseInitializer);
-            dbConnection = this.EnsureDbConnection(dbConnection);
-
+            var args = new List<object>();
             if (!string.IsNullOrEmpty(this.dbConnectionString))
             {
-                return this.CreateContext(this.dbConnectionString);
+                args.Add(this.dbConnectionString);
+            }
+            else
+            {
+                var dbConn = this.EnsureDbConnection(this.dbConnection);
+                args.Add(dbConn);
             }
 
-            return this.CreateContext(dbConnection, databaseInitializer, this.Log);
+            if (databaseInitializer == null)
+            {
+                databaseInitializer = this.EnsureDatabaseInitializer(this.databaseInitializer);
+            }
+            args.Add(databaseInitializer);
+
+            if (this.Log != null)
+            {
+                args.Add(this.Log);
+            }
+
+            return this.CreateContext(args.ToArray());
         }
 
         protected TContext CreateContext(params object[] args)
@@ -131,34 +190,8 @@ namespace EntityFramework.Toolkit.Testing
 
         private static TContext CreateContextInstance(Type contextType, params object[] args)
         {
-            var argTypes = args.Where(d => d != null).Select(d => d.GetType()).ToArray();
-            var contextCtor = contextType.GetConstructor(argTypes);
-            if (contextCtor == null)
-            {
-                var sb = new StringBuilder();
-                var definedParameters = string.Join(", ", argTypes.Select(p => p.GetFormattedName()));
-                sb.AppendLine(
-                    definedParameters.Length == 0
-                        ? $"{contextType.Name} does not have a constructor with no parameters."
-                        : $"{contextType.Name} does not have a constructor with parameter{(definedParameters.Length > 1 ? "s" : "")} ({definedParameters}).");
-
-                var constructors = contextType.GetConstructors();
-                if (constructors.Any())
-                {
-                    sb.AppendLine();
-                    sb.AppendLine("Use one of the following constructors:");
-                    foreach (var constructor in constructors)
-                    {
-                        var parameters = $"{string.Join(", ", constructor.GetParameters().Select(p => $"{p.ParameterType} {p.Name}"))}";
-                        sb.AppendLine($"{contextType.Name}({parameters})");
-                    }
-                }
-
-                var exceptionMessage = sb.ToString();
-                throw new InvalidOperationException(exceptionMessage);
-            }
-
-            return (TContext)contextCtor.Invoke(args);
+            var contextCtor = contextType.GetMatchingConstructor(args);
+            return (TContext)contextCtor.Invoke();
         }
 
         public void Dispose()

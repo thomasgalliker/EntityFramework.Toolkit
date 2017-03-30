@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Transactions;
 
-using EntityFramework.Toolkit.Core;
+
 using EntityFramework.Toolkit.Exceptions;
 
 #if !NET40

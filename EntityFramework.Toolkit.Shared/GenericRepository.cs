@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 #if !NET40
 using System.Threading.Tasks;
 #endif
-using EntityFramework.Toolkit.Core;
+
 using EntityFramework.Toolkit.Extensions;
 using EntityFramework.Toolkit.Utils;
 

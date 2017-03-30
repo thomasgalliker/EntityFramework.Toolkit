@@ -1,4 +1,7 @@
-﻿using EntityFramework.Toolkit.Testing;
+﻿using System.Data.Entity;
+
+
+using EntityFramework.Toolkit.Testing;
 
 using FluentAssertions;
 
@@ -9,8 +12,7 @@ namespace EntityFramework.Toolkit.Tests
     public class ContextTestBaseTests_DbConnectionStringOnly : ContextTestBase<ContextTestBaseTests_DbConnectionStringOnly.TestContext>
     {
         public ContextTestBaseTests_DbConnectionStringOnly()
-            : base(
-                dbConnectionString: () => @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf; Integrated Security=True;".RandomizeDatabaseName())
+            : base(dbConnectionString: () => @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf; Integrated Security=True;".RandomizeDatabaseName())
         {
         }
 
@@ -28,8 +30,8 @@ namespace EntityFramework.Toolkit.Tests
 
         public class TestContext : DbContextBase<TestContext>
         {
-            public TestContext(string nameOrConnectionString)
-                : base(nameOrConnectionString)
+            public TestContext(string nameOrConnectionString, IDatabaseInitializer<TestContext> databaseInitializer)
+                : base(nameOrConnectionString, databaseInitializer)
             {
             }
         }
@@ -38,9 +40,7 @@ namespace EntityFramework.Toolkit.Tests
     public class ContextTestBaseTests_DbConnectionOnly : ContextTestBase<ContextTestBaseTests_DbConnectionOnly.TestContext>
     {
         public ContextTestBaseTests_DbConnectionOnly()
-            : base(
-                dbConnection:
-                () => new DbConnection(@"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf; Integrated Security=True;".RandomizeDatabaseName()))
+            : base(dbConnection: () => new DbConnection(@"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf; Integrated Security=True;".RandomizeDatabaseName()))
         {
         }
 
@@ -58,8 +58,8 @@ namespace EntityFramework.Toolkit.Tests
 
         public class TestContext : DbContextBase<TestContext>
         {
-            public TestContext(string nameOrConnectionString)
-                : base(nameOrConnectionString)
+            public TestContext(IDbConnection dbConnection, IDatabaseInitializer<TestContext> databaseInitializer)
+                : base(dbConnection, databaseInitializer)
             {
             }
         }
