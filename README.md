@@ -24,6 +24,15 @@ As the name implies, ```GenericRepository<T>``` implements the repository patter
 #### UnitOfWork pattern
 The UnitOfWork (UOW) pattern is by definition a way to commit a set of defined work steps or -if one step cannot be performed for whatever reason- to rollback all steps. The UOW implementation in this library is capable of committing to multiple EntityFramework DbContexts in one go. To do so, it makes use of System.Transaction, which involves MSDTC. The working mode and configuration of MSDTC is beyond this documentation. Further reading: http://martinfowler.com/eaaCatalog/unitOfWork.html
 
+#### Auditing
+Tracking of data changes is an important feature of enterprise applications. EntityFramework.Toolkit provides simple auditing functionality trough its specialized DbContext ```AuditDbContextBase<TContext>```. There are mainly following features implemented:
+
+##### Track creation and update date of particular entities
+Apply ```ICreatedDate``` and/or ```IUpdatedDate``` to automatically track the CreatedDate resp. the UpdatedDate on SaveChanges.
+
+##### Write history of entity changes to a seperate audit log
+Define an audit entity which implements ```IAuditEntity``` resp. inherits from the predefined ```AuditEntity``` base class. Then, define a mapping between your entity and the audit entity (e.g. Employee + EmployeeAudit). This mapping can basically be achieved by either providing an [App.config](https://github.com/thomasgalliker/EntityFramework.Toolkit/blob/master/%20EntityFramework.Toolkit.Tests/App.config) or by programmatically calling [```RegisterAuditType```](https://github.com/thomasgalliker/EntityFramework.Toolkit/blob/master/%20EntityFramework.Toolkit.Tests/Auditing/AuditDbContextBaseTests.cs). Changes are automatically audited to the configured audit entity table on SaveChanges.
+
 #### Generic Data Seed with IDataSeed
 Providing databases with predefined data is an essential feature. IDataSeed is the interface which abstracts the data seed of one particular entity type. Use the abstract base class ```DataSeedBase<T>``` to have the least possible effort to provide a data seed. ```DataSeedBase<T>``` allows you to define an AddOrUpdateExpression which is evaluated in order to check whether a certain entity of type T is already in the database or if it needs to be added. 
 
