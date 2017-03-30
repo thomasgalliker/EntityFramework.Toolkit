@@ -13,7 +13,6 @@ namespace ToolkitSample.Model.Auditing
         public string UpdateUser { get; set; }
 
         public DateTime AuditDate { get; set; }
-        public DateTime Audited { get; set; }
 
         public string AuditUser { get; set; }
 

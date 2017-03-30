@@ -21,9 +21,9 @@ namespace EntityFramework.Toolkit.Auditing
     /// </summary>
     public abstract class AuditDbContextBase<TContext> : DbContextBase<TContext>, IAuditContext where TContext : DbContext
     {
-        private const string AuditUpdatedColumnName = "Audited";
-        private const string AuditUserColumnName = "AuditUser";
-        private const string AuditTypeColumnName = "AuditType";
+        private const string AuditUpdatedColumnName = nameof(IAuditEntity.AuditDate);
+        private const string AuditUserColumnName = nameof(IAuditEntity.AuditUser);
+        private const string AuditTypeColumnName = nameof(IAuditEntity.AuditType);
 
         private static readonly IList<TContext> ConfigFileLock = new List<TContext>();
         private static readonly AuditDbContextConfiguration AuditDbContextConfiguration;

@@ -28,10 +28,8 @@ create table [dbo].[EmployeeAudit] (
     [Id] [int] not null,
     [FirstName] [nvarchar](max) not null,
     [LastName] [nvarchar](max) not null,
-    [Updated] [datetime] null,
-    [UpdateUser] [nvarchar](max) null,
-    [Audited] [datetime] not null,
-    [AuditUser] [nvarchar](max) null,
+    [AuditDate] [datetime] not null,
+    [AuditUser] [nvarchar](max) not null,
     [AuditType] [int] not null,
     primary key ([AuditId])
 );
