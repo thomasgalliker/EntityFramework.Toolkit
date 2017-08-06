@@ -1,7 +1,5 @@
 ﻿using System;
 
-using FishApp.Contracts.Extensions;
-
 using FluentAssertions;
 
 using Xunit;

@@ -1,9 +1,26 @@
 ﻿using System;
 
-namespace FishApp.Contracts.Extensions
+namespace EntityFramework.Toolkit
 {
     public static class DateTimeExtensions
     {
+        public static DateTime ToKind(this DateTime value, DateTimeKind kind)
+        {
+            switch (kind)
+            {
+                case DateTimeKind.Unspecified:
+                    return value.SpecifyKind(kind);
+
+                case DateTimeKind.Utc:
+                    return value.ToKindUtc();
+
+                case DateTimeKind.Local:
+                    return value.ToKindLocal();
+   ;         }
+
+            throw new InvalidOperationException($"Cannot convert to DateTimeKind.{kind}");
+        }
+
         public static DateTime ToKindUtc(this DateTime value)
         {
             return KindUtc(value);

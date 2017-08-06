@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace EntityFramework.Toolkit.Auditing.ConfigFile
 {
@@ -6,6 +7,7 @@ namespace EntityFramework.Toolkit.Auditing.ConfigFile
     {
         private const string EntitiesElementName = "entities";
         private const string AuditEnabledElementName = "enabled";
+        private const string AuditDateTimeKindElementName = "dateTimeKind";
 
         [ConfigurationProperty(EntitiesElementName, IsDefaultCollection = false)]
         [ConfigurationCollection(typeof(EntityElementCollection), AddItemName = "add")]
@@ -31,6 +33,23 @@ namespace EntityFramework.Toolkit.Auditing.ConfigFile
             set
             {
                 this[AuditEnabledElementName] = value;
+            }
+        }
+
+        /// <summary>
+        ///     Defines the <code>DateTimeKind</code> used for auditing.
+        /// </summary>
+        [ConfigurationProperty(AuditDateTimeKindElementName, IsRequired = false, DefaultValue = DateTimeKind.Utc)]
+        internal DateTimeKind AuditDateTimeKind
+        {
+            get
+            {
+                return (DateTimeKind)this[AuditDateTimeKindElementName];
+            }
+
+            set
+            {
+                this[AuditDateTimeKindElementName] = value.ToString();
             }
         }
     }

@@ -33,7 +33,7 @@ namespace EntityFramework.Toolkit.Auditing
                 entityMapping.Add(auditTypeInfo);
             }
 
-            return new AuditDbContextConfiguration(auditConfigurationSection.AuditEnabled, entityMapping.ToArray());
+            return new AuditDbContextConfiguration(auditConfigurationSection.AuditEnabled, auditConfigurationSection.AuditDateTimeKind, entityMapping.ToArray());
         }
     }
 }

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 using EntityFramework.Toolkit.Auditing;
 using EntityFramework.Toolkit.Auditing.Extensions;
-
 using EntityFramework.Toolkit.Extensions;
 
 namespace EntityFramework.Toolkit.Auditing
@@ -30,6 +29,7 @@ namespace EntityFramework.Toolkit.Auditing
 
         private readonly Dictionary<Type, AuditTypeInfo> auditTypes = new Dictionary<Type, AuditTypeInfo>();
         private bool auditEnabled = true;
+        private DateTimeKind auditDateTimeKind;
 
         static AuditDbContextBase()
         {
@@ -83,6 +83,7 @@ namespace EntityFramework.Toolkit.Auditing
         protected void ConfigureAuditing(AuditDbContextConfiguration configuration)
         {
             this.AuditEnabled = configuration.AuditEnabled;
+            this.AuditDateTimeKind = configuration.AuditDateTimeKind;
 
             foreach (var auditTypeInfo in configuration.AuditTypeInfos)
             {
@@ -100,6 +101,19 @@ namespace EntityFramework.Toolkit.Auditing
             protected set
             {
                 this.auditEnabled = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public DateTimeKind AuditDateTimeKind
+        {
+            get
+            {
+                return this.auditDateTimeKind;
+            }
+            protected set
+            {
+                this.auditDateTimeKind = value;
             }
         }
 
@@ -264,7 +278,7 @@ namespace EntityFramework.Toolkit.Auditing
             {
                 if (dateTimeNow.HasValue == false)
                 {
-                    dateTimeNow = this.Database.SqlQuery<DateTime>("SELECT GETDATE()").Single();
+                    dateTimeNow = DateTime.UtcNow.ToKind(this.AuditDateTimeKind);
                 }
 
                 var creatableEntity = entry.Entity as ICreatedDate;
