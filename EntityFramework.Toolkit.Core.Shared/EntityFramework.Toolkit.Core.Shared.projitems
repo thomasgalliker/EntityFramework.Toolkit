@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Change.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChangeState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReadOnlyRepositoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericRepositoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAuditContext.cs" />
