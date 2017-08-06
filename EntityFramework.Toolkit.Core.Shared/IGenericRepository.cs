@@ -43,6 +43,20 @@ namespace EntityFramework.Toolkit
         T Update(T entity);
 
         /// <summary>
+        ///     Updates the given entity. This method checks if an entity exists before it tries to perform the update activity.
+        /// </summary>
+        /// <param name="entity">The existing entity.</param>
+        /// <param name="updateEntity">The update entity.</param>
+        T Update(T entity, T updateEntity);
+
+        /// <summary>
+        ///     Updates the given entity. This method checks if an entity exists before it tries to perform the update activity.
+        /// </summary>
+        /// <param name="entity">The existing entity.</param>
+        /// <param name="updateEntity">The update entity.</param>
+        TDerived Update<TDerived>(TDerived entity, TDerived updateEntity) where TDerived : class, T;
+
+        /// <summary>
         /// Update given properties in <paramref name="propertyExpressions"/> of given <paramref name="entity"/>.
         /// </summary>
         T UpdateProperties<TValue>(T entity, params Expression<Func<T, TValue>>[] propertyExpressions);

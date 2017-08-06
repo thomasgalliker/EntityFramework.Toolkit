@@ -127,6 +127,18 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
+        public virtual T Update(T entity, T updateEntity)
+        {
+            return this.Update<T>(entity, updateEntity);
+        }
+
+        /// <inheritdoc />
+        public virtual TDerived Update<TDerived>(TDerived entity, TDerived updateEntity) where TDerived : class, T
+        {
+            return this.context.Edit(entity, updateEntity);
+        }
+
+        /// <inheritdoc />
         public virtual T UpdateProperties<TValue>(T entity, params Expression<Func<T, TValue>>[] propertyExpressions)
         {
             this.context.UndoChanges(entity);
@@ -154,8 +166,8 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty) 
-            where TEntity : class 
+        public virtual void LoadReferenced<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> navigationProperty)
+            where TEntity : class
             where TProperty : class
         {
             this.context.LoadReferenced(entity, navigationProperty);
