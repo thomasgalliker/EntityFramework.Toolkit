@@ -108,6 +108,7 @@
     <Compile Include="Extensions\AssertionExtensions.cs" />
     <Compile Include="Extensions\ChangeSetExtensions.cs" />
     <Compile Include="Extensions\DbUpdateExceptionFormatterTests.cs" />
+    <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
     <Compile Include="Extensions\TypeExtensionsTests.cs" />
     <Compile Include="IndexTests.cs" />
     <Compile Include="Modularity\DataAccessModuleTests.cs" />
