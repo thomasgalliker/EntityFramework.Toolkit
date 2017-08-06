@@ -15,7 +15,7 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
-      1.0.4-pre
+      1.0.4
       - Add created/changed date tracking feature using ICreatedDate and IUpdatedDate interfaces
       - Add auditing feature to track entity history
       - Add extension method 'UpdateProperty' and 'UpdateProperties' to selectively update entity properties
