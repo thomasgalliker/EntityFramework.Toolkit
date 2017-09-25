@@ -48,7 +48,7 @@ namespace EntityFramework.Toolkit
 
             this.Database.Log($"Initializing DbContext '{this.contextName}' with NameOrConnectionString = \"{nameOrConnectionString}\" and IDatabaseInitializer =\"{databaseInitializer?.GetType().GetFormattedName()}\"");
 
-            TryInitializeDatabase(this, databaseInitializer);
+            TryInitializeDatabase(this, databaseInitializer, log);
         }
 
         protected DbContextBase(IDbConnection dbConnection, IDatabaseInitializer<TContext> databaseInitializer)
@@ -69,7 +69,7 @@ namespace EntityFramework.Toolkit
             this.Database.Log(
                 $"Initializing DbContext '{this.contextName}' with ConnectionString = \"{dbConnection.ConnectionString}\" and IDatabaseInitializer=\"{databaseInitializer?.GetType().GetFormattedName()}\"");
 
-            TryInitializeDatabase(this, databaseInitializer);
+            TryInitializeDatabase(this, databaseInitializer, log);
         }
 
         private void EnsureLog(Action<string> log = null)
@@ -85,7 +85,7 @@ namespace EntityFramework.Toolkit
         /// <inheritdoc />
         public string Name { get; private set; }
 
-        private static void TryInitializeDatabase(DbContext dbContext, IDatabaseInitializer<TContext> databaseInitializer)
+        private static void TryInitializeDatabase(DbContext dbContext, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log)
         {
             try
             {
@@ -95,8 +95,9 @@ namespace EntityFramework.Toolkit
                     dbContext.Database.Initialize(force: false);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log(ex.ToString());
             }
         }
 
