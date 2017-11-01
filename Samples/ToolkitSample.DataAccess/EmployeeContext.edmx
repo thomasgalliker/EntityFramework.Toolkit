@@ -65,6 +65,7 @@
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="Sector" Type="String" MaxLength="900" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationSetting" customannotation:ClrType="ToolkitSample.Model.ApplicationSetting, ToolkitSample.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <Key>
@@ -73,7 +74,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EnumType Name="AuditEntityState" IsFlags="true" customannotation:ClrType="EntityFramework.Toolkit.Auditing.AuditEntityState, EntityFramework.Toolkit.Core, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="AuditEntityState" IsFlags="true" customannotation:ClrType="EntityFramework.Toolkit.Auditing.AuditEntityState, EntityFramework.Toolkit.Core, Version=1.0.6.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Added" Value="4" />
           <Member Name="Deleted" Value="8" />
           <Member Name="Modified" Value="16" />
@@ -206,6 +207,7 @@
                 <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="Sector" ColumnName="Sector" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -271,6 +273,7 @@
           <Property Name="Level" Type="int" customannotation:Index="{ Name: UQ_Level_Sector, Order: 1, IsUnique: True }" Nullable="false" />
           <Property Name="Sector" Type="nvarchar" customannotation:Index="{ Name: UQ_Level_Sector, Order: 2, IsUnique: True }" MaxLength="900" Nullable="true" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="true" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationSetting">
           <Key>

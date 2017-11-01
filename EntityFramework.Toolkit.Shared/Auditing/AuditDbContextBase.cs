@@ -288,13 +288,17 @@ namespace EntityFramework.Toolkit.Auditing
                 }
 
                 var updateableEntity = entry.Entity as IUpdatedDate;
-                if (entry.State == EntityState.Modified && updateableEntity != null)
+                if (entry.State == EntityState.Modified)
                 {
                     if (creatableEntity != null)
                     {
                         entry.Property<ICreatedDate>(x => x.CreatedDate).IsModified = false;
                     }
-                    updateableEntity.UpdatedDate = dateTimeNow.Value;
+
+                    if (updateableEntity != null)
+                    {
+                        updateableEntity.UpdatedDate = dateTimeNow.Value;
+                    }
                 }
 
                 lock (this.auditTypes)

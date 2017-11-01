@@ -12,7 +12,7 @@ namespace ToolkitSample.DataAccess.Context
 {
     public class EmployeeContext : AuditDbContextBase<EmployeeContext>, IEmployeeContext
     {
-        private static readonly AuditDbContextConfiguration AuditDbContextConfiguration = new AuditDbContextConfiguration(auditEnabled: true);
+        private static readonly AuditDbContextConfiguration AuditDbContextConfiguration = new AuditDbContextConfiguration(auditEnabled: true, auditDateTimeKind: DateTimeKind.Utc);
 
         /// <summary>
         ///     Empty constructor is used for 'update-database' command-line command.

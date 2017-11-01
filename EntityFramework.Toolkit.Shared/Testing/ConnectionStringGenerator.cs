@@ -8,20 +8,24 @@ namespace EntityFramework.Toolkit.Testing
         /// <summary>
         /// Adds a random number to the given <param name="connectionString">connectionString</param> parameter.
         /// </summary>
-        public static string RandomizeDatabaseName(this string connectionString, int randomTokenLength = 5)
+        /// <param name="connectionString">The original connection string.</param>
+        /// <param name="randomTokenLength">The length of the generated random number.</param>
+        /// <param name="prefix">A prefix attach between database name and random token.</param>
+        /// <returns></returns>
+        public static string RandomizeDatabaseName(this string connectionString, int randomTokenLength = 5, string prefix = "_")
         {
             var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
 
             var randomToken = GetRandomToken(randomTokenLength);
             if (!string.IsNullOrEmpty(connectionStringBuilder.InitialCatalog))
             {
-                connectionStringBuilder.InitialCatalog += randomToken;
+                connectionStringBuilder.InitialCatalog += prefix + randomToken;
             }
             else if (!string.IsNullOrEmpty(connectionStringBuilder.AttachDBFilename))
             {
                 var dbFileExtension = ".mdf";
                 var randomAttachDbFilename = connectionStringBuilder.AttachDBFilename
-                    .Replace(dbFileExtension, "_" + randomToken + dbFileExtension);
+                    .Replace(dbFileExtension, prefix + randomToken + dbFileExtension);
 
                 connectionStringBuilder.AttachDBFilename = randomAttachDbFilename;
                 connectionStringBuilder.InitialCatalog = randomAttachDbFilename

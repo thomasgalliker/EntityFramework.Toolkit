@@ -7,6 +7,67 @@ using System.Linq;
 
 namespace EntityFramework.Toolkit.Testing
 {
+    /// <summary>
+    /// ContextTestBase for context <typeparam name="TContext"/> using IDbConnection <typeparam name="TDbConnection"/>
+    /// </summary>
+    /// <typeparam name="TContext">The database context.</typeparam>
+    /// <typeparam name="TDbConnection">The database connection.</typeparam>
+    public abstract class ContextTestBase<TContext, TDbConnection> : ContextTestBase<TContext>
+        where TContext : DbContextBase<TContext> where TDbConnection : IDbConnection, new()
+    {
+        protected ContextTestBase() : base(() => new TDbConnection())
+        {
+        }
+
+        protected ContextTestBase(bool deleteDatabaseOnDispose) : base(() => new TDbConnection(), deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Action<string> log) : base(() => new TDbConnection(), log)
+        {
+        }
+
+        protected ContextTestBase(Action<string> log, bool deleteDatabaseOnDispose) : base(() => new TDbConnection(), log, deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(IDatabaseInitializer<TContext> databaseInitializer) : base(() => new TDbConnection(), databaseInitializer)
+        {
+        }
+
+        protected ContextTestBase(IDatabaseInitializer<TContext> databaseInitializer, Action<string> log) : base(() => new TDbConnection(), databaseInitializer, log)
+        {
+        }
+
+        protected ContextTestBase(IDatabaseInitializer<TContext> databaseInitializer, Action<string> log, bool deleteDatabaseOnDispose) : base(() => new TDbConnection(), databaseInitializer, log, deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString) : base(dbConnectionString)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, bool deleteDatabaseOnDispose) : base(dbConnectionString, deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, Action<string> log) : base(dbConnectionString, log)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, Action<string> log, bool deleteDatabaseOnDispose) : base(dbConnectionString, log, deleteDatabaseOnDispose)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, IDatabaseInitializer<TContext> databaseInitializer) : base(dbConnectionString, databaseInitializer)
+        {
+        }
+
+        protected ContextTestBase(Func<string> dbConnectionString, IDatabaseInitializer<TContext> databaseInitializer, Action<string> log, bool deleteDatabaseOnDispose) : base(dbConnectionString, databaseInitializer, log, deleteDatabaseOnDispose)
+        {
+        }
+    }
+
     public abstract class ContextTestBase<TContext> : IDisposable
         where TContext : DbContextBase<TContext>
     {

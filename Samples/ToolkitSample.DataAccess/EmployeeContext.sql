@@ -49,6 +49,7 @@ create table [dbo].[Room] (
     [Level] [int] not null,
     [Sector] [nvarchar](900) null,
     [Description] [nvarchar](255) null,
+    [CreatedDate] [datetime] not null,
     primary key ([Id])
 );
 create table [dbo].[Student] (
