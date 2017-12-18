@@ -26,7 +26,7 @@ namespace EntityFramework.Toolkit.Tests.Testing
         }
 
         [Fact]
-        public void ShouldReturnRandomizedConnectionString()
+        public void ShouldReturnRandomizedConnectionString_AttachDbFilename()
         {
             // Arrange
             var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf; Integrated Security=True;";
@@ -37,7 +37,23 @@ namespace EntityFramework.Toolkit.Tests.Testing
 
                 // Assert
                 var connectionStringBuilder = new SqlConnectionStringBuilder(randomConnectionString);
-                connectionStringBuilder.AttachDBFilename.Should().HaveLength(@"|DataDirectory|\EF.Toolkit.ContextTestBaseTests.mdf".Length + randomTokenLength + 1);
+                connectionStringBuilder.AttachDBFilename.Should().HaveLength(@"|DataDirectory|\EF.Toolkit.ContextTestBaseTests_.mdf".Length + randomTokenLength);
+            }
+        }
+
+        [Fact]
+        public void ShouldReturnRandomizedConnectionString_InitialCatalog()
+        {
+            // Arrange
+            var connectionString = @"Data Source=.;Initial Catalog=EF.Toolkit.ContextTestBaseTests;Integrated Security=SSPI;Trusted_Connection=True;MultipleActiveResultSets=true;";
+            for (int randomTokenLength = 0; randomTokenLength <= 32; randomTokenLength++)
+            {
+                // Act
+                var randomConnectionString = connectionString.RandomizeDatabaseName(randomTokenLength, prefix: "_Test");
+
+                // Assert
+                var connectionStringBuilder = new SqlConnectionStringBuilder(randomConnectionString);
+                connectionStringBuilder.InitialCatalog.Should().HaveLength(@"EF.Toolkit.ContextTestBaseTests_Test".Length + randomTokenLength);
             }
         }
 

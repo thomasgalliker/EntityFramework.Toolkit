@@ -25,13 +25,12 @@ namespace EntityFramework.Toolkit.Tests.Repository
     /// <summary>
     ///     Repository tests using <see cref="EmployeeContextTestDbConnection" /> as database connection.
     /// </summary>
-    public class GenericRepositoryTests : ContextTestBase<EmployeeContext>
+    public class GenericRepositoryTests : ContextTestBase<EmployeeContext, EmployeeContextTestDbConnection>
     {
         private readonly ITestOutputHelper testOutputHelper;
 
         public GenericRepositoryTests(ITestOutputHelper testOutputHelper)
-            : base(dbConnection: () => new EmployeeContextTestDbConnection(),
-                  databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
+            : base(databaseInitializer: new CreateDatabaseIfNotExists<EmployeeContext>(),
                   log: testOutputHelper.WriteLine)
         {
             this.testOutputHelper = testOutputHelper;

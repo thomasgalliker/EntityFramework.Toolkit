@@ -7,7 +7,7 @@ namespace EntityFramework.Toolkit.Tests
     /// <summary>
     /// This DbConnection implementation provides a ConnectionString for testing purposes.
     /// </summary>
-    internal class EmployeeContextTestDbConnection : DbConnection
+    public class EmployeeContextTestDbConnection : DbConnection
     {
         public EmployeeContextTestDbConnection()
             : base(name: "EntityFramework.Toolkit.Tests",

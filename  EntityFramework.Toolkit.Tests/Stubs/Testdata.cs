@@ -10,12 +10,12 @@ namespace EntityFramework.Toolkit.Tests.Stubs
         {
             public static Employee CreateEmployee1()
             {
-                return new Employee { FirstName = "Thomas", LastName = "Galliker", Birthdate = new DateTime(1986, 07, 11), EmployementDate = new DateTime(2000, 1, 1)};
+                return new Employee { FirstName = "Thomas", LastName = "Galliker", Birthdate = new DateTime(1986, 07, 11), EmployementDate = new DateTime(2000, 1, 1) };
             }
 
             public static Employee CreateEmployee2()
             {
-                return new Employee { FirstName = "Fritz", LastName = "Müller", Birthdate = new DateTime(1990, 01, 01)};
+                return new Employee { FirstName = "Fritz", LastName = "Müller", Birthdate = new DateTime(1990, 01, 01) };
             }
 
             public static Employee CreateEmployee3()
@@ -95,6 +95,14 @@ namespace EntityFramework.Toolkit.Tests.Stubs
             public static Country CreateCountrySwitzerland()
             {
                 return new Country { Id = "CH", Name = "Switzerland" };
+            }
+        }
+
+        public static class Rooms
+        {
+            public static Room GetRoom1B()
+            {
+                return new Room { Level = 1, Sector = "B", };
             }
         }
     }

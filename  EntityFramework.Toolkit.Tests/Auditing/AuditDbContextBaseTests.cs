@@ -1,18 +1,15 @@
-﻿using System;
+﻿using EntityFramework.Toolkit.Auditing;
+using EntityFramework.Toolkit.Testing;
+using FluentAssertions;
+using System;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using EntityFramework.Toolkit.Auditing;
-using EntityFramework.Toolkit.Testing;
-
-using FluentAssertions;
-
 using ToolkitSample.DataAccess.Context.Auditing;
 using ToolkitSample.Model;
 using ToolkitSample.Model.Auditing;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -56,6 +53,65 @@ namespace EntityFramework.Toolkit.Tests.Auditing
                 var allEmployees = auditDbContext.Set<Employee>().ToList();
                 allEmployees.Where(e => e.CreatedDate > DateTime.MinValue).Should().HaveCount(1);
                 allEmployees.Where(e => e.UpdatedDate > e.CreatedDate).Should().HaveCount(1);
+            }
+        }
+
+        [Fact]
+        public void ShouldNotUpdateAuditCreatedDate_ICreatedDateAndIUpdatedDate()
+        {
+            // Arrange
+            var initialEmployee = Stubs.Testdata.Employees.CreateEmployee1();
+            using (var auditDbContext = this.CreateContext())
+            {
+                auditDbContext.Set<Employee>().Add(initialEmployee);
+                auditDbContext.SaveChanges();
+            }
+
+            // Act
+            using (var auditDbContext = this.CreateContext())
+            {
+                var updateEmployee = auditDbContext.Set<Employee>().Find(initialEmployee.Id);
+                updateEmployee.CreatedDate = DateTime.MinValue;
+                auditDbContext.Set<Employee>().AddOrUpdate(updateEmployee);
+                auditDbContext.SaveChanges();
+            }
+
+            // Assert
+            using (var auditDbContext = this.CreateContext())
+            {
+                var allEmployees = auditDbContext.Set<Employee>().ToList();
+                allEmployees.Where(e => e.CreatedDate > DateTime.MinValue).Should().HaveCount(1);
+                allEmployees.Where(e => e.UpdatedDate > e.CreatedDate).Should().HaveCount(1);
+            }
+        }
+
+        [Fact]
+        public void ShouldNotUpdateAuditCreatedDate_ICreatedDate()
+        {
+            // Arrange
+            var initialRoom = Stubs.Testdata.Rooms.GetRoom1B();
+            using (var auditDbContext = this.CreateContext())
+            {
+                auditDbContext.Set<Room>().Add(initialRoom);
+                auditDbContext.SaveChanges();
+            }
+
+            // Act
+            var manipulatedCreatedDate = new DateTime(2000, 1, 1);
+            using (var auditDbContext = this.CreateContext())
+            {
+                var updateRoom = auditDbContext.Set<Room>().Find(initialRoom.Id);
+                updateRoom.CreatedDate = manipulatedCreatedDate;
+                auditDbContext.Set<Room>().AddOrUpdate(updateRoom);
+                auditDbContext.SaveChanges();
+            }
+
+            // Assert
+            using (var auditDbContext = this.CreateContext())
+            {
+                var allRooms = auditDbContext.Set<Room>().ToList();
+                var updatedRoom = allRooms.ElementAt(0);
+                updatedRoom.CreatedDate.Should().NotBeCloseTo(manipulatedCreatedDate, precision: 2000);
             }
         }
 
