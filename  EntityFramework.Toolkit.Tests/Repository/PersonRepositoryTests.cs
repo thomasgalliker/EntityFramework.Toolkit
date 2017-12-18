@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using EntityFramework.Toolkit.Testing;
+using EntityFramework.Toolkit.Tests.Stubs;
+using FluentAssertions;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-
-using EntityFramework.Toolkit.Testing;
-using EntityFramework.Toolkit.Tests.Stubs;
-
-using FluentAssertions;
-
 using ToolkitSample.DataAccess;
 using ToolkitSample.DataAccess.Context;
 using ToolkitSample.DataAccess.Contracts.Repository;
@@ -14,7 +11,6 @@ using ToolkitSample.DataAccess.Migrations;
 using ToolkitSample.DataAccess.Repository;
 using ToolkitSample.DataAccess.Seed;
 using ToolkitSample.Model;
-
 using Xunit;
 using Xunit.Abstractions;
 
@@ -58,7 +54,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             List<Person> returnedPersons;
             using (IPersonRepository personRepository = new PersonRepository(this.CreateContext()))
             {
-                returnedPersons = personRepository.Get().IncludeAllRelated().ToList();
+                returnedPersons = personRepository.Query().IncludeAllRelated().ToList();
             }
 
             // Assert
@@ -99,7 +95,7 @@ namespace EntityFramework.Toolkit.Tests.Repository
             IEnumerable<Person> returnedPersons;
             using (IPersonRepository personRepository = new PersonRepository(this.CreateContext()))
             {
-                returnedPersons = personRepository.Get().IncludeAllRelatedDerived().ToList();
+                returnedPersons = personRepository.Query().IncludeAllRelatedDerived().ToList();
             }
 
             // Assert

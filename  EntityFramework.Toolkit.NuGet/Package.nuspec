@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.6-pre4</version>
+    <version>1.0.6-pre5</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -18,7 +18,8 @@
 1.0.6-pre
 - Bug fix in AuditDbContextBase: Prevent CreatedDate being updated if only ICreatedDate interface is used
 - Minor logging bug fix
-- New class ContextTestBase&lt;TContext, TDbConnection&gt; which takes generic argument T : IDbConnection 
+- New class ContextTestBase&lt;TContext, TDbConnection&gt; which takes generic argument T : IDbConnection
+- Swap IQueryIncluding&lt;T&gt;Get() method with IQueryable&lt;T&gt;Get()
 
 1.0.5
 - Minor fixes in release notes, namespaces, etc
