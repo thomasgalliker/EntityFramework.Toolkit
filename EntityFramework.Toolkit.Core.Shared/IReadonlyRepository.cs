@@ -9,9 +9,15 @@ namespace EntityFramework.Toolkit
     {
         /// <summary>
         ///     Returns a collection of all entities in the context, or that can be queried from the
-        ///     database, of given type <typeparamref name="T" />.
+        ///     database, of given type <typeparamref name="T" />. IQueryable enables database-spezific filtering.
         /// </summary>
-        IQueryableIncluding<T> Get();
+        IQueryable<T> Get();
+
+        /// <summary>
+        ///     Returns a collection of all entities in the context, or that can be queried from the
+        ///     database, of given type <typeparamref name="T" />.  IQueryableIncluding enables database-spezific filtering with extended include options.
+        /// </summary>
+        IQueryableIncluding<T> Query();
 
         [Obsolete("Use GenericRepository.Get().Include(...) instead")]
         IQueryable<T> Get(params Expression<Func<T, object>>[] includes);

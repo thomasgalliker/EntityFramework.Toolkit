@@ -51,7 +51,13 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public IQueryableIncluding<T> Get()
+        public IQueryable<T> Get()
+        {
+            return this.DbSet;
+        }
+
+        /// <inheritdoc />
+        public IQueryableIncluding<T> Query()
         {
             IQueryable<T> query = this.DbSet;
             return new QueryableIncluding<T>(query, (DbContext)this.context);
