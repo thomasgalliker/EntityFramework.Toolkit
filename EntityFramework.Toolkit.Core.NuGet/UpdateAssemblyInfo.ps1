@@ -45,8 +45,8 @@ function Get-VersionFromNuspec ([string] $nuspecFilePath) {
 # Description: Sets the AssemblyVersion and AssemblyFileVersion of
 #              AssemblyInfo.cs files.
 #
-# Author: Andreas Larsen
-# Version: 1.0
+# Author: Andreas Larsen, Thomas Galliker
+# Version: 1.1
 #-------------------------------------------------------------------------------
 function Update-AssemblyInfoFiles ([string] $nuspecFilePath, [string] $assemblyInfoFilePath) {
 
@@ -65,6 +65,7 @@ function Update-AssemblyInfoFiles ([string] $nuspecFilePath, [string] $assemblyI
 	$assemblyAssemblyCopyrightPattern = 'AssemblyCopyright\("[^"]*"\)'
 	$assemblyAssemblyCopyright = 'AssemblyCopyright("' + $copyright + '")';
 	Write-Host "AssemblyCopyright = $assemblyAssemblyCopyright"
+	""
 
 	Get-ChildItem "$root\$assemblyInfoFilePath" | ForEach-Object {
 		$filename = $_.Directory.ToString() + '\' + $_.Name
@@ -79,7 +80,7 @@ function Update-AssemblyInfoFiles ([string] $nuspecFilePath, [string] $assemblyI
 }
 
 try {
-  "Updating assembly info to version: $setVersion"
+  "Updating assembly info..."
   ""
   Update-AssemblyInfoFiles "Package.nuspec" "..\*\Properties\AssemblyInfo.cs"
 }

@@ -33,5 +33,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.6")]
 [assembly: AssemblyVersion("1.0.6")]
-[assembly: AssemblyFileVersion("1.0.6-pre6")]
+[assembly: AssemblyFileVersion("1.0.6-pre7")]
 [assembly: InternalsVisibleTo("EntityFramework.Toolkit.Tests")]
