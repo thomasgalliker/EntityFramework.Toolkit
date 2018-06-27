@@ -60,4 +60,4 @@ Depending on your application, you may need to change the instantiation mode for
 If you have any further ideas or specific needs, do not hesitate to submit a [new issue](https://github.com/thomasgalliker/EntityFramework.Toolkit/issues).
 
 ### License
-This project is Copyright &copy; 2016 [Thomas Galliker](https://ch.linkedin.com/in/thomasgalliker). Free for non-commercial use. For commercial use please contact the author.
+This project is Copyright &copy; 2018 [Thomas Galliker](https://ch.linkedin.com/in/thomasgalliker). Free for non-commercial use. For commercial use please contact the author.
