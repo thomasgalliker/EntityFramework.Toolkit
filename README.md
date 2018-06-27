@@ -1,4 +1,6 @@
 # EntityFramework.Toolkit
+[![Version](https://img.shields.io/nuget/v/EntityFramework.Toolkit.svg)](https://www.nuget.org/packages/EntityFramework.Toolkit)  [![Downloads](https://img.shields.io/nuget/dt/EntityFramework.Toolkit.svg)](https://www.nuget.org/packages/EntityFramework.Toolkit)
+
 <img src="https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/logo.png" width="100" height="100" alt="EntityFramework.Toolkit" align="right">
 EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.
 - Patterns such as UnitOfWork, Repository
