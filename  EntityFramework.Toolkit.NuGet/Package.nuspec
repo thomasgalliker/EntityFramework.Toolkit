@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.6-prexxx</version>
+    <version>1.0.6-pre8</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -15,7 +15,7 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
-1.0.6-pre
+1.0.6
 - Bug fix in AuditDbContextBase: Prevent CreatedDate being updated if only ICreatedDate interface is used
 - Minor logging bug fix
 - New class ContextTestBase&lt;TContext, TDbConnection&gt; which takes generic argument T : IDbConnection
@@ -61,7 +61,7 @@
 - EDMX tools to generate *.edmx file from EntityFramework context
 
     </releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2018</copyright>
     <language>en-US</language>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Transactions" targetFramework="net40, net45" />
