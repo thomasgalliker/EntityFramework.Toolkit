@@ -102,7 +102,7 @@ namespace EntityFramework.Toolkit
         }
 
         /// <inheritdoc />
-        public new IDbSet<TEntity> Set<TEntity>() where TEntity : class
+        public IDbSet<TEntity> DbSet<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }
