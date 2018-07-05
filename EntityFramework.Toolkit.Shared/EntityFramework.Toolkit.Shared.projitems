@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MappingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TableRowCounts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDbContext.cs" />

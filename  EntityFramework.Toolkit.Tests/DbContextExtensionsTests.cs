@@ -19,11 +19,14 @@ namespace EntityFramework.Toolkit.Tests
 {
     public class DbContextExtensionsTests : ContextTestBase<EmployeeContext>
     {
+        private readonly ITestOutputHelper testOutputHelper;
+
         public DbContextExtensionsTests(ITestOutputHelper testOutputHelper)
             : base(dbConnection: () => new EmployeeContextTestDbConnection(),
                   databaseInitializer: new DropCreateDatabaseAlways<EmployeeContext>(),
                    log: testOutputHelper.WriteLine)
         {
+            this.testOutputHelper = testOutputHelper;
         }
 
         [Fact]
@@ -177,6 +180,39 @@ namespace EntityFramework.Toolkit.Tests
             navigationProperties.Should().HaveCount(2);
             navigationProperties.Should().ContainSingle(p => p.Name == "Country");
             navigationProperties.Should().ContainSingle(p => p.Name == "Department");
+        }
+
+        [Fact]
+        public void ShouldGetGetTableRowCounts()
+        {
+            // Arrange
+            List<TableRowCounts> tableRowCounts;
+
+            using (var employeeContext = this.CreateContext())
+            {
+                employeeContext.Set<Employee>().Add(Testdata.Employees.CreateEmployee1());
+                employeeContext.Set<Employee>().Add(Testdata.Employees.CreateEmployee2());
+                employeeContext.Set<Employee>().Add(Testdata.Employees.CreateEmployee3());
+                employeeContext.SaveChanges();
+            }
+
+            // Act
+            using (var employeeContext = this.CreateContext())
+            {
+                tableRowCounts = employeeContext.GetTableRowCounts();
+            }
+
+            // Assert
+            tableRowCounts.Should().HaveCount(9);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[__MigrationHistory]" && r.TableRowCount == 1);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[ApplicationSettings]" && r.TableRowCount == 0);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Countries]" && r.TableRowCount == 0);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Departments]" && r.TableRowCount == 0);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Employee]" && r.TableRowCount == 3);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[EmployeeAudit]" && r.TableRowCount == 0);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Person]" && r.TableRowCount == 3);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Room]" && r.TableRowCount == 0);
+            tableRowCounts.Should().ContainSingle(r => r.TableName == "[dbo].[Student]" && r.TableRowCount == 0);
         }
     }
 }

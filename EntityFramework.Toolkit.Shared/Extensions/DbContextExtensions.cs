@@ -409,5 +409,25 @@ namespace EntityFramework.Toolkit.Extensions
             var entityType = typeof(TEntityType);
             return context.GetNavigationProperties(entityType);
         }
+
+        /// <summary>
+        /// Returns the number of table rows per database table.
+        /// </summary>
+        public static List<TableRowCounts> GetTableRowCounts(this DbContext c)
+        {
+            var rawSqlQuery = c.Database.SqlQuery<TableRowCounts>(
+                @"CREATE TABLE #counts
+                    (
+                        TableName varchar(255),
+                        TableRowCount int
+                    )
+
+                    EXEC sp_MSForEachTable @command1='INSERT #counts (TableName, TableRowCount) SELECT ''?'', COUNT(*) FROM ?'
+                    SELECT TableName, TableRowCount FROM #counts ORDER BY TableName, TableRowCount DESC
+                    DROP TABLE #counts");
+
+            var tableCountResults = rawSqlQuery.ToList();
+            return tableCountResults;
+        }
     }
 }
