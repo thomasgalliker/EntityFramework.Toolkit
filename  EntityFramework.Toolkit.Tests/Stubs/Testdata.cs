@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using ToolkitSample.Model;
 
 namespace EntityFramework.Toolkit.Tests.Stubs
@@ -8,6 +8,19 @@ namespace EntityFramework.Toolkit.Tests.Stubs
     {
         public static class Employees
         {
+            public static IEnumerable<Employee> CreateEmployees(int count)
+            {
+                for (var i = 1; i <= count; i++)
+                {
+                    yield return new Employee
+                    {
+                        FirstName = $"FirstName {i}",
+                        LastName = $"LastName {i}",
+                        Birthdate = new DateTime(1990, 01, 01)
+                    };
+                }
+            }
+
             public static Employee CreateEmployee1()
             {
                 return new Employee { FirstName = "Thomas", LastName = "Galliker", Birthdate = new DateTime(1986, 07, 11), EmployementDate = new DateTime(2000, 1, 1) };

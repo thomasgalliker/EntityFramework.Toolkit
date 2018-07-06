@@ -15,7 +15,7 @@ namespace ToolkitSample.Model
         public string FirstName { get; set; }
 
         public DateTime Birthdate { get; set; }
-
+        
         public string CountryId { get; set; }
 
         public virtual Country Country { get; set; }
