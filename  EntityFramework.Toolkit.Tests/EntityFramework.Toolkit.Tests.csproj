@@ -107,6 +107,7 @@
     <Compile Include="ContextTestBaseTests.cs" />
     <Compile Include="Extensions\AssertionExtensions.cs" />
     <Compile Include="Extensions\ChangeSetExtensions.cs" />
+    <Compile Include="Extensions\DbConnectionExtensionsTests.cs" />
     <Compile Include="Extensions\DbUpdateExceptionFormatterTests.cs" />
     <Compile Include="Extensions\DateTimeExtensionsTests.cs" />
     <Compile Include="Extensions\TypeExtensionsTests.cs" />

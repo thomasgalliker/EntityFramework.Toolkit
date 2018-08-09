@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.7-pre1</version>
+    <version>1.0.7-pre2</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -15,6 +15,9 @@
       Entity Framework EntityFramework UnitOfWork IUnitOfWork Repository IRepository DbContext DbContextBase ContextTestBase
     </tags>
     <releaseNotes>
+1.0.7
+- Add IDbConnection.DropDatabase extension method
+
 1.0.6
 - Bug fix in AuditDbContextBase: Prevent CreatedDate being updated if only ICreatedDate interface is used
 - Minor logging bug fix
