@@ -1,5 +1,4 @@
-﻿using Dwh.Testing;
-using EntityFramework.Toolkit.Testing;
+﻿using EntityFramework.Toolkit.Testing;
 using FluentAssertions;
 using ToolkitSample.DataAccess.Context;
 using Xunit;

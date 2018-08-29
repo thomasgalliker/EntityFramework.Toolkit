@@ -2,9 +2,8 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using IDbConnection = EntityFramework.Toolkit.IDbConnection;
 
-namespace Dwh.Testing
+namespace EntityFramework.Toolkit
 {
     public static class DbConnectionExtensions
     {
