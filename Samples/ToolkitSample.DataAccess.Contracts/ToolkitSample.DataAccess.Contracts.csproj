@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework.Toolkit.Core, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EntityFramework.Toolkit.Core.1.0.6-pre6\lib\net45\EntityFramework.Toolkit.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +48,10 @@
     <Compile Include="Repository\IPersonRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj">
+      <Project>{88f192be-a2c5-4533-8376-b7838004947c}</Project>
+      <Name>EntityFramework.Toolkit.EF6.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToolkitSample.Model\ToolkitSample.Model.csproj">
       <Project>{f73b662b-33eb-4d15-9da7-2798645aafaa}</Project>
       <Name>ToolkitSample.Model</Name>

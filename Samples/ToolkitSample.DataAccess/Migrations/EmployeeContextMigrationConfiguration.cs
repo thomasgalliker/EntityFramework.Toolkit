@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-
-using EntityFramework.Toolkit;
-using EntityFramework.Toolkit.Extensions;
-
+using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.EF6.Extensions;
 using ToolkitSample.DataAccess.Context;
 
 namespace ToolkitSample.DataAccess.Migrations

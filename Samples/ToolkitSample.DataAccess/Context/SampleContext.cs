@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntityFramework.Toolkit;
-
+using EntityFramework.Toolkit.EF6.Contracts;
 using ToolkitSample.DataAccess.Stubs;
 using ToolkitSample.Model;
 

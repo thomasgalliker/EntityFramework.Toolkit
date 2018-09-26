@@ -1,8 +1,6 @@
 ﻿
 using System.Data.Entity.ModelConfiguration;
-
-using EntityFramework.Toolkit.Extensions;
-
+using EntityFramework.Toolkit.EF6.Extensions;
 using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Context

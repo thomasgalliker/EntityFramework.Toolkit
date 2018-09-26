@@ -1,5 +1,4 @@
-﻿using EntityFramework.Toolkit.Auditing;
-
+﻿using EntityFramework.Toolkit.EF6.Auditing;
 using ToolkitSample.Model.Auditing;
 
 namespace ToolkitSample.DataAccess.Context

@@ -1,4 +1,4 @@
-﻿using EntityFramework.Toolkit.Auditing;
+﻿using EntityFramework.Toolkit.EF6.Contracts.Auditing;
 
 namespace ToolkitSample.Model.Auditing
 {

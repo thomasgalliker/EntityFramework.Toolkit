@@ -1,6 +1,6 @@
-﻿using EntityFramework.Toolkit.Auditing;
-using System;
+﻿using System;
 using System.Diagnostics;
+using EntityFramework.Toolkit.EF6.Contracts.Auditing;
 
 namespace ToolkitSample.Model
 {

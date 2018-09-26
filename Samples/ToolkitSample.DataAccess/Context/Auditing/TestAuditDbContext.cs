@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
-
-using EntityFramework.Toolkit;
-using EntityFramework.Toolkit.Auditing;
-
-
+using EntityFramework.Toolkit.EF6.Auditing;
+using EntityFramework.Toolkit.EF6.Contracts;
 using ToolkitSample.Model;
 using ToolkitSample.Model.Auditing;
 

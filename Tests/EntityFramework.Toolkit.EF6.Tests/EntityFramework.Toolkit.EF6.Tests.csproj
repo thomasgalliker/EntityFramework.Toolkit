@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <AssemblyName>EntityFramework.Toolkit.EF6.Tests</AssemblyName>
+    <PackageId>EntityFramework.Toolkit.EF6.Tests</PackageId>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <RootNamespace>EntityFramework.Toolkit.EF6.Tests</RootNamespace>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.4.0" />
+    <PackageReference Include="FluentAssertions" Version="4.19.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="Moq" Version="4.10.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <!-- Include files in the Resources directory to be used across the test suite -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.csproj" />
+    <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Samples\ToolkitSample.Model\ToolkitSample.Model.csproj" />
+  </ItemGroup>
+</Project>
