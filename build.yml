@@ -88,7 +88,7 @@ steps:
   displayName: 'dotnet pack'
   inputs:
     command: pack
-    packagesToPack: EntityFramework.Toolkit.EFCore/EntityFramework.Toolkit.EFCore.csproj
+    packagesToPack: **/*EntityFramework.Toolkit.EF6*.csproj
     versioningScheme: byEnvVar
     versionEnvVar: PackageVersion
 
