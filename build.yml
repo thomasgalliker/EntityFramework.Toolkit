@@ -23,14 +23,10 @@ steps:
   displayName: 'Set Assembly Manifest Data'
   inputs:
     FileNames: |
-     $(Parameters.csproj)
-
+     **\EntityFramework.Toolkit.EF6*.csproj
     InsertAttributes: true
-
     VersionNumber: '$(Build.BuildNumber)'
-
     FileVersionNumber: '$(Build.BuildNumber)'
-
 
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 4.4.1'
