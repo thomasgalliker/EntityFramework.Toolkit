@@ -23,7 +23,8 @@ steps:
   displayName: 'Set Assembly Manifest Data'
   inputs:
     FileNames: |
-     **\EntityFramework.Toolkit.EF6*.csproj
+     EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.csproj
+     EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.Contracts.csproj
     InsertAttributes: true
     VersionNumber: '$(Build.BuildNumber)'
     FileVersionNumber: '$(Build.BuildNumber)'
