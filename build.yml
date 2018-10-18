@@ -1,5 +1,5 @@
 ####################################################################
-# VSTS Build Configuration
+# VSTS Build Configuration, Version 1.1
 #
 # (c)2018 superdev GmbH
 ####################################################################
@@ -26,8 +26,13 @@ steps:
      EntityFramework.Toolkit.EF6.csproj
      EntityFramework.Toolkit.EF6.Contracts.csproj
     InsertAttributes: true
+    Title: 'EntityFramework.Toolkit.EF6'
+    Description: ''
+    Company: 'superdev GmbH'
+    Copyright: '(c) $(date:yyyy) superdev GmbH'
     VersionNumber: '$(Build.BuildNumber)'
     FileVersionNumber: '$(Build.BuildNumber)'
+
 
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 4.4.1'
@@ -42,28 +47,8 @@ steps:
 
 
 - powershell: |
-   $branch1="develop"
-   $branch2="master"
-   
-   [String]$buildNumber= $Env:BUILD_BUILDNUMBER
-   [String]$rev = $buildNumber.Substring($buildNumber.LastIndexOf('.') + 1)
-   echo "rev=$rev"
-   
-   if ("$(Build.SourceBranchName)" -eq $branch1)
-   {
-     echo "the build is on $branch1"
-   
-     Write-Host "##vso[task.setvariable variable=PackageVersion]$(Build.BuildNumber)$(BuildVersionPostfix)"
-   }
-   elseif ("$(Build.SourceBranchName)" -eq $branch2)
-   {
-     echo "the build is on $branch2"
-     Write-Host "##vso[task.setvariable variable=PackageVersion]$(Build.BuildNumber)"
-   }
-   else
-   {
-     echo "it's either on $branch1 branch nor $branch2 branch"
-   } 
+   Write-Host "##vso[task.setvariable variable=PackageVersion]$(Build.BuildNumber)"
+   Write-Host "##vso[task.setvariable variable=PackageVersionPre]$(Build.BuildNumber)$(BuildVersionPostfix)"
   displayName: 'Set PackageVersion'
 
 - task: VSBuild@1
@@ -82,21 +67,20 @@ steps:
     arguments: ''
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet pack'
+  displayName: 'Pack NuGet PreRelease'
+  inputs:
+    command: pack
+    packagesToPack: '**\EntityFramework.Toolkit.EF6*.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: PackageVersionPre
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack NuGet Prod'
   inputs:
     command: pack
     packagesToPack: '**\EntityFramework.Toolkit.EF6*.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: PackageVersion
-
-- task: PublishSymbols@2
-  displayName: 'Publish symbols path'
-  inputs:
-    SearchPattern: '**\bin\**\*.pdb'
-
-    PublishSymbols: false
-
-  continueOnError: true
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
@@ -112,4 +96,3 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
-
