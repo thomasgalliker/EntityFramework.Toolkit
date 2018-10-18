@@ -8,13 +8,13 @@
     <Authors>Thomas Galliker</Authors>
     <TargetFrameworks>net40;net45</TargetFrameworks>
     <AssemblyName>EntityFramework.Toolkit.EF6.Contracts</AssemblyName>
-    <PackageId>EntityFramework.Toolkit.EF6.Contracts</PackageId>
+    <PackageId>EntityFramework.Toolkit.Contracts</PackageId>
     <PackageTags>Entity Framework EntityFramework EF6 UnitOfWork IUnitOfWork Repository IRepository GenericRepository IGenericRepository DbContext DbContextBase ContextTestBase</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit.EF6.Contracts/master/EntityFramework.Toolkit.EF6.Contracts.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit.EF6.Contracts</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/EntityFramework.Toolkit.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit</PackageProjectUrl>
     <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit.EF6.Contracts</RepositoryUrl>
+    <RepositoryUrl>https://github.com/thomasgalliker/EntityFramework.Toolkit</RepositoryUrl>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <SignAssembly>True</SignAssembly>
   </PropertyGroup>
@@ -32,12 +32,12 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <Company>superdev GmbH</Company>
-    <Product>EntityFramework.Toolkit.EF6.Contracts</Product>
+    <Product>EntityFramework.Toolkit.Contracts</Product>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RootNamespace>EntityFramework.Toolkit.EF6.Contracts</RootNamespace>
     <PackageReleaseNotes>2.0.0
-- Migrate to netstandard
-- Bug fixes
+- Renamed namespaces to EntityFramework.Toolkit.EF6
+- Removed obsolete code from version 1.x
 
 1.0.8
 - Bugfix for .Net Standard: CSharp initializer code generation for KeyValuePairs is currently disabled in this release
@@ -71,19 +71,9 @@
     <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+  <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
