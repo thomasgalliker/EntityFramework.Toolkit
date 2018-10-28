@@ -14,9 +14,7 @@ queue:
   - vstest
 
 trigger:
-- master
-- develop
-- release/*
+- EntityFramework.Toolkit.1
 
 steps:
 - task: bleddynrichards.Assembly-Info-Task.Assembly-Info-Task.Assembly-Info-Task@1
