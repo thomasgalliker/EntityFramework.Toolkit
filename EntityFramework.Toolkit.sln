@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{B5AEA046-0E87-4A7B-8F11-80B6BDDA1F2A}"
 EndProject
@@ -58,7 +58,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2CF5E868-1098-4C6D-9001-27D8DC0D87BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CF5E868-1098-4C6D-9001-27D8DC0D87BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF5E868-1098-4C6D-9001-27D8DC0D87BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CF5E868-1098-4C6D-9001-27D8DC0D87BE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8146AB24-C2E9-4AAA-9BD0-E9E4E402C612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -70,7 +69,6 @@ Global
 		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A48F310-09B6-4FDB-A93C-4B42064788C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3C977BF-FFC7-4FAE-BFCA-B20FFB7A3A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -108,5 +106,8 @@ Global
 		{6AB0CD1B-B2E1-43AF-BBBC-297ABB5EE188} = {B5AEA046-0E87-4A7B-8F11-80B6BDDA1F2A}
 		{8B9396BC-1312-409A-BC0E-6888443C06B9} = {C7DE2A3B-583C-4A61-AB17-F68B729BCBC6}
 		{F73B662B-33EB-4D15-9DA7-2798645AAFAA} = {C7DE2A3B-583C-4A61-AB17-F68B729BCBC6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {840179BD-A683-4298-B4CF-2A5D6505A06B}
 	EndGlobalSection
 EndGlobal
