@@ -351,24 +351,35 @@ namespace EntityFramework.Toolkit.Extensions
         /// <param name="context">The context.</param>
         /// <param name="modelBuilder">The model builder used to configure the EntityTypeConfigurations.</param>
         /// <param name="targetAssembly">The assembly which contains the EntityTypeConfigurations.</param>
-        public static void AutoConfigure(this DbContext context, DbModelBuilder modelBuilder, Assembly targetAssembly = null)
+        public static void AutoConfigure(this DbContext context, DbModelBuilder modelBuilder, Assembly targetAssembly = null, Action<string> log = null)
         {
             if (targetAssembly == null)
             {
                 targetAssembly = Assembly.GetAssembly(context.GetType());
             }
 
-            var types = targetAssembly.TryGetTypes();
+            if (log == null)
+            {
+                log = context.Database.Log ?? (s => { });
+            }
 
-            var entityConfigurationTypes = types.Where(type =>
-                type.BaseType != null &&
-                type.BaseType.IsGenericType &&
-                type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
+            var types = targetAssembly.TryGetTypes();
+            var entityTypeConfigurationType = typeof(EntityTypeConfiguration<>);
+            var entityConfigurationTypes = types.Where(t =>
+                    t.IsAbstract == false &&
+                    t.IsPublic &&
+                    t.IsAssignableToGenericType(entityTypeConfigurationType))
+                .OrderBy(t => t.FullName)
+                .ToList();
+
+            log($"AutoConfigure found {entityConfigurationTypes.Count} entity type configurations.");
 
             foreach (var entityConfigurationType in entityConfigurationTypes)
             {
                 dynamic entityConfiguration = Activator.CreateInstance(entityConfigurationType);
                 modelBuilder.Configurations.Add(entityConfiguration);
+
+                log($"AutoConfigure type {entityConfiguration.GetType().FullName}");
             }
         }
 

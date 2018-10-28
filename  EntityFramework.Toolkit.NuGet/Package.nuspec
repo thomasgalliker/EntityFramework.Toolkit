@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>EntityFramework.Toolkit</id>
-    <version>1.0.7-pre4</version>
+    <version>1.0.7-pre6</version>
     <title>EntityFramework.Toolkit</title>
     <authors>Thomas Galliker</authors>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
@@ -18,6 +18,7 @@
     <releaseNotes>
 1.0.7
 - Add IDbConnection.DropDatabase extension method
+- Fix AutoConfigure method to include only public, non-abstract entity type configurations
 
 1.0.6
 - Bug fix in AuditDbContextBase: Prevent CreatedDate being updated if only ICreatedDate interface is used
