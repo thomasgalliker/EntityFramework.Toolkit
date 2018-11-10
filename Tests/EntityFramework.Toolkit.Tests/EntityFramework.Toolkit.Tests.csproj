@@ -27,8 +27,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj" />
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.csproj" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.csproj" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit\EntityFramework.Toolkit.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.Model\ToolkitSample.Model.csproj" />

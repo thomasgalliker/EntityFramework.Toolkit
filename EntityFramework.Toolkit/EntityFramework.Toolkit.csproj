@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>EntityFramework.Toolkit is a library which provides implementations for EntityFramework best practices, patterns, utilities and extensions.</Description>
@@ -98,7 +98,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj" />
+    <ProjectReference Include="..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
