@@ -9,7 +9,7 @@ namespace EntityFramework.Toolkit.Tests
 {
     public class EdmxToolsTests : ContextTestBase<EmployeeContext>
     {
-        private readonly string basePath = @"..\..\..\Samples\ToolkitSample.DataAccess\" + typeof(EmployeeContext).Name;
+        private readonly string basePath = @"..\..\..\..\..\Samples\ToolkitSample.DataAccess\" + typeof(EmployeeContext).Name;
         private readonly ITestOutputHelper testOutputHelper;
 
         public EdmxToolsTests(ITestOutputHelper testOutputHelper)

@@ -74,7 +74,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EnumType Name="AuditEntityState" IsFlags="true" customannotation:ClrType="EntityFramework.Toolkit.Auditing.AuditEntityState, EntityFramework.Toolkit.Core, Version=1.0.6.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+        <EnumType Name="AuditEntityState" IsFlags="true" customannotation:ClrType="EntityFramework.Toolkit.Core.Auditing.AuditEntityState, EntityFramework.Toolkit.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
           <Member Name="Added" Value="4" />
           <Member Name="Deleted" Value="8" />
           <Member Name="Modified" Value="16" />

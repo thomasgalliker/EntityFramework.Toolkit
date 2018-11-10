@@ -29,7 +29,7 @@ namespace EntityFramework.Toolkit.Tests.Modularity
 
         private static IContainer GetContainer()
         {
-            var container = new Autofac.ContainerBuilder();
+            var container = new ContainerBuilder();
             container.RegisterAssemblyModules(Assembly.Load("ToolkitSample.DataAccess"));
             return container.Build();
         }
