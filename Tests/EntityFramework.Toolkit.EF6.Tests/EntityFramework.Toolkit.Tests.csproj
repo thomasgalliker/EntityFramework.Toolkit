@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <TargetFrameworks>net452</TargetFrameworks>
     <AssemblyName>EntityFramework.Toolkit.Tests</AssemblyName>
-    <PackageId>EntityFramework.Toolkit.EF6.Tests</PackageId>
+    <PackageId>EntityFramework.Toolkit.Tests</PackageId>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <RootNamespace>EntityFramework.Toolkit.Tests</RootNamespace>
