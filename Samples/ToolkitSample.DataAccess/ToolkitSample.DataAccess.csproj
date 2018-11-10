@@ -106,13 +106,13 @@
     <Content Include="EmployeeContext.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj">
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj">
       <Project>{88f192be-a2c5-4533-8376-b7838004947c}</Project>
-      <Name>EntityFramework.Toolkit.EF6.Contracts</Name>
+      <Name>EntityFramework.Toolkit.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.csproj">
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.csproj">
       <Project>{bb2cfd38-0f40-4c10-ad5e-2c79f50f95f2}</Project>
-      <Name>EntityFramework.Toolkit.EF6</Name>
+      <Name>EntityFramework.Toolkit</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj">
       <Project>{8b9396bc-1312-409a-bc0e-6888443c06b9}</Project>

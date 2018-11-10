@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Contracts.Extensions;
-using EntityFramework.Toolkit.EF6.Exceptions;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Core.Extensions;
+using EntityFramework.Toolkit.Exceptions;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Extensions;
 using EntityFramework.Toolkit.Tests.Stubs;
 

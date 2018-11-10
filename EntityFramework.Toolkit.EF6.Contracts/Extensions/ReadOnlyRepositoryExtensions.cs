@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace EntityFramework.Toolkit.EF6.Contracts.Extensions
+namespace EntityFramework.Toolkit.Core.Extensions
 {
     public static class ReadOnlyRepositoryExtensions
     {

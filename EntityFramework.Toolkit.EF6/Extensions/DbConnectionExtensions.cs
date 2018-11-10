@@ -2,9 +2,9 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using IDbConnection = EntityFramework.Toolkit.EF6.Contracts.IDbConnection;
+using IDbConnection = EntityFramework.Toolkit.Core.IDbConnection;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DbConnectionExtensions
     {

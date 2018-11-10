@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Extensions;
 
-namespace EntityFramework.Toolkit.EF6.Utils
+namespace EntityFramework.Toolkit.Utils
 {
     internal static class ReflectionHelper
     {

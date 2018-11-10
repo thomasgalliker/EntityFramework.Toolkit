@@ -1,6 +1,6 @@
 using System;
 
-namespace EntityFramework.Toolkit.EF6.Contracts.Auditing
+namespace EntityFramework.Toolkit.Core.Auditing
 {
     /// <summary>
     ///     Describes the state of an audit entity.

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.Validation;
 using System.Text;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     internal static class DbEntityValidationExceptionFormatter
     {

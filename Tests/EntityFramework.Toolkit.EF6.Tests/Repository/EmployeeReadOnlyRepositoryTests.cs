@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Contracts.Extensions;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Core.Extensions;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;

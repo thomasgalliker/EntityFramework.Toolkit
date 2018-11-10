@@ -8,10 +8,10 @@ using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Utils;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Utils;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DbContextExtensions
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.Core;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     /// <summary>
     ///     Provides a template for generic seed implementors.

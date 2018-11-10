@@ -7,7 +7,7 @@
     <Version>1.0.0</Version>
     <Authors>Thomas Galliker</Authors>
     <TargetFrameworks>net40;net45</TargetFrameworks>
-    <AssemblyName>EntityFramework.Toolkit.EF6</AssemblyName>
+    <AssemblyName>EntityFramework.Toolkit</AssemblyName>
     <PackageId>EntityFramework.Toolkit</PackageId>
     <PackageTags>Entity Framework EntityFramework EF6 UnitOfWork IUnitOfWork Repository IRepository GenericRepository IGenericRepository DbContext DbContextBase ContextTestBase</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/thomasgalliker/EntityFramework.Toolkit/master/EntityFramework.Toolkit.png</PackageIconUrl>
@@ -34,7 +34,7 @@
     <Company>superdev GmbH</Company>
     <Product>EntityFramework.Toolkit</Product>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <RootNamespace>EntityFramework.Toolkit.EF6</RootNamespace>
+    <RootNamespace>EntityFramework.Toolkit</RootNamespace>
     <PackageReleaseNotes>2.0.0
 - Renamed namespaces to EntityFramework.Toolkit.EF6
 - Removed obsolete code from version 1.x
@@ -92,13 +92,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EntityFramework">
       <Version>6.1.2</Version>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

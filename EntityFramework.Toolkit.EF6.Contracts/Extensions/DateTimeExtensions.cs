@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFramework.Toolkit.EF6.Contracts.Extensions
+namespace EntityFramework.Toolkit.Core.Extensions
 {
     public static class DateTimeExtensions
     {

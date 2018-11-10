@@ -1,4 +1,4 @@
-﻿namespace EntityFramework.Toolkit.EF6
+﻿namespace EntityFramework.Toolkit
 {
     public static class IndexConstants
     {

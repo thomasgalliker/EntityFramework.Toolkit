@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFramework.Toolkit.EF6.Contracts
+namespace EntityFramework.Toolkit.Core
 {
     public interface IRepository : IDisposable
     {

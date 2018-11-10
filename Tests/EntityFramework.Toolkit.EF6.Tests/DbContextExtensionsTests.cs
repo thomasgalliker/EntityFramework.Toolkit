@@ -2,8 +2,8 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
-using EntityFramework.Toolkit.EF6.Extensions;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Extensions;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;

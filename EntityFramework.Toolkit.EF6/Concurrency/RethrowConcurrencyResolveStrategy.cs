@@ -1,6 +1,6 @@
-﻿using EntityFramework.Toolkit.EF6.Exceptions;
+﻿using EntityFramework.Toolkit.Exceptions;
 
-namespace EntityFramework.Toolkit.EF6.Concurrency
+namespace EntityFramework.Toolkit.Concurrency
 {
     /// <summary>
     /// Rethrow strategy throws an <see cref="UpdateConcurrencyException"/> in case of a conflicting update.

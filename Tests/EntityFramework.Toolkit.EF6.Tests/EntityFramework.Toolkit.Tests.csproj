@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
-    <AssemblyName>EntityFramework.Toolkit.EF6.Tests</AssemblyName>
+    <AssemblyName>EntityFramework.Toolkit.Tests</AssemblyName>
     <PackageId>EntityFramework.Toolkit.EF6.Tests</PackageId>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <RootNamespace>EntityFramework.Toolkit.EF6.Tests</RootNamespace>
+    <RootNamespace>EntityFramework.Toolkit.Tests</RootNamespace>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
@@ -27,8 +27,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj" />
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.csproj" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj" />
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess.Contracts\ToolkitSample.DataAccess.Contracts.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.DataAccess\ToolkitSample.DataAccess.csproj" />
     <ProjectReference Include="..\..\Samples\ToolkitSample.Model\ToolkitSample.Model.csproj" />

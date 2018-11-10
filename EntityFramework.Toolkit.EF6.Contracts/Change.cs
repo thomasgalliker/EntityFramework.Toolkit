@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace EntityFramework.Toolkit.EF6.Contracts
+namespace EntityFramework.Toolkit.Core
 {
     [DebuggerDisplay("ChangedEntity='{ChangedEntity}', State={State}", Type = "Change")]
     public class Change : IChange

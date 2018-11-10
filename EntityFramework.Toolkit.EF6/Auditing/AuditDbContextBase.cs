@@ -4,16 +4,17 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Principal;
-using EntityFramework.Toolkit.EF6.Auditing.Extensions;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Contracts.Auditing;
-using EntityFramework.Toolkit.EF6.Contracts.Extensions;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Auditing.Extensions;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Core.Auditing;
+using EntityFramework.Toolkit.Core.Extensions;
+using EntityFramework.Toolkit.Extensions;
+
 #if !NET40
 using System.Threading.Tasks;
 #endif
 
-namespace EntityFramework.Toolkit.EF6.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     /// <summary>
     ///     AuditDbContextBase adds auditing capabilities to the DbContextBase.

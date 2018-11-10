@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.Core;
 using FluentAssertions;
 
 using ToolkitSample.DataAccess.Seed;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using EntityFramework.Toolkit.EF6.Concurrency;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Concurrency;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Stubs;
 
 using FluentAssertions;

@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Text;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     internal static class DbUpdateExceptionFormatter
     {

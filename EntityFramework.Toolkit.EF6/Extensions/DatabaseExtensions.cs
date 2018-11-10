@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Entity;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DatabaseExtensions
     {

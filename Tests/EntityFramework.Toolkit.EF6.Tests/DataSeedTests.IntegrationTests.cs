@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Testing;
 using FluentAssertions;
 
 using ToolkitSample.DataAccess;

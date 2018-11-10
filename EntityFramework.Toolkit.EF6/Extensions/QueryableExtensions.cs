@@ -2,9 +2,9 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Toolkit.EF6.Utils;
+using EntityFramework.Toolkit.Utils;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class QueryableExtensions
     {

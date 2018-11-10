@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using EntityFramework.Toolkit.EF6.Auditing.ConfigFile;
+using EntityFramework.Toolkit.Auditing.ConfigFile;
 
-namespace EntityFramework.Toolkit.EF6.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     internal static class AuditDbContextConfigurationManager
     {

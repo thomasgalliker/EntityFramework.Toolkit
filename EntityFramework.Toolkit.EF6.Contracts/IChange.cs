@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EntityFramework.Toolkit.EF6.Contracts
+namespace EntityFramework.Toolkit.Core
 {
     /// <summary>
     ///     Interface for changed objects and object properties.

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Testing;
 using EntityFramework.Toolkit.Tests.Extensions;
 
 using FluentAssertions;

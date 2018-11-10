@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Transactions;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Exceptions;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
 
 #if !NET40
 using System.Threading.Tasks;
 #endif
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     public sealed class UnitOfWork : IUnitOfWork
     {

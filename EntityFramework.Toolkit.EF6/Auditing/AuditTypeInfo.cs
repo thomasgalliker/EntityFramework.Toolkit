@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using EntityFramework.Toolkit.EF6.Contracts.Auditing;
+using EntityFramework.Toolkit.Core.Auditing;
 
-namespace EntityFramework.Toolkit.EF6.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     public class AuditTypeInfo
     {

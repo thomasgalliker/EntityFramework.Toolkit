@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq.Expressions;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     public static class DbEntityEntryExtensions
     {

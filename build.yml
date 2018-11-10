@@ -23,10 +23,10 @@ steps:
   displayName: 'Set Assembly Manifest Data'
   inputs:
     FileNames: |
-     EntityFramework.Toolkit.EF6.csproj
-     EntityFramework.Toolkit.EF6.Contracts.csproj
+     EntityFramework.Toolkit.csproj
+     EntityFramework.Toolkit.Core.csproj
     InsertAttributes: true
-    Title: 'EntityFramework.Toolkit.EF6'
+    Title: 'EntityFramework.Toolkit'
     Description: ''
     Company: 'superdev GmbH'
     Copyright: '(c) $(date:yyyy) superdev GmbH'
@@ -70,7 +70,7 @@ steps:
   displayName: 'Pack NuGet PreRelease'
   inputs:
     command: pack
-    packagesToPack: '**\EntityFramework.Toolkit.EF6*.csproj'
+    packagesToPack: '**\EntityFramework.Toolkit*.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: PackageVersionPre
 
@@ -78,7 +78,7 @@ steps:
   displayName: 'Pack NuGet Prod'
   inputs:
     command: pack
-    packagesToPack: '**\EntityFramework.Toolkit.EF6*.csproj'
+    packagesToPack: '**\EntityFramework.Toolkit*.csproj'
     versioningScheme: byEnvVar
     versionEnvVar: PackageVersion
 

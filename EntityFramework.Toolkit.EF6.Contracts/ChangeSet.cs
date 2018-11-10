@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace EntityFramework.Toolkit.EF6.Contracts
+namespace EntityFramework.Toolkit.Core
 {
     [DebuggerDisplay("ChangeSet: Context='{this.Context.Name}', Changes={this.Changes.Count()}", Type = "Change")]
     public class ChangeSet

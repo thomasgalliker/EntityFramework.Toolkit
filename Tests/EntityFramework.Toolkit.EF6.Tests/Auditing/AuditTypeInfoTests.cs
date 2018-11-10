@@ -1,5 +1,5 @@
 ﻿using System;
-using EntityFramework.Toolkit.EF6.Auditing;
+using EntityFramework.Toolkit.Auditing;
 using FluentAssertions;
 
 using ToolkitSample.Model.Auditing;

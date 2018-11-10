@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFramework.Toolkit.EF6.Exceptions
+namespace EntityFramework.Toolkit.Exceptions
 {
     public class UpdateConcurrencyException : Exception
     {

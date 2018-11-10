@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using EntityFramework.Toolkit.EF6.Contracts.Auditing;
+using EntityFramework.Toolkit.Core.Auditing;
 
 namespace ToolkitSample.Model
 {

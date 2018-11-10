@@ -1,4 +1,4 @@
-﻿namespace EntityFramework.Toolkit.EF6.Concurrency
+﻿namespace EntityFramework.Toolkit.Concurrency
 {
     public sealed class ClientWinsConcurrencyResolveStrategy : IConcurrencyResolveStrategy
     {

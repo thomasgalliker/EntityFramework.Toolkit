@@ -1,5 +1,5 @@
 ﻿using System;
-using EntityFramework.Toolkit.EF6.Contracts.Extensions;
+using EntityFramework.Toolkit.Core.Extensions;
 using FluentAssertions;
 
 using Xunit;

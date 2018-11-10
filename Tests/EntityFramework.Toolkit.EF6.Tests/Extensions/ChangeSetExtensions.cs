@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.Core;
 using FluentAssertions.Execution;
 
 namespace EntityFramework.Toolkit.Tests.Extensions

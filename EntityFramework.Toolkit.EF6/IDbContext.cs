@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
-using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.Core;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     public interface IDbContext : IContext
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
 using FluentAssertions;
 
 using ToolkitSample.DataAccess.Context.Auditing;

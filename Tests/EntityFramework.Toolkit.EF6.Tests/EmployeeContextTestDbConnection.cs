@@ -1,6 +1,6 @@
 ﻿using System;
-using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Testing;
 
 namespace EntityFramework.Toolkit.Tests
 {

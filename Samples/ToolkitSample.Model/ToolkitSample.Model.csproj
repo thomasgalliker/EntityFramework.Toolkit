@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj">
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj">
       <Project>{88f192be-a2c5-4533-8376-b7838004947c}</Project>
-      <Name>EntityFramework.Toolkit.EF6.Contracts</Name>
+      <Name>EntityFramework.Toolkit.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

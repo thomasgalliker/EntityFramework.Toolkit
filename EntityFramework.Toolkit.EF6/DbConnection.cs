@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using EntityFramework.Toolkit.EF6.Contracts;
+using EntityFramework.Toolkit.Core;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     [DebuggerDisplay("Name={this.Name}, ConnectionString={this.ConnectionString}")]
     public class DbConnection : IDbConnection

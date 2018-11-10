@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace EntityFramework.Toolkit.EF6.Auditing.ConfigFile
+namespace EntityFramework.Toolkit.Auditing.ConfigFile
 {
     internal class EntityElementCollection : ConfigurationElementCollection
     {

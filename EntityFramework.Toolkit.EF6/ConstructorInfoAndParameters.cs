@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     [DebuggerDisplay("{this.ConstructorInfo.Name}")]
     public class ConstructorInfoAndParameters

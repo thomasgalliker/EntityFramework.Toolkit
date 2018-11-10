@@ -1,4 +1,4 @@
-﻿namespace EntityFramework.Toolkit.EF6.Testing
+﻿namespace EntityFramework.Toolkit.Testing
 {
     public class RandomizedDbConnection : DbConnection
     {

@@ -1,5 +1,5 @@
-﻿using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Contracts;
+﻿using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
 using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Contracts.Repository

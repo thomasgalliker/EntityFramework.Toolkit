@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Exceptions;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
 using FluentAssertions;
 
 using Moq;

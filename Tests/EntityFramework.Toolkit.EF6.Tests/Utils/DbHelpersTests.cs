@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Toolkit.EF6.Utils;
+using EntityFramework.Toolkit.Utils;
 using FluentAssertions;
 
 using Xunit;

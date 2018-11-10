@@ -4,10 +4,28 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace EntityFramework.Toolkit.EF6.Extensions
+namespace EntityFramework.Toolkit.Extensions
 {
     internal static class TypeExtensions
     {
+#if NET40
+        internal static bool IsGenericType(this Type t)
+        {
+            return t.IsGenericType;
+        }
+
+        internal static void SetValue(this PropertyInfo propertyInfo, object obj, object value)
+        {
+            propertyInfo.SetValue(obj, value, null);
+        }
+
+#else
+        internal static bool IsGenericType(this Type t)
+        {
+            return t.GetTypeInfo().IsGenericType;
+        }
+#endif
+
         /// <summary>
         ///     Gets the raw entity type without dynamic proxy type.
         /// </summary>

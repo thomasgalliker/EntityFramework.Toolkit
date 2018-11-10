@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using EntityFramework.Toolkit.EF6.Contracts.Auditing;
+using EntityFramework.Toolkit.Core.Auditing;
 
-namespace EntityFramework.Toolkit.EF6.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     public abstract class AuditEntityTypeConfiguration<TAuditEntity, TAuditKey> :
         EntityTypeConfiguration<TAuditEntity> where TAuditEntity : class,

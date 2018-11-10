@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace EntityFramework.Toolkit.EF6.Testing
+namespace EntityFramework.Toolkit.Testing
 {
     public static class ConnectionStringGenerator
     {

@@ -1,5 +1,5 @@
-﻿using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Testing;
+﻿using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Testing;
 using ToolkitSample.DataAccess.Context;
 
 using Xunit;

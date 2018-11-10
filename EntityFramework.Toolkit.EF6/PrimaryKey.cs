@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     public class PrimaryKey
     {

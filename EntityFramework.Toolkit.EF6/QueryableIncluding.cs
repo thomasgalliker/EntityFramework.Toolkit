@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Extensions;
-using QueryableExtensions = EntityFramework.Toolkit.EF6.Extensions.QueryableExtensions;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
+using QueryableExtensions = EntityFramework.Toolkit.Extensions.QueryableExtensions;
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     internal class QueryableIncluding<T> : IQueryableIncluding<T>
         where T : class

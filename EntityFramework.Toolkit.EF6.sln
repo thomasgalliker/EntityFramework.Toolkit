@@ -13,11 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSample.DataAccess.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitSample.Model", "Samples\ToolkitSample.Model\ToolkitSample.Model.csproj", "{F73B662B-33EB-4D15-9DA7-2798645AAFAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit.EF6.Tests", "Tests\EntityFramework.Toolkit.EF6.Tests\EntityFramework.Toolkit.EF6.Tests.csproj", "{139723B2-B2E4-469A-93EF-08F88981A5DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit.Tests", "Tests\EntityFramework.Toolkit.EF6.Tests\EntityFramework.Toolkit.Tests.csproj", "{139723B2-B2E4-469A-93EF-08F88981A5DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit.EF6", "EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.EF6.csproj", "{BB2CFD38-0F40-4C10-AD5E-2C79F50F95F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit", "EntityFramework.Toolkit.EF6\EntityFramework.Toolkit.csproj", "{BB2CFD38-0F40-4C10-AD5E-2C79F50F95F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit.EF6.Contracts", "EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj", "{88F192BE-A2C5-4533-8376-B7838004947C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Toolkit.Core", "EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.Core.csproj", "{88F192BE-A2C5-4533-8376-B7838004947C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB44A112-C76D-4710-8BD4-3544D394D62E}"
 	ProjectSection(SolutionItems) = preProject

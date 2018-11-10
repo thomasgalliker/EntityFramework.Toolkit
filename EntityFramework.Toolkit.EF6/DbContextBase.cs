@@ -7,17 +7,17 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using EntityFramework.Toolkit.EF6.Concurrency;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Exceptions;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Concurrency;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Exceptions;
+using EntityFramework.Toolkit.Extensions;
 
 #if !NET40
 using System.Threading.Tasks;
 
 #endif
 
-namespace EntityFramework.Toolkit.EF6
+namespace EntityFramework.Toolkit
 {
     public abstract class DbContextBase<TContext> : DbContext, IDbContext
         where TContext : DbContext

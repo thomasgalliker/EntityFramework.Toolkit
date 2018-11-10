@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
-using EntityFramework.Toolkit.EF6;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Testing;
 using FluentAssertions;
 
 using Xunit;

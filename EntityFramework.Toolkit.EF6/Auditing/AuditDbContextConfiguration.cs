@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace EntityFramework.Toolkit.EF6.Auditing
+namespace EntityFramework.Toolkit.Auditing
 {
     public class AuditDbContextConfiguration
     {

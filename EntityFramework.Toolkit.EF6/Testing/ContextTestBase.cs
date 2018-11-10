@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
 
-namespace EntityFramework.Toolkit.EF6.Testing
+namespace EntityFramework.Toolkit.Testing
 {
     /// <summary>
     /// ContextTestBase for context <typeparam name="TContext"/> using IDbConnection <typeparam name="TDbConnection"/>

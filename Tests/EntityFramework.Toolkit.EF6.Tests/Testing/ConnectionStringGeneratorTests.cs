@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
-using EntityFramework.Toolkit.EF6.Testing;
+using EntityFramework.Toolkit.Testing;
 using FluentAssertions;
 
 using Xunit;

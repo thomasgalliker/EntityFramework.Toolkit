@@ -1,4 +1,4 @@
-﻿namespace EntityFramework.Toolkit.EF6.Extensions
+﻿namespace EntityFramework.Toolkit.Extensions
 {
     public class TableRowCounts
     {
