@@ -4,8 +4,7 @@ using EntityFramework.Toolkit.Core.Auditing;
 namespace EntityFramework.Toolkit.Auditing
 {
     public abstract class AuditEntityTypeConfiguration<TAuditEntity, TAuditKey> :
-        EntityTypeConfiguration<TAuditEntity> where TAuditEntity : class,
-        IAuditEntity<TAuditKey>
+        EntityTypeConfiguration<TAuditEntity> where TAuditEntity : class, IAuditEntity<TAuditKey>
     {
         protected AuditEntityTypeConfiguration()
         {
