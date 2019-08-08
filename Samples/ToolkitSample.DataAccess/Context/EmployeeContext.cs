@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.Entity;
-using EntityFramework.Toolkit.EF6.Auditing;
-using EntityFramework.Toolkit.EF6.Contracts;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Auditing;
+using EntityFramework.Toolkit.Core;
+using EntityFramework.Toolkit.Extensions;
 using ToolkitSample.Model;
 
 namespace ToolkitSample.DataAccess.Context

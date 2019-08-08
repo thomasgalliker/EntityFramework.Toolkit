@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using EntityFramework.Toolkit.EF6.Extensions;
+using EntityFramework.Toolkit.Extensions;
 
 namespace ToolkitSample.DataAccess.Context
 {

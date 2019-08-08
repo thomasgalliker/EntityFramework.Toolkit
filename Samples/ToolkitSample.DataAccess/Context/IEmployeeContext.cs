@@ -1,4 +1,4 @@
-using EntityFramework.Toolkit.EF6;
+using EntityFramework.Toolkit;
 
 namespace ToolkitSample.DataAccess.Context
 {

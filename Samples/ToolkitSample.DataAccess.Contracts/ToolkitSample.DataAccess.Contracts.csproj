@@ -48,9 +48,9 @@
     <Compile Include="Repository\IPersonRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EntityFramework.Toolkit.EF6.Contracts\EntityFramework.Toolkit.EF6.Contracts.csproj">
+    <ProjectReference Include="..\..\EntityFramework.Toolkit.Core\EntityFramework.Toolkit.Core.csproj">
       <Project>{88f192be-a2c5-4533-8376-b7838004947c}</Project>
-      <Name>EntityFramework.Toolkit.EF6.Contracts</Name>
+      <Name>EntityFramework.Toolkit.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToolkitSample.Model\ToolkitSample.Model.csproj">
       <Project>{f73b662b-33eb-4d15-9da7-2798645aafaa}</Project>

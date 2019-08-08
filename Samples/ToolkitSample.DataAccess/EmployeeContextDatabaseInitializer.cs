@@ -12,8 +12,7 @@ namespace ToolkitSample.DataAccess
         }
 
         public EmployeeContextDatabaseInitializer(EmployeeContextMigrationConfiguration migrationConfiguration) 
-            : base(useSuppliedContext: true, 
-                configuration: migrationConfiguration)
+            : base(useSuppliedContext: true, configuration: migrationConfiguration)
         {
         }
     }
